@@ -4,13 +4,17 @@
   "description": "LodgeLiberia is a platform in Liberia that helps property owners rent their spaces to guests looking for short-term stays, supporting local business and tourism.",
   "main": "lodgeliberia_server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon lodgeliberia_server.js"
   },
   "author": "LodgeLiberia",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.2",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "nodemon": "^3.1.4"
+    "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.4",
+    "sqlite3": "^5.1.7"
   }
 }
