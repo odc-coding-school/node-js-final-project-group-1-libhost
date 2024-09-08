@@ -1,6 +1,6 @@
 // Intializing/Creating Server
 const express = require('express');
-const serrver = express();
+const server = express();
 const port = 5600;
 // =======================
 // Extended Modules Integration
@@ -69,7 +69,12 @@ function initializeDatabase() {
 // Initialize database
 initializeDatabase();
 
+// 
+server.get("/", (req, res) => {
+    res.render("lodgeliberia_home");
+})
+
 // Port Application is listening on {Port: 5600}
-serrver.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}.`);
 })
