@@ -28,12 +28,9 @@
 </head>
 
 <body class="bg-body-tertiary" id="body">
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+  <nav class="navbar navbar-expand-lg fixed-top" aria-label="Main navigation">
     <div class="container-fluid">
-      <a class="navbar-brand col-lg-3 me-0" href="#">LodgeLiberia</a>
-      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <a class="navbar-brand col-lg-3 me-0" href="#" id="logo">LodgeLiberia</a>
 
       <div class="navbar-collapse offcanvas-collapse d-lg-flex" id="navbarsExampleDefault">
         <nav class="navbar navbar-expand-lg bg-body-tertiary rounded justify-content-center"
@@ -41,27 +38,47 @@
           <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
               <form class="d-flex mt-3 mt-lg-0" role="search">
-                <select class="form-select rounded-0 additional-searches w-100" aria-label="Search By Category">
+                <select class="form-select rounded-0 additional-searches" aria-label="Search By Category">
                   <option selected>Property</option>
                   <option value="Apartment">Apartment</option>
                   <option value="House">House</option>
                   <option value="Room">Room</option>
                 </select>
-                <input type="text" class="form-control rounded-0 input-outline additional-searches bg-white text-dark w-100"
+                <input type="text" class="form-control rounded-0 input-outline additional-searches bg-white text-dark"
                   placeholder="Where to?" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <input type="text" class="form-control rounded-0 input-outline w-100" placeholder="Price"
+                <input type="text" class="form-control rounded-0 input-outline" placeholder="Price"
                   aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <button class="btn btn-outline-success rounded-0" type="submit">Search</button>
               </form>
             </li>
           </ul>
         </nav>
-        <div class="d-lg-flex col-lg-3 justify-content-lg-end">
-          <a href="#" class="text-decoration-none">
-            <span class="text-white">Signup/Login</span> &nbsp;
-            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-          </a>
-        </div>
+      </div>
+      <div class="d-lg-flex col-lg-3 justify-content-lg-end" id="signup_signin_btn">
+        <a href="#" class="text-decoration-none">
+          <span class="text-white">Signup/Login</span> &nbsp;
+          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+        </a>
       </div>
     </div>
   </nav>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary rounded justify-content-center"
+          aria-label="Twelfth navbar example" id="category-search-box">
+          <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <form class="d-flex mt-3 mt-lg-0" role="search">
+                <select class="form-select rounded-0 additional-searches" aria-label="Search By Category">
+                  <option selected>Property</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="House">House</option>
+                  <option value="Room">Room</option>
+                </select>
+                <input type="text" class="form-control rounded-0 input-outline additional-searches bg-white text-dark"
+                  placeholder="Where to?" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <input type="text" class="form-control rounded-0 input-outline" placeholder="Price"
+                  aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <button class="btn btn-outline-success rounded-0" type="submit">Search</button>
+              </form>
+            </li>
+          </ul>
+        </nav>

@@ -78,3 +78,33 @@
   #body {
     background-color: white !important;
   }
+
+  /* Additional Codes */
+  #logo {
+    color: orange;
+    font-weight: bolder;
+    width: 125px;
+    outline: solid blue;
+  }
+
+  #navbarsExampleDefault {
+    outline: solid green;
+  }
+
+  #navbarsExampleDefault > nav {
+    outline: solid blue;
+    width: 100%;
+  }
+
+  #signup_signin_btn {
+    max-width: 120px;
+    outline: solid black;
+    border-radius: 2px;
+    background-color: black;
+    border: none !important;
+  }
+
+  #signup_signin_btn > a > span {
+    color: white !important;
+    font-weight: bold;
+  }
