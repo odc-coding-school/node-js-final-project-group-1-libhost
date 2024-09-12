@@ -1,5 +1,191 @@
 <%- include("partial/home_header") %>
-<main class="container-fluid">
-  <h2>Hello</h2>
-</main>
-<%- include("partial/home_footer") %>
+  <main class="container-fluid">
+
+    <div class="container-fluid">
+      <div class="tab-container">
+        <ul class="nav nav-tabs flex-nowrap">
+          <li class="nav-item">
+            <a class="nav-link active" onclick="openTab(event, 'Tab1')">Book</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab2')"><i class="fa-solid fa-building" style="color: #FFF;"></i>&nbsp;Apartments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab3')">Tab 3</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab4')">Tab 4</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab5')">Tab 5</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab6')">Tab 6</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab7')">Tab 7</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" onclick="openTab(event, 'Tab8')">Tab 8</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab-content">
+      <!-- Listing of Places -->
+
+      <!-- Mix place listing -->
+    <div class="container-fluid m-0 tab-pane fade show active p-0" id="Tab1">
+      <div class="row g-2">
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="#" class="col-12 col-sm-6 col-lg-4 col-xl-3 bg-transparent">
+          <div class="card" style="width: 100%;">
+            <img src="/public/images/trial_pic.png" class="card-img-top" alt="...">
+            <div class="card-body p-1">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title mb-0">Place Name</h5>
+                <p class="card-text prices mb-0">Price</p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="card-text mb-0">Description</p>
+                <p class="card-text prices">Date</p>
+              </div>
+              <p class="card-text">Host Info</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+        <div id="Tab2" class="tab-pane fade">Content for Tab 2</div>
+        <div id="Tab3" class="tab-pane fade">Content for Tab 3</div>
+        <div id="Tab4" class="tab-pane fade">Content for Tab 4</div>
+        <div id="Tab5" class="tab-pane fade">Content for Tab 5</div>
+        <div id="Tab6" class="tab-pane fade">Content for Tab 6</div>
+        <div id="Tab7" class="tab-pane fade">Content for Tab 7</div>
+        <div id="Tab8" class="tab-pane fade">Content for Tab 8</div>
+      </div>
+    </div>
+
+    <h2>Hello</h2>
+  </main>
+  <%- include("partial/home_footer") %>

@@ -2,83 +2,118 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-  <script src="/public/bootstrap5/assets/js/color-modes.js"></script>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Hugo 0.122.0">
+  <meta name="author" content="James Gayflor, and Bootstrap contributors">
   <title>LodgeLiberia Home</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/offcanvas-navbar/">
-
-
-
+  <!-- External link (BootStrap Files) -->
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
-  <link href="/public/bootstrap5/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    crossorigin="anonymous">
+  <link href="style.css" type="text/css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+  
+  <!-- Internal Bootstrap link -->
+  <script src="/public/bootstrap5/assets/js/color-modes.js"></script>
+  <link href="/public/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="/public/css/offcanvas-navbar.css" rel="stylesheet">
-  <link href="/public/css/home.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/header.css">
+  <link rel="stylesheet" href="/public/css/home.css">
+  <link rel="stylesheet" href="/public/css/scrollable_tab.css">
 
   <!-- FontAwesome Link -->
   <script src="https://kit.fontawesome.com/9183ef123e.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-body-tertiary" id="body">
-  <nav class="navbar navbar-expand-lg fixed-top" aria-label="Main navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand col-lg-3 me-0" href="#" id="logo">LodgeLiberia</a>
+<body class="p-0">
+  <header>
+    <div class="container-fluid ps-2 pe-2 pt-3">
+      <nav class="navbar navbar-expand justify-content-between mb-0" id="first-nav">
 
-      <div class="navbar-collapse offcanvas-collapse d-lg-flex" id="navbarsExampleDefault">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded justify-content-center"
-          aria-label="Twelfth navbar example" id="category-search-box">
-          <ul class="nav nav-pills nav-fill">
-            <li class="nav-item">
-              <form class="d-flex mt-3 mt-lg-0" role="search">
-                <select class="form-select rounded-0 additional-searches" aria-label="Search By Category">
-                  <option selected>Property</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="House">House</option>
-                  <option value="Room">Room</option>
+        <div class="container-fluid">
+          <div class=" navbar-collapse" id="navbarsExample11">
+
+            <a class="navbar-brand col me-0 fs-5" href="#" id="logo">LodgeLiberia</a>
+
+            <form class="p-1 d-none d-lg-block" action="#" method="post" id="search-box">
+
+              <div class="input-group">
+                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
+                  aria-label="Text input with dropdown button" placeholder="Where to?">
+                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
+                  aria-label="Text input with dropdown button" placeholder="Price">
+                <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
+                  aria-label="Default select example" id="search-dropdown">
+                  <option selected id="select-place-holder">Property</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
                 </select>
-                <input type="text" class="form-control rounded-0 input-outline additional-searches bg-white text-dark"
-                  placeholder="Where to?" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <input type="text" class="form-control rounded-0 input-outline" placeholder="Price"
-                  aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <button class="btn btn-outline-success rounded-0" type="submit">Search</button>
-              </form>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div class="d-lg-flex col-lg-3 justify-content-lg-end" id="signup_signin_btn">
-        <a href="#" class="text-decoration-none">
-          <span class="text-white">Signup/Login</span> &nbsp;
-          <i class="fa-solid fa-user" style="color: #ffffff;"></i>
-        </a>
-      </div>
+                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff;"></i></button>
+              </div>
+
+            </form>
+
+            <div class="d-flex col justify-content-end" id="signup_signin_btn">
+              <a href="#" class="text-decoration-none">
+                <span class="text-black">Signup/Login</span> &nbsp;
+                <i class="fa-solid fa-user" style="color: black;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <pre class="text-right pe-3" id="motto"><i>"Your Home in Liberia"</i></pre>
+      <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
+
+        <div class="container-fluid">
+          <div class=" navbar-collapse justify-content-center">
+
+            <form class="p-1" action="#" method="post" id="search-box">
+
+              <div class="input-group">
+                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
+                  aria-label="Text input with dropdown button" placeholder="Where to?">
+                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
+                  aria-label="Text input with dropdown button" placeholder="Price">
+                <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
+                  aria-label="Default select example" id="search-dropdown">
+                  <option selected id="select-place-holder">Property</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff;"></i></button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </nav>
+      <nav class="navbar navbar-expand justify-content-center mb-0 d-md-none">
+
+        <div class="d-flex align-items-center">
+          <div class=" navbar-collapse" id="navbarsExample11">
+
+            <form class="p-1" action="#" method="post" id="search-box">
+
+              <div class="input-group">
+                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
+                  aria-label="Text input with dropdown button" placeholder="Where to?">
+                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff;"></i></button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </nav>
     </div>
-  </nav>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary rounded justify-content-center"
-          aria-label="Twelfth navbar example" id="category-search-box">
-          <ul class="nav nav-pills nav-fill">
-            <li class="nav-item">
-              <form class="d-flex mt-3 mt-lg-0" role="search">
-                <select class="form-select rounded-0 additional-searches" aria-label="Search By Category">
-                  <option selected>Property</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="House">House</option>
-                  <option value="Room">Room</option>
-                </select>
-                <input type="text" class="form-control rounded-0 input-outline additional-searches bg-white text-dark"
-                  placeholder="Where to?" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <input type="text" class="form-control rounded-0 input-outline" placeholder="Price"
-                  aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <button class="btn btn-outline-success rounded-0" type="submit">Search</button>
-              </form>
-            </li>
-          </ul>
-        </nav>
+  </header>

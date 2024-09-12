@@ -1,0 +1,49 @@
+.tab-container {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 0;
+}
+
+/* Hide scrollbar for webkit browsers */
+.tab-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.tab-container {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Remove the bottom border line */
+.nav-tabs {
+    border-bottom: none; /* Remove black line under tabs */
+}
+
+.nav-tabs .nav-link {
+    margin-right: 10px;
+    white-space: nowrap; /* Prevents tab text from wrapping */
+    cursor: pointer; /* Change cursor to pointer */
+    outline: none; /* Remove browser default outline */
+    box-shadow: none; /* Remove focus box-shadow */
+    border: none; /* Remove any default border */
+	color: black;
+}
+
+.nav-tabs .nav-link:focus,
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:active {
+    outline: none; /* Remove outline on focus, hover, and active state */
+    box-shadow: none; /* Remove any shadow or outline */
+    border: none; /* Remove border on focus, hover, and active state */
+}
+
+/* Ensure no border even when tab is active */
+.nav-tabs .nav-link.active {
+    background-color: rgb(255, 165, 0); /* Orange background for active tab */
+    color: white; /* White text color for active tab */
+    border: none; /* Ensure no border for active tab */
+    outline: none; /* Remove any outline from active tab */
+    box-shadow: none; /* Ensure no box-shadow */
+}
+
