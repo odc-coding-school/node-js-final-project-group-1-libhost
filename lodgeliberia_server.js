@@ -123,4 +123,5 @@ server.get("/", (req, res) => {
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
     console.log(`Server running on port ${port}.`);
+    console.log("Love Tracy");
 })

@@ -65,7 +65,7 @@
             </form>
 
             <div class="d-flex col justify-content-end">
-              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn">
+              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
                 <span class="text-black">Signup/Login</span> &nbsp;
                 <i class="fa-solid fa-user" style="color: black;"></i>
               </a>
@@ -74,6 +74,8 @@
           </div>
         </div>
       </nav>
+
+      <%- include("./login") %>
 
       <pre class="text-right pe-3" id="motto"><i>"Your Home in Liberia"</i></pre>
 
@@ -158,6 +160,7 @@
                   </div>
                 </div>
               </div>
+              <!-- Modal -->
 
             </form>
           </div>

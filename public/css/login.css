@@ -1,19 +1,42 @@
 body {
-    background-color: #fcaeae;
-    height: 100%;
+    /* background-color: #fcaeae; */
+    background-color:  #FCDFAE;
+    background-color: #FF4191;
+    background-color: black;
 }
 
+
 form {
-    width: 30%;
-    margin: auto;
+    /* width: 50%; */
+    /* margin: auto; */
     padding-top: 150px;
+
 }
 
 .bg {
-    background-color: #FFEADD;
+    /* background-color: #FFEADD; */
+    background-color: #FFF8DC;
+    background-color: white;
+}
+
+.account-question {
+    font-size: 13px;
+    cursor: pointer;
 }
 
 .btn-color {
-    background-color: #ff6666;
+    /* background-color: #ff6666; */
+    background-color: #FCDFAE;
+    background-color: black;
+    color: white;
     border: none;
 }
+
+@media (max-width: 1374px) and (min-width: 804px) {
+    form {
+        width: 50%;
+        margin: auto;
+        padding-top: 150px;
+    }
+}
+
