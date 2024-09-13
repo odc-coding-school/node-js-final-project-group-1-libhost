@@ -1,6 +1,7 @@
 body {
-  padding-bottom: 20px;
+  height: 90vh !important;
   background-color: white;
+  
 }
 
 .navbar {
@@ -9,4 +10,24 @@ body {
 
 .prices {
   text-align: right !important;
+}
+
+.place-content {
+  text-decoration: none !important;
+}
+
+.card-body{
+  background-color: white;
+}
+
+.card-body h5 {
+  color: orange;
+}
+
+.card-body p {
+  color: black;
+}
+
+.place-img {
+  max-height: 300px;
 }

@@ -15,8 +15,8 @@
     crossorigin="anonymous">
   <link href="style.css" type="text/css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
-  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
   <!-- Internal Bootstrap link -->
   <script src="/public/bootstrap5/assets/js/color-modes.js"></script>
   <link href="/public/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
@@ -33,6 +33,10 @@
 <body class="p-0">
   <header>
     <div class="container-fluid ps-2 pe-2 pt-3">
+
+      <!-- Below are the list of search engine based respinsive screen sizes -->
+
+      <!-- Available for all screen sizes above lg -->
       <nav class="navbar navbar-expand justify-content-between mb-0" id="first-nav">
 
         <div class="container-fluid">
@@ -50,9 +54,9 @@
                 <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
                   aria-label="Default select example" id="search-dropdown">
                   <option selected id="select-place-holder">Property</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="Apartments">Apartments</option>
+                  <option value="Houses">Houses</option>
+                  <option value="Experience">Experience</option>
                 </select>
                 <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff;"></i></button>
@@ -60,16 +64,20 @@
 
             </form>
 
-            <div class="d-flex col justify-content-end" id="signup_signin_btn">
-              <a href="#" class="text-decoration-none">
+            <div class="d-flex col justify-content-end">
+              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn">
                 <span class="text-black">Signup/Login</span> &nbsp;
                 <i class="fa-solid fa-user" style="color: black;"></i>
               </a>
             </div>
+
           </div>
         </div>
       </nav>
+
       <pre class="text-right pe-3" id="motto"><i>"Your Home in Liberia"</i></pre>
+
+      <!-- Available for all screen sizes above md -->
       <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
 
         <div class="container-fluid">
@@ -97,6 +105,8 @@
           </div>
         </div>
       </nav>
+
+      <!-- Available for all screen sizes below md -->
       <nav class="navbar navbar-expand justify-content-center mb-0 d-md-none">
 
         <div class="d-flex align-items-center">
@@ -106,9 +116,47 @@
 
               <div class="input-group">
                 <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  aria-label="Text input with dropdown button" placeholder="Where to?">
+                  placeholder="Where to?" id="sm_mobile_search" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff;"></i></button>
+              </div>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog bg-black">
+                  <div class="modal-content bg-black">
+                    <div class="modal-header border-0">
+                      <h5 class="modal-title" id="logo">LodgeLiberia</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body -->
+                    <div class="modal-body">
+                      <input type="text"
+                        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
+                        placeholder="Search location">
+                      <br>
+                      <input type="text"
+                        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
+                        placeholder="Price">
+                      <br>
+                      <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-white"
+                        aria-label="Default select example" id="search-dropdown">
+                        <option selected id="select-place-holder">Property</option>
+                        <option value="Apartments">Apartments</option>
+                        <option value="Houses">Houses</option>
+                        <option value="Experience">Experience</option>
+                      </select>
+                    </div>
+                    <!-- Modal Body -->
+
+                    <div class="modal-footer border-0">
+                      <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                        style="color: #ffffff;"></i>Search</button>
+                    </div>
+                  </div>
+                </div>
               </div>
 
             </form>

@@ -10,7 +10,14 @@
 #search-box{
     align-items: center;
     align-content: center;
-    background-color: rgba(128, 128, 128, 0.1);
+    background-color: rgba(128, 128, 128, 0.4);
+    border-radius: 5px;
+}
+
+#signup_signin_btn{
+    align-items: center;
+    align-content: center;
+    background-color: orange;
     border-radius: 5px;
 }
 
@@ -45,4 +52,11 @@
 #search-btn{
     background-color: orange;
     border: none;
+}
+
+/* Placeholder controls */
+
+.place_holder_control::placeholder {
+    color: black;
+    font-weight: bold;
 }
