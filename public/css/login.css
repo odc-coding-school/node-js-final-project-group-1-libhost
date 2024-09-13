@@ -1,6 +1,5 @@
 body {
-    /* background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px); */
+    
 }
 
 
@@ -20,12 +19,12 @@ body {
 }
 
 .account-question a {
-    text-decoration: none;
+    /* text-decoration: none; */
     color: #FFA500;
 }
 
 .account-question {
-    padding: 10px;
+    padding-top: 10px;
 }
 
 .btn-color {
@@ -33,12 +32,4 @@ body {
     color: black;
     border: none;
 }
-
-/* @media (max-width: 1374px) and (min-width: 804px) {
-    form {
-        width: 50%;
-        margin: auto;
-        padding-top: 150px;
-    }
-} */
 
