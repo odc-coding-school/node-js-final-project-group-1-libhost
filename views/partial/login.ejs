@@ -11,38 +11,71 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
-          <form class="form-group">
+          <form class="form-group login">
             <h2>Login</h2>
             <div class="col-md-4">
               <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Username</label>
               <input type="name" class="form-control" id="exampleFormControlInput1" required>
+
+              <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
+              <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
+
+              <input type="submit" value="Login" class="form-control btn-color mt-4" id="exampleFormControlInput1">
+
+              <p class="account-question text-center">Don't have an account? <br><a href="#" class="create-account">Create One</a></p>
             </div>
-
-            <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
-            <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
-
-            <input type="submit" value="Login" class="form-control btn-color mt-3" id="exampleFormControlInput1">
-
-            <p class="account-question text-center">Don't have an account? <br><a href="signup.ejs">Create One</a></p>
           </form>
-          <!-- <form class="form-group">
-            <div class="mb-3 bg p-5 rounded">
-                <h2 class="text-center">Login</h2>
-                <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Username</label>
-                <input type="name" class="form-control" id="exampleFormControlInput1" required>
-              
-                <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
-                <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
+
+          <form class="form-group d-none signup">
+            <h2>Create an account for free</h2>
+            <p>Free forever no payment needed</p>
+            <div class="">
+              <label class="visually-hidden" for="specificSizeInputName">Your Fullname</label>
+              <input type="text" class="form-control" id="specificSizeInputName" placeholder="Jane Doe">
 
 
-                <input type="submit" value="Login" class="form-control btn-color mt-3" id="exampleFormControlInput1">
+              <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Email address</label>
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
 
-                <p class="account-question text-center">Don't have an account? <br><a href="login.html">Create One</a></p>
+              <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Create Username</label>
+              <input type="name" class="form-control" id="exampleFormControlInput1" required>
+
+              <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Create Password</label>
+              <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
+
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+              <label class="form-check-label" for="flexCheckChecked">By creating an account yo are agreeing to our Terms and Conditions and Privacy Policy</label>
+            
+
+              <input type="submit" value="Login" class="form-control btn-color mt-4" id="exampleFormControlInput1">
+
+              <p class="account-question text-center">Already have an account? <br><a href="#" class="login-account">Login</a></p>
             </div>
-          </form> -->
+          </form>
         </div>
         <!-- Modal Body -->
       </div>
     </div>
   </div>
   <!-- Modal -->
+
+
+  <script>
+    const signupLink = document.querySelector(".create-account");
+    const loginLink = document.querySelector(".login-account")
+    const logIn = document.querySelector(".login");
+    const signUp = document.querySelector(".signup");
+
+    signupLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      signUp.classList.remove("d-none");
+      logIn.classList.add("d-none");
+      console.log("yes");
+    });
+
+    loginLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      logIn.classList.remove("d-none");
+      signUp.classList.add("d-none");
+    })
+  </script>
