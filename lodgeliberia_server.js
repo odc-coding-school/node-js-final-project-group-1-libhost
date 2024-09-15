@@ -326,5 +326,5 @@ server.get('/place_detail/:host_place_id', (req, res) => {
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
     console.log(`Server running on port ${port}.`);
-    console.log("LodgeLiberia");
+    console.log("Love Tracy");
 })
