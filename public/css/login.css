@@ -1,3 +1,4 @@
+
 .form-control{
     background-color: whitesmoke;
 }
@@ -12,12 +13,11 @@
 }
 
 .account-question a {
-    text-decoration: none;
     color: #FFA500;
 }
 
 .account-question {
-    padding: 10px;
+    padding-top: 10px;
 }
 
 .btn-color {
@@ -25,12 +25,4 @@
     color: black;
     border: none;
 }
-
-/* @media (max-width: 1374px) and (min-width: 804px) {
-    form {
-        width: 50%;
-        margin: auto;
-        padding-top: 150px;
-    }
-} */
 

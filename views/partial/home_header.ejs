@@ -12,7 +12,7 @@
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbars/">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-    crossorigin="anonymous"
+    crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="/public/css/home.css">
   <link rel="stylesheet" href="/public/css/scrollable_tab.css">
   <link rel="stylesheet" href="/public/css/login.css">
+  <link rel="stylesheet" href="/public/css/signup.css">
 
   <!-- FontAwesome Link -->
   <script src="https://kit.fontawesome.com/9183ef123e.js" crossorigin="anonymous"></script>
@@ -42,7 +43,7 @@
         <div class="container-fluid">
           <div class=" navbar-collapse" id="navbarsExample11">
 
-            <a class="navbar-brand col me-0 fs-5" href="#" id="logo">LodgeLiberia</a>
+            <a class="navbar-brand col me-0 fs-5" href="/" id="logo">LodgeLiberia</a>
 
             <form class="p-1 d-none d-lg-block" action="#" method="post" id="search-box">
 
@@ -65,7 +66,8 @@
             </form>
 
             <div class="d-flex col justify-content-end">
-              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal"
+                data-bs-target="#exampleModal2">
                 <span class="text-black">Signup/Login</span> &nbsp;
                 <i class="fa-solid fa-user" style="color: black;"></i>
               </a>
@@ -77,94 +79,115 @@
 
       <%- include("./login") %>
 
-      <pre class="text-right pe-3" id="motto"><i>"Your Home in Liberia"</i></pre>
+      <%- include("./signup") %>
 
-      <!-- Available for all screen sizes above md -->
-      <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
 
-        <div class="container-fluid">
-          <div class=" navbar-collapse justify-content-center">
+        <pre class="text-right pe-3 text-black" id="motto"><i>"Your Home in Liberia"</i></pre>
 
-            <form class="p-1" action="#" method="post" id="search-box">
+        <!-- Available for all screen sizes above md -->
+        <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
 
-              <div class="input-group">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  aria-label="Text input with dropdown button" placeholder="Where to?">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
-                  aria-label="Text input with dropdown button" placeholder="Price">
-                <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
-                  aria-label="Default select example" id="search-dropdown">
-                  <option selected id="select-place-holder">Property</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                    style="color: #ffffff;"></i></button>
-              </div>
+          <div class="container-fluid">
+            <div class=" navbar-collapse justify-content-center">
 
-            </form>
+              <form class="p-1" action="#" method="post" id="search-box">
+
+                <div class="input-group">
+                  <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
+                    aria-label="Text input with dropdown button" placeholder="Where to?">
+                  <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
+                    aria-label="Text input with dropdown button" placeholder="Price">
+                  <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
+                    aria-label="Default select example" id="search-dropdown">
+                    <option selected id="select-place-holder">Property</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                  <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                      style="color: #ffffff;"></i></button>
+                </div>
+
+              </form>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
 
+<<<<<<< HEAD
+        <%- include("./signup") %>
+
+          <!-- Available for all screen sizes below md -->
+          <nav class="navbar navbar-expand justify-content-center mb-0 d-md-none">
+=======
       <!-- Available for all screen sizes below md -->
       <nav class="navbar navbar-expand justify-content-center mb-0 d-md-none">
+>>>>>>> de4414195cf7a12bbd290bed5340fd796f04e590
 
-        <div class="d-flex align-items-center">
-          <div class=" navbar-collapse" id="navbarsExample11">
+            <div class="d-flex align-items-center">
+              <div class=" navbar-collapse" id="navbarsExample11">
 
-            <form class="p-1" action="/views/lodgeliberia_home.ejs" method="post" id="search-box">
+                <form class="p-1" action="/search_result" method="get" id="search-box">
 
-              <div class="input-group">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  placeholder="Where to?" id="sm_mobile_search" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                    style="color: #ffffff;"></i></button>
-              </div>
-
-              <!-- Modal -->
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog bg-black">
-                  <div class="modal-content bg-black">
-                    <div class="modal-header border-0">
-                      <h5 class="modal-title" id="logo">LodgeLiberia</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-
-                    <!-- Modal Body -->
-                    <div class="modal-body">
-                      <input type="text"
-                        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
-                        placeholder="Search location">
-                      <br>
-                      <input type="text"
-                        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
-                        placeholder="Price">
-                      <br>
-                      <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-white"
-                        aria-label="Default select example" id="search-dropdown">
-                        <option selected id="select-place-holder">Property</option>
-                        <option value="Apartments">Apartments</option>
-                        <option value="Houses">Houses</option>
-                        <option value="Experience">Experience</option>
-                      </select>
-                    </div>
-                    <!-- Modal Body -->
-
-                    <div class="modal-footer border-0">
-                      <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                        style="color: #ffffff;"></i>Search</button>
-                    </div>
+                  <div class="input-group">
+                    <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
+                      placeholder="Where to?" id="sm_mobile_search" data-bs-toggle="modal"
+                      data-bs-target="#small_extended_search_form">
+                    <button class="btn btn-success" type="submit" id="search-btn"><i
+                        class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
                   </div>
-                </div>
-              </div>
-              <!-- Modal -->
 
-            </form>
-          </div>
-        </div>
-      </nav>
+                  <!-- Modal -->
+                  <div class="modal fade" id="small_extended_search_form" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog bg-black">
+                      <div class="modal-content bg-black">
+                        <div class="modal-header border-0">
+                          <h5 class="modal-title" id="logo">LodgeLiberia</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+
+<<<<<<< HEAD
+                          <input type="text"
+                            class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
+                            placeholder="Search location: County, City, Place Address" name="place_location"
+                            id="place_location">
+                          <br>
+
+                          <input type="number"
+                            class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
+                            placeholder="Price" name="place_price" id="place_price">
+                          <br>
+
+                          <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-white"
+                            aria-label="Categories of places" id="search_dropdown" name="search_dropdown">
+                            <option selected id="select-place-holder">Property</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="House">House</option>
+                            <option value="Room">Room</option>
+                            <option value="Experience">Experience</option>
+                          </select>
+                          <br>
+
+                        </div>
+                        <!-- Modal Body -->
+
+                        <div class="modal-footer border-0">
+                          <button class="btn btn-success" type="submit" id="search-btn"><i
+                              class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>&nbsp;Search</button>
+                        </div>
+                      </div>
+                    </div>
+=======
+>>>>>>> de4414195cf7a12bbd290bed5340fd796f04e590
+                  </div>
+                  <!-- Modal -->
+
+                </form>
+              </div>
+            </div>
+          </nav>
     </div>
   </header>
