@@ -1,0 +1,65 @@
+<%- include("partial/place_detail_header") %>
+
+  <main class="container-fluid">
+
+    <!-- Available for all screen sizes above md -->
+    <div class="container d-none d-md-block mb-0">
+      <div class="row gx-1 gy-1" style="height: 400px;">
+
+        <div class="col-6 p-2 m-0 h-100">
+          <div class="text-center h-100">
+            <img src="data:image/jpeg;base64,<%= place.images[0] %>" class="selected_place-images" alt="...">
+          </div>
+        </div>
+
+        <div class="col-6 p-0 row gx-1 gy-1 h-100 m-0 row">
+
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place.images[1] %>" class="selected_place-images" alt="...">
+            </div>
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place.images[2] %>" class="selected_place-images" alt="...">
+            </div>
+          </div>
+
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place.images[1] %>" class="selected_place-images" alt="...">
+            </div>
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place.images[2] %>" class="selected_place-images" alt="...">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Available for all screen sizes below md -->
+    <div class="container mb-0 d-md-none" style="max-height: 400px;">
+
+      <div class="d-flex col justify-content-start">
+        <a href="#" class="text-decoration-none p-2 fw-bold mb-2" id="return_btn">
+          <i class="fa-solid fa-less-than fw-bold" style="color: #ffffff;"></i>
+        </a>
+      </div>
+
+      <img src="data:image/jpeg;base64,<%= place.images[0] %>" class="selected_place-images" alt="...">
+    </div>
+
+    <!-- Place detail information -->
+    <div class="container">
+
+      <p class="text-black fw-bold mt-2 fs-4">
+        <%= place.property_title %>
+      </p>
+
+      <hr class="hr">
+
+    </div>
+
+
+
+  </main>
+  <%- include("partial/home_footer") %>
