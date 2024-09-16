@@ -6,3 +6,12 @@
     border-radius: 50px;
     width: 40px;
 }
+
+.host_image_icon {
+    width: 40px;
+    height: 40px;
+}
+
+.divider {
+    border: 1px solid black;
+}

@@ -38,6 +38,7 @@ function initializeDatabase() {
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT Not Null,
+                profile_picture BLOB,
                 time_created DATETIME DEFAULT CURRENT_TIMESTAMP
             )`,
             `CREATE TABLE IF NOT EXISTS host_listings (
@@ -45,6 +46,7 @@ function initializeDatabase() {
                 user_id INTEGER,
                 title TEXT NOT NULL,
                 description TEXT,
+                detail_description TEXT,
                 location TEXT NOT NULL,
                 price_per_night REAL NOT NULL,
                 max_guests INTEGER,
@@ -267,8 +269,10 @@ server.get('/place_detail/:host_place_id', (req, res) => {
     const sqlQuery = `
         SELECT 
             users.fullname AS host_name,
+            users.profile_picture AS host_picture,
             host_listings.title AS property_title,
             host_listings.description AS property_description,
+            host_listings.detail_description AS property_detail_description,
             host_listings.price_per_night AS property_price_per_night,
             host_listings.available_from,
             CASE strftime('%m', host_listings.available_from)
@@ -302,8 +306,10 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             // Group the results by listing, since there could be multiple rows for the same listing (due to multiple images)
             const propertyDetails = {
                 host_name: rows[0].host_name,
+                host_picture: rows[0].host_picture ? Buffer.from(rows[0].host_picture).toString('base64') : null,
                 property_title: rows[0].property_title,
                 property_description: rows[0].property_description,
+                property_detail_description: rows[0].property_detail_description,
                 property_price_per_night: rows[0].property_price_per_night,
                 available_month: rows[0].available_month,
                 available_day: rows[0].available_day,
@@ -312,7 +318,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             };
 
             // Debug images
-            console.log(propertyDetails.images[0]);
+            console.log(propertyDetails.host_picture);
 
             // Render the detail page with the property data and the list of images (in Base64 format)
             res.render('place_detail', { place: propertyDetails });

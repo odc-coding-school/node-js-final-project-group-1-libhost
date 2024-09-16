@@ -44,30 +44,39 @@
         <div class="container-fluid">
           <div class=" navbar-collapse" id="navbarsExample11">
 
-            <a class="navbar-brand col me-0 fs-5" href="/" id="logo">LodgeLiberia</a>
+            <a class="navbar-brand col me-0 fs-4" href="/" id="logo">LodgeLiberia</a>
 
-            <form class="p-1 d-none d-lg-block" action="#" method="post" id="search-box">
+            <form class="p-1 d-none d-lg-block" action="/search_result" method="get" id="search-box">
 
               <div class="input-group">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  aria-label="Text input with dropdown button" placeholder="Where to?">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
-                  aria-label="Text input with dropdown button" placeholder="Price">
+
+                <input type="text"
+                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
+                  placeholder="Where to?" name="place_location" id="place_location">
+
+                <input type="number"
+                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
+                  placeholder="Price" name="place_price" id="place_price">
+
                 <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
-                  aria-label="Default select example" id="search-dropdown">
+                  aria-label="Categories of places" id="search_dropdown" name="search_dropdown">
                   <option selected id="select-place-holder">Property</option>
-                  <option value="Apartments">Apartments</option>
-                  <option value="Houses">Houses</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="House">House</option>
+                  <option value="Room">Room</option>
                   <option value="Experience">Experience</option>
                 </select>
+
                 <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff;"></i></button>
+
               </div>
 
             </form>
 
             <div class="d-flex col justify-content-end">
-              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal"
+                data-bs-target="#exampleModal2">
                 <span class="text-black">Signup/Login</span> &nbsp;
                 <i class="fa-solid fa-user" style="color: black;"></i>
               </a>
@@ -77,8 +86,6 @@
         </div>
       </nav>
 
-      <%- include("./login") %>
-      
 
       <pre class="text-right pe-3 text-black" id="motto"><i>"Your Home in Liberia"</i></pre>
 
@@ -88,20 +95,27 @@
         <div class="container-fluid">
           <div class=" navbar-collapse justify-content-center">
 
-            <form class="p-1" action="#" method="post" id="search-box">
+            <form class="p-1" action="/search_result" method="get" id="search-box">
 
               <div class="input-group">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  aria-label="Text input with dropdown button" placeholder="Where to?">
-                <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-end-0"
-                  aria-label="Text input with dropdown button" placeholder="Price">
+
+                <input type="text"
+                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
+                  placeholder="Where to?" name="place_location" id="place_location">
+
+                <input type="number"
+                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
+                  placeholder="Price" name="place_price" id="place_price">
+
                 <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
-                  aria-label="Default select example" id="search-dropdown">
+                  aria-label="Categories of places" id="search_dropdown" name="search_dropdown">
                   <option selected id="select-place-holder">Property</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="House">House</option>
+                  <option value="Room">Room</option>
+                  <option value="Experience">Experience</option>
                 </select>
+
                 <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff;"></i></button>
               </div>
@@ -110,8 +124,6 @@
           </div>
         </div>
       </nav>
-
-      <%- include("./signup") %>
 
       <!-- Available for all screen sizes below md -->
       <nav class="navbar navbar-expand justify-content-center mb-0 d-md-none">
@@ -123,7 +135,8 @@
 
               <div class="input-group">
                 <input type="text" class="text-black form-control border-top-0 border-bottom-0 border-start-0"
-                  placeholder="Where to?" id="sm_mobile_search" data-bs-toggle="modal" data-bs-target="#small_extended_search_form">
+                  placeholder="Where to?" id="sm_mobile_search" data-bs-toggle="modal"
+                  data-bs-target="#small_extended_search_form">
                 <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
                     style="color: #ffffff;"></i></button>
               </div>
@@ -143,7 +156,8 @@
 
                       <input type="text"
                         class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
-                        placeholder="Search location: County, City, Place Address" name="place_location" id="place_location">
+                        placeholder="Search location: County, City, Place Address" name="place_location"
+                        id="place_location">
                       <br>
 
                       <input type="number"
@@ -164,8 +178,8 @@
                     <!-- Modal Body -->
 
                     <div class="modal-footer border-0">
-                      <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                        style="color: #ffffff;"></i>&nbsp;Search</button>
+                      <button class="btn btn-success" type="submit" id="search-btn"><i
+                          class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>&nbsp;Search</button>
                     </div>
                   </div>
                 </div>
@@ -176,5 +190,8 @@
           </div>
         </div>
       </nav>
+
+      <%- include("./login") %>
+
     </div>
   </header>

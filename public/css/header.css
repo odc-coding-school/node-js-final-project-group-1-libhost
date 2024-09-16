@@ -1,60 +1,68 @@
 #logo {
     color: orange;
-    font-weight: bold;
+    font-weight: bolder;
 }
 
 #motto {
     text-align: right;
 }
 
-#search-box{
+#search-box {
     align-items: center;
     align-content: center;
     background-color: rgba(128, 128, 128, 0.4);
     border-radius: 5px;
 }
 
-#signup_signin_btn{
+#signup_signin_btn {
     align-items: center;
     align-content: center;
     background-color: orange;
     border-radius: 5px;
 }
 
-#search-box>div> input{ 
+#search-box>div>input {
     background: transparent;
 }
 
-#search-box>div> input:focus{ 
+#search-box>div>input:focus {
     box-shadow: none;
     border: none;
 }
 
-#search-box>div> input::placeholder{ 
+#search-box>div>input::placeholder {
     font-weight: bold;
     color: black;
 }
 
-#search_dropdown{ 
+#search_dropdown {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
     color: #000;
     font-weight: bold;
-}
-
-#search-dropdown>option{
-    font-weight:normal;
-}
-
-#search-box>div> #search-dropdown:focus{ 
     box-shadow: none;
 }
 
-#search-btn{
+#search_dropdown>option {
+    font-weight: normal;
+}
+
+#search-box>div>#search_dropdown:focus {
+    box-shadow: none;
+    border-color: black;
+}
+
+#search-btn {
     background-color: orange;
     border: none;
 }
 
 /* Placeholder controls */
+
+.place_holder_control::-webkit-outer-spin-button,
+.place_holder_control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 .place_holder_control::placeholder {
     color: black;
