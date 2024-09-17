@@ -38,6 +38,7 @@ function initializeDatabase() {
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT Not Null,
+                profile_picture BLOB,
                 time_created DATETIME DEFAULT CURRENT_TIMESTAMP
             )`,
             `CREATE TABLE IF NOT EXISTS host_listings (
@@ -45,6 +46,7 @@ function initializeDatabase() {
                 user_id INTEGER,
                 title TEXT NOT NULL,
                 description TEXT,
+                detail_description TEXT,
                 location TEXT NOT NULL,
                 price_per_night REAL NOT NULL,
                 max_guests INTEGER,
@@ -53,7 +55,16 @@ function initializeDatabase() {
                 available_to DATE,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 IMAGES BLOB NOT NULL,
+                county TEXT NOT NULL,
+                city Text NOT NULL,
+                property_type TEXT NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id)
+            )`,
+            `CREATE TABLE IF NOT EXISTS host_images (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                host_listing_id INTEGER,
+                image_data BLOB,
+                FOREIGN KEY (host_listing_id) REFERENCES host_listings(id)
             )`
         ];
 
@@ -78,6 +89,7 @@ server.get("/", (req, res) => {
         SELECT 
              users.fullname AS host_name,
              host_listings.title AS property_title,
+             host_listings.id AS property_id,
              host_listings.description AS property_description,
              host_listings.price_per_night AS property_price_per_night,
              host_listings.Images AS images,
@@ -95,7 +107,9 @@ server.get("/", (req, res) => {
                 WHEN '10' THEN 'October'
                 WHEN '11' THEN 'November'
                 WHEN '12' THEN 'December'
-            END AS available_month
+            END AS available_month,
+            strftime('%d', host_listings.available_from) AS available_day,
+            strftime('%Y', host_listings.available_from) AS available_year
         FROM users
         JOIN host_listings
         ON users.id = host_listings.user_id
@@ -106,10 +120,13 @@ server.get("/", (req, res) => {
         // Process each row to convert images to Base64
         const host_listings = rows.map(row => ({
             host_name: row.host_name,
+            host_place_id: row.property_id,
             property_title: row.property_title,
             property_description: row.property_description,
             property_price_per_night: row.property_price_per_night,
             available_month: row.available_month,
+            available_day: row.available_day,
+            available_year: row.available_year,
             // Convert BLOB to Base64 for each image
             base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
         }));
@@ -120,8 +137,200 @@ server.get("/", (req, res) => {
 
 })
 
+// Search Results Route
+server.get("/search_result", (req, res) => {
+
+    // Pulling requested search credentials from search form
+    const place_location_address = req.query.place_location;
+    const place_price = req.query.place_price;
+    const property_type = req.query.search_dropdown !== 'Property' ? req.query.search_dropdown : null; // Avoid "Property" as a filter
+
+    // Logs input for debugging
+    console.log(`${place_location_address} ${place_price} ${property_type}`);
+
+    // == Build the SQL Query Dynamically ==========
+
+    // Base SQL query to fetch listings
+    let sqlQuery = `
+        SELECT 
+            users.fullname AS host_name,
+            host_listings.id AS property_id,
+            host_listings.title AS property_title,
+            host_listings.description AS property_description,
+            host_listings.price_per_night AS property_price_per_night,
+            host_listings.Images AS images,
+            host_listings.available_from,
+            host_listings.available_to,
+            CASE strftime('%m', host_listings.available_from)
+                WHEN '01' THEN 'January'
+                WHEN '02' THEN 'February'
+                WHEN '03' THEN 'March'
+                WHEN '04' THEN 'April'
+                WHEN '05' THEN 'May'
+                WHEN '06' THEN 'June'
+                WHEN '07' THEN 'July'
+                WHEN '08' THEN 'August'
+                WHEN '09' THEN 'September'
+                WHEN '10' THEN 'October'
+                WHEN '11' THEN 'November'
+                WHEN '12' THEN 'December'
+            END AS available_month,
+            strftime('%d', host_listings.available_from) AS available_day,
+            strftime('%Y', host_listings.available_from) AS available_year
+        FROM users
+        JOIN host_listings ON users.id = host_listings.user_id
+        WHERE 1=1
+    `;
+
+    // Base SQL query to count total matching listings
+    let countSql = `
+        SELECT COUNT(*) AS total_places_found
+        FROM users
+        JOIN host_listings ON users.id = host_listings.user_id
+        WHERE 1=1
+    `;
+
+    // Query parameters array to store dynamic conditions
+    const queryParams = [];
+
+    // Location filter (if provided)
+    if (place_location_address) {
+        sqlQuery += ` AND (
+            host_listings.location LIKE ? 
+            OR host_listings.county LIKE ? 
+            OR host_listings.city LIKE ?
+        )`;
+        countSql += ` AND (
+            host_listings.location LIKE ? 
+            OR host_listings.county LIKE ? 
+            OR host_listings.city LIKE ?
+        )`;
+        const locationSearchTerm = `%${place_location_address}%`;
+        queryParams.push(locationSearchTerm, locationSearchTerm, locationSearchTerm);
+    }
+
+    // Price filter (if provided)
+    if (place_price) {
+        sqlQuery += ` AND host_listings.price_per_night <= ?`;
+        countSql += ` AND host_listings.price_per_night <= ?`;
+        queryParams.push(place_price);
+    }
+
+    // Property type filter (if provided)
+    if (property_type) {
+        sqlQuery += ` AND host_listings.property_type = ?`;
+        countSql += ` AND host_listings.property_type = ?`;
+        queryParams.push(property_type);
+    }
+
+    // Execute the SQL query for the listings
+    lodge_liberia_db.all(sqlQuery, queryParams, (err, search_results1) => {
+        if (err) {
+            console.error('Error executing search query:', err);
+            return res.status(500).send("Server Error");
+        }
+
+        // Execute the SQL query for the total count
+        lodge_liberia_db.get(countSql, queryParams, (err, count_result) => {
+            if (err) {
+                console.error('Error executing count query:', err);
+                return res.status(500).send("Server Error");
+            }
+
+            const total_places_found = count_result.total_places_found;
+
+            // Process each result to convert images to Base64 format
+            const search_results2 = search_results1.map(row => ({
+                host_name: row.host_name,
+                host_place_id: row.property_id,
+                property_title: row.property_title,
+                property_description: row.property_description,
+                property_price_per_night: row.property_price_per_night,
+                available_month: row.available_month,
+                available_day: row.available_day,
+                available_year: row.available_year,
+                base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+            }));
+
+            // Render the results on the search result page
+            res.render('search_result_page', {
+                search_results2,
+                total_places_found,
+            });
+        });
+    });
+});
+
+
+// Place/s detail route page
+server.get('/place_detail/:host_place_id', (req, res) => {
+    const selected_place = req.params.host_place_id; // Get the property ID from the URL
+    
+    const sqlQuery = `
+        SELECT 
+            users.fullname AS host_name,
+            users.profile_picture AS host_picture,
+            host_listings.title AS property_title,
+            host_listings.description AS property_description,
+            host_listings.detail_description AS property_detail_description,
+            host_listings.price_per_night AS property_price_per_night,
+            host_listings.available_from,
+            CASE strftime('%m', host_listings.available_from)
+                WHEN '01' THEN 'January'
+                WHEN '02' THEN 'February'
+                WHEN '03' THEN 'March'
+                WHEN '04' THEN 'April'
+                WHEN '05' THEN 'May'
+                WHEN '06' THEN 'June'
+                WHEN '07' THEN 'July'
+                WHEN '08' THEN 'August'
+                WHEN '09' THEN 'September'
+                WHEN '10' THEN 'October'
+                WHEN '11' THEN 'November'
+                WHEN '12' THEN 'December'
+            END AS available_month,
+            strftime('%d', host_listings.available_from) AS available_day,
+            strftime('%Y', host_listings.available_from) AS available_year,
+            host_images.image_data AS image_blob  -- Retrieve image BLOB data from the host_images table
+        FROM users
+        JOIN host_listings ON users.id = host_listings.user_id
+        LEFT JOIN host_images ON host_listings.id = host_images.host_listing_id  -- Join with the images table
+        WHERE host_listings.id = ?
+    `;
+
+    lodge_liberia_db.all(sqlQuery, [selected_place], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        if (rows.length > 0) {
+            // Group the results by listing, since there could be multiple rows for the same listing (due to multiple images)
+            const propertyDetails = {
+                host_name: rows[0].host_name,
+                host_picture: rows[0].host_picture ? Buffer.from(rows[0].host_picture).toString('base64') : null,
+                property_title: rows[0].property_title,
+                property_description: rows[0].property_description,
+                property_detail_description: rows[0].property_detail_description,
+                property_price_per_night: rows[0].property_price_per_night,
+                available_month: rows[0].available_month,
+                available_day: rows[0].available_day,
+                available_year: rows[0].available_year,
+                images: rows.map(row => row.image_blob ? Buffer.from(row.image_blob).toString('base64') : null) // Convert each BLOB to Base64
+            };
+
+            // Debug images
+            console.log(propertyDetails.host_picture);
+
+            // Render the detail page with the property data and the list of images (in Base64 format)
+            res.render('place_detail', { place: propertyDetails });
+        } else {
+            res.status(404).send("Place not found");
+        }
+    });
+});
+
+
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
     console.log(`Server running on port ${port}.`);
-    console.log("Love Tracy");
+    console.log("LodgeLiberia"); // Don't change this
 })

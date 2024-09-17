@@ -30,4 +30,10 @@ body {
 
 .place-img {
   max-height: 300px;
+  width: 100%;
+}
+
+.selected_place-images {
+  height: 100%;
+  width:100%;
 }

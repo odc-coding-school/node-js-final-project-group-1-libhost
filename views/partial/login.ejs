@@ -1,4 +1,13 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog bg-black">
+    <div class="modal-content bg-black">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="logo">LodgeLiberia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
 
+<<<<<<< HEAD
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -11,6 +20,11 @@
 
         <!-- Modal Body -->
         <div class="modal-body">
+=======
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form class="form-group needs-validation" validate>
+>>>>>>> 8a1fbb64305b412aefdea4848350a17a566ae45b
           <form class="form-group login">
             <h2>Login</h2>
             <div class="col-md-4">
@@ -22,9 +36,11 @@
 
               <input type="submit" value="Login" class="form-control btn-color mt-4" id="exampleFormControlInput1">
 
-              <p class="account-question text-center">Don't have an account? <br><a href="#" class="create-account">Create One</a></p>
+              <p class="account-question text-center">Don't have an account? <br><a href="#"
+                  class="create-account">Create One</a></p>
             </div>
           </form>
+<<<<<<< HEAD
 
           <form class="form-group d-none signup">
             <h2>Create an account for free</h2>
@@ -54,6 +70,8 @@
           </form>
         </div>
         <!-- Modal Body -->
+=======
+>>>>>>> 8a1fbb64305b412aefdea4848350a17a566ae45b
       </div>
     </div>
   </div>
@@ -66,14 +84,14 @@
     const logIn = document.querySelector(".login");
     const signUp = document.querySelector(".signup");
 
-    signupLink.addEventListener("click", function(e) {
+    signupLink.addEventListener("click", function (e) {
       e.preventDefault();
       signUp.classList.remove("d-none");
       logIn.classList.add("d-none");
       console.log("yes");
     });
 
-    loginLink.addEventListener("click", function(e) {
+    loginLink.addEventListener("click", function (e) {
       e.preventDefault();
       logIn.classList.remove("d-none");
       signUp.classList.add("d-none");
