@@ -29,24 +29,3 @@
     </div>
   </div>
   <!-- Modal -->
-
-
-  <script>
-    const signupLink = document.querySelector(".create-account");
-    const loginLink = document.querySelector(".login-account")
-    const logIn = document.querySelector(".login");
-    const signUp = document.querySelector(".signup");
-
-    signupLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      signUp.classList.remove("d-none");
-      logIn.classList.add("d-none");
-      console.log("yes");
-    });
-
-    loginLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      logIn.classList.remove("d-none");
-      signUp.classList.add("d-none");
-    })
-  </script>
