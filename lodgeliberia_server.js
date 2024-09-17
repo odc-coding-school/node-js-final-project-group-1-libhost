@@ -58,6 +58,7 @@ function initializeDatabase() {
                 county TEXT NOT NULL,
                 city Text NOT NULL,
                 property_type TEXT NOT NULL,
+                min_stay_days INTEGER,
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )`,
             `CREATE TABLE IF NOT EXISTS host_images (
@@ -65,6 +66,20 @@ function initializeDatabase() {
                 host_listing_id INTEGER,
                 image_data BLOB,
                 FOREIGN KEY (host_listing_id) REFERENCES host_listings(id)
+            )`,
+            `CREATE TABLE IF NOT EXISTS places_features (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                feature TEXT,
+                feature_type TEXT,
+                feature_description TEXT
+            )`,
+            `CREATE TABLE IF NOT EXISTS host_places_features (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                place_id INTEGER,
+                feature TEXT,
+                feature_type TEXT,
+                feature_description TEXT,
+                FOREIGN KEY (place_id) REFERENCES host_listings(id)
             )`
         ];
 
@@ -146,7 +161,7 @@ server.get("/search_result", (req, res) => {
     const property_type = req.query.search_dropdown !== 'Property' ? req.query.search_dropdown : null; // Avoid "Property" as a filter
 
     // Logs input for debugging
-    console.log(`${place_location_address} ${place_price} ${property_type}`);
+    // console.log(`${place_location_address} ${place_price} ${property_type}`);
 
     // == Build the SQL Query Dynamically ==========
 
@@ -265,7 +280,7 @@ server.get("/search_result", (req, res) => {
 // Place/s detail route page
 server.get('/place_detail/:host_place_id', (req, res) => {
     const selected_place = req.params.host_place_id; // Get the property ID from the URL
-    
+
     const sqlQuery = `
         SELECT 
             users.fullname AS host_name,
@@ -274,6 +289,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             host_listings.description AS property_description,
             host_listings.detail_description AS property_detail_description,
             host_listings.price_per_night AS property_price_per_night,
+            host_listings.min_host_days AS minimum_host_days,
             host_listings.available_from,
             CASE strftime('%m', host_listings.available_from)
                 WHEN '01' THEN 'January'
@@ -298,6 +314,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
         WHERE host_listings.id = ?
     `;
 
+    // First query to get the property details
     lodge_liberia_db.all(sqlQuery, [selected_place], (err, rows) => {
         if (err) {
             throw err;
@@ -311,17 +328,32 @@ server.get('/place_detail/:host_place_id', (req, res) => {
                 property_description: rows[0].property_description,
                 property_detail_description: rows[0].property_detail_description,
                 property_price_per_night: rows[0].property_price_per_night,
+                minimum_host_days: rows[0].minimum_host_days,
                 available_month: rows[0].available_month,
                 available_day: rows[0].available_day,
                 available_year: rows[0].available_year,
                 images: rows.map(row => row.image_blob ? Buffer.from(row.image_blob).toString('base64') : null) // Convert each BLOB to Base64
             };
 
-            // Debug images
-            console.log(propertyDetails.host_picture);
+            // Second query to get features and their count from the host_places_features table
+            const featuresQuery = `SELECT feature FROM host_places_features WHERE place_id = ?`;
 
-            // Render the detail page with the property data and the list of images (in Base64 format)
-            res.render('place_detail', { place: propertyDetails });
+            lodge_liberia_db.all(featuresQuery, [selected_place], (err, featureRows) => {
+                if (err) {
+                    throw err;
+                }
+
+                // Add features and count to the propertyDetails object
+                propertyDetails.features = featureRows.map(row => row.feature);
+                propertyDetails.feature_count = featureRows.length; // Count the features
+
+                // Debugging
+                console.log('Features:', propertyDetails.features);
+                console.log('Feature Count:', propertyDetails.feature_count);
+
+                // Render the detail page with the property data, the list of images (in Base64 format), and features
+                res.render('place_detail', { place: propertyDetails });
+            });
         } else {
             res.status(404).send("Place not found");
         }

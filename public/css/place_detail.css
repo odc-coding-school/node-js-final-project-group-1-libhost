@@ -1,4 +1,4 @@
-#return_btn{
+#return_btn {
     align-items: center;
     align-content: center;
     text-align: center;
@@ -14,4 +14,27 @@
 
 .divider {
     border: 1px solid black;
+}
+
+.property_title {
+    color: orange;
+}
+
+.selected_place-images {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+#badge {
+    background-color: orange;
+}
+
+.calender {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#calendar_icon {
+    background: orange !important;
 }
