@@ -289,7 +289,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             host_listings.description AS property_description,
             host_listings.detail_description AS property_detail_description,
             host_listings.price_per_night AS property_price_per_night,
-            host_listings.min_host_days AS minimum_host_days,
+            host_listings.min_stay_days AS minimum_host_days,
             host_listings.available_from,
             CASE strftime('%m', host_listings.available_from)
                 WHEN '01' THEN 'January'

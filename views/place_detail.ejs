@@ -122,7 +122,8 @@
 
                   const year = place.available_year; 
                   const month = ("0" + (["January", "February" , "March" , "April" , "May" , "June" , "July" , "August", "September" , "October" , "November" , "December" ].indexOf(place.available_month) +
-                    1)).slice(-2); const day=("0" + place.available_day).slice(-2); 
+                    1)).slice(-2); 
+                    const day=("0" + place.available_day).slice(-2); 
                     const defaultDate = `${year}-${month}-${day}`; 
 
                   %>
@@ -144,13 +145,21 @@
                   <span class="fw-bold">CHECK-OUT:</span>
                   <br>
 
+                  <% 
+                  
+                  // Convert the EJS variables into a valid date string
+ 
+                    const endDefaultDate = `${year}-${month}-${day}`; 
+
+                  %>
+
                   <!-- Calender (Check-out) -->
                   <div>
                     <div class="input-group">
                       <span class="input-group-text text-white" id="calendar_icon">
                         <i class="fa-solid fa-calendar-days" style="color: #000000;"></i>
                       </span>
-                      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date" style="color-scheme: black;">
+                      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date" value="<%= endDefaultDate %>" style="color-scheme: black;">
                     </div>
                   </div>
                   <!-- Calender -->
