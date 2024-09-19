@@ -59,7 +59,7 @@
           <%= place.available_month %>
             <%= place.available_day %>, <%= place.available_year %>
         </b></p>
-      <p class="mb-0 text-black t">Price per day: <b>$<%= place.property_price_per_night %>USD</b></p>
+      <p class="mb-0 text-black">Price per day: <b>$<%= place.property_price_per_night %>USD</b></p>
 
       <hr class="divider">
 
@@ -86,7 +86,7 @@
       <div class="container">
         <div class="row">
 
-          <div class="col-sm-4 col-md-6 border border-danger col-12 p-0">
+          <div class="col-sm-12 col-md-6 border border-danger col-12 p-0">
             <p class="text-black fw-bold fs-6 mb-1">
               Place facilities: <span class="badge text-black fw-bolder" id="badge">
                 <%= place.feature_count %>
@@ -103,15 +103,19 @@
           </div>
 
           <!-- Booking section -->
-          <form class="col-sm-8 col-md-6 border border-danger d-none d-sm-block" target="" method="">
+          <form class="col-sm-8 col-md-6 border border-danger d-none d-md-block" target="" method="">
 
             <!-- Price -->
-            <p class="mb-0 text-black fs-4">$<%= place.property_price_per_night %>USD/per day</p>
+            <p class="mb-0 text-black fs-4 fw-bold">$<%= place.property_price_per_night %>USD/per day</p>
+
+            <!-- Minimum Days to  to rent-->
+            <p class="mb-0 text-black mt-2">Minimum Day/s: <b><%= place.minimum_host_days %> day/s</b></p>
 
             <!-- Calender section -->
             <div class="container mt-2">
               <div class="row">
 
+                <!-- Calender (Check-in) -->
                 <a class="col border border-danger text-decoration-none text-black calender">
                   <span class="fw-bold">CHECK-IN:</span>
                   <br>
@@ -128,7 +132,6 @@
 
                   %>
 
-                  <!-- Calender (Check-in) -->
                   <div>
                     <div class="input-group">
                       <span class="input-group-text text-white" id="calendar_icon">
@@ -141,25 +144,29 @@
 
                 </a>
 
+                <!-- Calender (Check-out) -->
+
                 <a class="col border border-danger text-decoration-none text-black calender" href="#">
                   <span class="fw-bold">CHECK-OUT:</span>
                   <br>
 
                   <% 
+                  // Calculate the available date
+                  const availableDate = new Date(`${place.available_year}-${place.available_month}-01`); // Setting the date to the first of the month
                   
-                  // Convert the EJS variables into a valid date string
- 
-                    const endDefaultDate = `${year}-${month}-${day}`; 
-
-                  %>
-
-                  <!-- Calender (Check-out) -->
+                  // Set the day from available_day and add additional days
+                  availableDate.setDate(parseInt(place.available_day) + place.minimum_host_days); // Change the available date to the minimum number of days
+                
+                  // Format the date to YYYY-MM-DD for the input field
+                  const formattedDate = availableDate.toISOString().split('T')[0]; 
+                %>
+                  
                   <div>
                     <div class="input-group">
                       <span class="input-group-text text-white" id="calendar_icon">
                         <i class="fa-solid fa-calendar-days" style="color: #000000;"></i>
                       </span>
-                      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date" value="<%= endDefaultDate %>" style="color-scheme: black;">
+                      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date" value="<%= formattedDate %>" style="color-scheme: black;">
                     </div>
                   </div>
                   <!-- Calender -->
@@ -169,9 +176,12 @@
               </div>
             </div>
 
+            <select name="" id="">
+              <option value="Fish">Fiah</option>
+            </select>
+
           </form>
           <!-- Calender section -->
-          <%- include("./checkin_calender") %>
 
 
         </div>
