@@ -1,141 +1,55 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog bg-black">
-  <div class="modal-content bg-black">
-    <div class="modal-header border-0">
-      <h5 class="modal-title" id="logo">LodgeLiberia</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-
-    <!-- Modal Body -->
-    <div class="modal-body">
-      <input type="text"
-        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
-        placeholder="Search location">
-      <br>
-      <input type="text"
-        class="text-black form-control border-top-0 border-bottom-0 border-start-0 bg-white fs-6 place_holder_control"
-        placeholder="Price">
-      <br>
-      <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-white"
-        aria-label="Default select example" id="search-dropdown">
-        <option selected id="select-place-holder">Property</option>
-        <option value="Apartments">Apartments</option>
-        <option value="Houses">Houses</option>
-        <option value="Experience">Experience</option>
-      </select>
-    </div>
-    <!-- Modal Body -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog bg-black">
-          <div class="modal-content bg-black">
-            <div class="modal-header border-0">
-              <h5 class="modal-title" id="logo">LodgeLiberia</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-    
-            <!-- Modal Body -->
-            <div class="modal-body">
-              <form class="form-group">
-                <h2>Login</h2>
-                <div class="col-md-4">
-                  <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Username</label>
-                  <input type="name" class="form-control" id="exampleFormControlInput1" required>
-                </div>
-    
-                <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
-                <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
-    
-                <input type="submit" value="Login" class="form-control btn-color mt-3" id="exampleFormControlInput1">
-    
-                <p class="account-question text-center">Already have an account? <br><a href="login.html">Log in</a></p>
-              </form>
-              <!-- <form class="form-group">
-                <div class="mb-3 bg p-5 rounded">
-                    <h2 class="text-center">Login</h2>
-                    <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Username</label>
-                    <input type="name" class="form-control" id="exampleFormControlInput1" required>
-                  
-                    <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
-                    <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
-    
-    
-                    <input type="submit" value="Login" class="form-control btn-color mt-3" id="exampleFormControlInput1">
-    
-                    <p class="account-question text-center">Don't have an account? <br><a href="login.html">Create One</a></p>
-                </div>
-              </form> -->
-            </div>
-            <!-- Modal Body -->
-          </div>
-        </div>
+<div class="modal fade" id="signup_modal" tabindex="-10" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog bg-success">
+    <div class="modal-content bg-black">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="logo">LodgeLiberia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <!-- Modal -->
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <form class="form-group needs-validation" validate>
+          <form class="form-group login">
+            <h2>Login</h2>
+            <div class="col container-fluid">
+              <label for="exampleFormControlInput1" class="form-label mt-4 fw-semibold">Username</label>
+              <input type="name" class="form-control" id="exampleFormControlInput1" required>
+
+              <label for="exampleFormControlInput1" class="form-label mt-3 fw-semibold">Password</label>
+              <input type="password" class="form-control" id="exampleFormCmargin-top: 10px;ontrolInput1" required>
+
+              <input type="submit" value="Login" class="form-control btn-color mt-4" id="exampleFormControlInput1">
+
+              <p class="account-question text-center">Don't have an account? <br><a href="#"
+                  class="create-account" data-bs-dismiss="modal" aria-label="Close" data-bs-toggle="modal"
+                  data-bs-target="#signup_modal">Create One</a></p>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+
+
+  <!-- <script>
+    const signupLink = document.querySelector(".create-account");
+    const loginLink = document.querySelector(".login-account")
+    const logIn = document.querySelector(".login");
+    const signUp = document.querySelector(".signup");
+
+    signupLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      signUp.classList.remove("d-none");
+      logIn.classList.add("d-none");
+      console.log("yes");
+    });
+
+    loginLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      logIn.classList.remove("d-none");
+      signUp.classList.add("d-none");
+    })
+  </script> -->
+  <!-- </div> -->
+  <!-- Modal -->
