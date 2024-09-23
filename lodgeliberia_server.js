@@ -15,6 +15,7 @@ server.use('/public', express.static(__dirname + '/public/'));
 
 // Set EJS as the templating engine
 server.set('view engine', 'ejs');
+server.use(express.json());
 
 // parse application/x-www-form-urlencoded
 server.use(bodyParser.urlencoded({ extended: true })) /* This process form with multi-parts */
@@ -59,6 +60,7 @@ function initializeDatabase() {
                 city Text NOT NULL,
                 property_type TEXT NOT NULL,
                 min_stay_days INTEGER,
+                max_guest INTEGER,
                 FOREIGN KEY (user_id) REFERENCES users(id)
             )`,
             `CREATE TABLE IF NOT EXISTS host_images (
@@ -96,6 +98,39 @@ function initializeDatabase() {
 // Initialize database
 initializeDatabase();
 
+
+// === Post methods
+// This route is for calculating the output cost for the total amount of days booked
+server.post('/calculate-price', (req, res) => {
+    const { startDate, endDate, propertyPricePerNight } = req.body;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    // Calculate the number of days between the two dates
+    const daysBetween = Math.floor((end - start) / (1000 * 3600 * 24));
+
+    if (daysBetween < 0) {
+        // Handle the case where the end date is before the start date
+        return res.json({ totalPrice: 0 });
+    }
+
+    // Calculate the total price
+    const totalPrice = daysBetween * propertyPricePerNight;
+    totalPrice.toFixed(2);
+
+    // Calculate the lodgeliberia Percentage
+    const lodge_liberia_percent = 0.1 * totalPrice;
+
+    // Total plus percentage
+    const total_plus_percentage = totalPrice + lodge_liberia_percent;
+
+    // Send back the total price as JSON
+    res.json({ totalPrice, lodge_liberia_percent, total_plus_percentage });
+});
+
+
+// ==== Get methods
 // 
 server.get("/", (req, res) => {
 
@@ -290,6 +325,8 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             host_listings.detail_description AS property_detail_description,
             host_listings.price_per_night AS property_price_per_night,
             host_listings.min_stay_days AS minimum_host_days,
+            host_listings.max_guest AS max_guest_count,
+            host_listings.location AS property_location,
             host_listings.available_from,
             CASE strftime('%m', host_listings.available_from)
                 WHEN '01' THEN 'January'
@@ -328,7 +365,9 @@ server.get('/place_detail/:host_place_id', (req, res) => {
                 property_description: rows[0].property_description,
                 property_detail_description: rows[0].property_detail_description,
                 property_price_per_night: rows[0].property_price_per_night,
+                property_location: rows[0].property_location,
                 minimum_host_days: rows[0].minimum_host_days,
+                max_guest_count: rows[0].max_guest_count,
                 available_month: rows[0].available_month,
                 available_day: rows[0].available_day,
                 available_year: rows[0].available_year,
