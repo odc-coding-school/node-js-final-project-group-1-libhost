@@ -20,6 +20,10 @@ server.use(express.json());
 // parse application/x-www-form-urlencoded
 server.use(bodyParser.urlencoded({ extended: true })) /* This process form with multi-parts */
 
+// Object to store user data
+const users = {};
+
+
 // Database Creation
 const lodge_liberia_db = new sqlite3.Database(__dirname + '/database/lodgeliberia.db');
 
@@ -94,6 +98,61 @@ function initializeDatabase() {
         });
     });
 }
+
+// Route to login form
+server.get('/login', (req, res) => {
+    res.render('login');
+});
+
+
+// Handle login form submission
+server.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    if (users[username] && users[username].password === password) {
+        res.redirect('/');
+    } else {
+        res.send('Invalid username or password');
+    }
+});
+
+
+// Route to signup form
+server.get('/signup', (req, res) => {
+    res.render('signup');
+});
+
+// Handle signup form submission
+server.post('/signup', (req, res) => {
+    const { phone_number, fullname, password, username } = req.body;
+
+    // Validate inputs
+    if (!fullname || !phone_number || !password || !username) {
+        return res.send('Please fill out all fields');
+    }
+
+    // Example: Basic password length validation
+    if (password.length < 6) {
+        return res.send('Password must be at least 6 characters');
+    }
+
+    // Check if user already exists (assuming 'users' is a collection of registered users)
+    if (users[username]) {
+        return res.send('User already exists');
+    }
+
+    // Store user data (password should be hashed in real-world scenarios)
+    users[username] = { fullname, phone_number, password };
+
+    // Log the user information to the console
+    console.log(`New user signed up:\nFull Name: ${fullname}\nPhone Number: ${phone_number}\nPassword: ${password}\nUser Name: ${username}`);
+
+    // // Redirect to login page after successful signup
+    // res.redirect('/login.ejs');
+
+    res.redirect('/?signupSuccess=true'); // Redirect with a query parameter
+});
+
+
 
 // Initialize database
 initializeDatabase();
