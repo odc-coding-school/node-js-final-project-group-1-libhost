@@ -1,6 +1,6 @@
 <%- include("partial/place_detail_header") %>
 
-  <main class="container-fluid">
+  <main class="container-fluid mt-2">
 
     <!-- Available for all screen sizes above md -->
     <div class="container d-none d-md-block mb-0">
@@ -37,13 +37,15 @@
     </div>
 
     <!-- Available for all screen sizes below md -->
+     <!-- Back-btn for small-devices -->
     <div class="container mb-0 d-md-none" style="max-height: 400px;">
 
       <div class="d-flex col justify-content-start">
-        <a href="#" class="text-decoration-none p-2 fw-bold mb-2" id="return_btn">
+        <a onclick="window.history.back()" class="text-decoration-none p-2 fw-bold mb-2" id="return_btn">
           <i class="fa-solid fa-less-than fw-bold" style="color: #ffffff;"></i>
         </a>
       </div>
+      <!-- Available for all screen sizes below md -->
 
       <img src="data:image/jpeg;base64,<%= place.images[0] %>" class="selected_place-images" alt="...">
     </div>
@@ -51,25 +53,26 @@
     <!-- Place detail information -->
     <div class="container">
 
-      <p class="fw-bold mt-2 mb-0 fs-4 property_title">
+      <p class="fw-bold mt-2 mb-0 fs-4 property_title mt-5">
         <%= place.property_title %>
       </p>
+
+      <!-- Place Location -->
+      <p class="mb-0 text-black"><%= place.property_location %></p>
 
       <p class="card-text mb-0 text-black">Available from: <b>
           <%= place.available_month %>
             <%= place.available_day %>, <%= place.available_year %>
-        </b></p>
-      <p class="mb-0 text-black t">Price per day: <b>$<%= place.property_price_per_night %>USD</b></p>
+        </b>
+      </p>
+
+      <p class="mb-0 text-black">Price per day: <b>$<%= place.property_price_per_night %>USD</b></p>
 
       <hr class="divider">
 
       <p class="text-black fw-normal fs-6 mb-0">
         <img src="data:image/jpeg;base64,<%= place.host_picture %>" class="rounded-circle host_image_icon"
-          alt="...">&nbsp; Hosted by <%= place.host_name %>
-      </p>
-
-      <p class="text-black fw-normal fs-6 ms-5">
-        Profession: <%= place.host_name %>
+          alt="...">&nbsp; <b>Hosted by <%= place.host_name %></b>
       </p>
 
       <hr class="divider">
@@ -86,33 +89,70 @@
       <div class="container">
         <div class="row">
 
-          <div class="col-sm-4 col-md-6 border border-danger col-12 p-0">
-            <p class="text-black fw-bold fs-6 mb-1">
+          <div class="col-sm-12 col-md-6 col-12 p-0">
+            <p class="text-black fw-normal fs-5 fw-bold">
               Place facilities: <span class="badge text-black fw-bolder" id="badge">
                 <%= place.feature_count %>
               </span>
             </p>
 
-            <ul class="text-black">
+            <ul class="text-black mt-4">
               <% place.features.forEach(function(feature) { %>
-                <li>
+                <li class="mt-2">
                   <%= feature %>
                 </li>
                 <% }) %>
             </ul>
+
+            <!-- About the host -->
+            <div class="container-fluid d-flex flex-column justify-content-center align-items-center d-sm-none">
+
+              <p class="text-black fs-5 mt-5 fw-bold">
+                Meet your Host
+              </p>
+  
+              <img src="data:image/jpeg;base64,<%= place.host_picture %>" class="rounded-circle host_image mt-2" alt="Host Image">
+              <p class="text-black fs-5 fw-bolder mt-2 ps-2 mb-0"><%= place.host_name %> (Host)</p>
+              <p class="text-black fw-normal ps-2 mb-0">Education: <%= place.host_name %> (Host)</p>
+              <p class="text-black fw-normal ps-2 mb-0">My Job: <%= place.host_name %> (Host)</p>
+              <a href="#" class="ps-2 text-decoration-none lodgeliberia_textcolor_color fw-bold">More about me <i class="fa-solid fa-chevron-right" style="color: #FFA500;"></i></a>
+             
+            </div>
+
+            <div class="container-fluid d-none d-sm-block">
+
+              <p class="text-black fs-5 mt-5 fw-bold">
+                Meet your Host 
+              </p>
+  
+              <img src="data:image/jpeg;base64,<%= place.host_picture %>" class="rounded-circle host_image mt-2" alt="Host Image">
+              <p class="text-black fs-5 fw-bolder mt-2 ps-2 mb-0"><%= place.host_name %> (Host)</p>
+              <p class="text-black fw-normal ps-2 mb-0">Education: <%= place.host_name %> (Host)</p>
+              <p class="text-black fw-normal ps-2 mb-0">My Job: <%= place.host_name %> (Host)</p>
+              <a href="#" class="ps-2 text-decoration-none lodgeliberia_textcolor_color fw-bold">More about me <i class="fa-solid fa-chevron-right" style="color: #FFA500;"></i></a>
+             
+            </div>
+
           </div>
 
           <!-- Booking section -->
-          <form class="col-sm-8 col-md-6 border border-danger d-none d-sm-block" target="" method="">
+          <form class="col-sm-8 col-md-6 d-none d-md-block" target="" method="">
 
             <!-- Price -->
-            <p class="mb-0 text-black fs-4">$<%= place.property_price_per_night %>USD/per day</p>
+            <p class="mb-0 text-black fs-5 fw-bold">$<%= place.property_price_per_night %>USD/per day</p>
+
+            <!-- Minimum Days to  to rent-->
+            <p class="mb-0 text-black mt-2">Minimum Day/s: <b><%= place.minimum_host_days %> day/s</b></p>
+
+            <!-- Max number of guest -->
+            <p class="mb-0 text-black mt-2">Max Guests: <b><%= place.max_guest_count %></b></p>
 
             <!-- Calender section -->
             <div class="container mt-2">
               <div class="row">
 
-                <a class="col border border-danger text-decoration-none text-black calender">
+                <!-- Calender (Check-in) -->
+                <section class="col border border-danger text-decoration-none text-black calender">
                   <span class="fw-bold">CHECK-IN:</span>
                   <br>
 
@@ -128,7 +168,6 @@
 
                   %>
 
-                  <!-- Calender (Check-in) -->
                   <div>
                     <div class="input-group">
                       <span class="input-group-text text-white" id="calendar_icon">
@@ -139,39 +178,157 @@
                   </div>
                   <!-- Calender -->
 
-                </a>
+                </section>
 
-                <a class="col border border-danger text-decoration-none text-black calender" href="#">
+                <!-- Calender (Check-out) -->
+
+                <section class="col border border-danger text-decoration-none text-black calender">
                   <span class="fw-bold">CHECK-OUT:</span>
                   <br>
 
                   <% 
+                  // Calculate the available date
+                  const availableDate = new Date(`${place.available_year}-${place.available_month}-01`); // Setting the date to the first of the month
                   
-                  // Convert the EJS variables into a valid date string
- 
-                    const endDefaultDate = `${year}-${month}-${day}`; 
-
+                  // Set the day from available_day and add additional days
+                  availableDate.setDate(parseInt(place.available_day) + place.minimum_host_days); // Change the available date to the minimum number of days
+                
+                  // Format the date to YYYY-MM-DD for the input field
+                  const formattedDate = availableDate.toISOString().split('T')[0]; 
                   %>
-
-                  <!-- Calender (Check-out) -->
+                  
                   <div>
                     <div class="input-group">
                       <span class="input-group-text text-white" id="calendar_icon">
                         <i class="fa-solid fa-calendar-days" style="color: #000000;"></i>
                       </span>
-                      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date" value="<%= endDefaultDate %>" style="color-scheme: black;">
+                      <input type="date" class="form-control text-black bg-light" name="end-date" id="end-date" value="<%= formattedDate %>" style="color-scheme: black;">
                     </div>
                   </div>
-                  <!-- Calender -->
+                 
 
-                </a>
+                </section>
 
               </div>
             </div>
+             <!-- Calender Section -->
+
+             <!-- Payment Plan Breakdown -->
+             <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+              <div class="col">
+                <p class="mb-0 fs-6 fw-bolder place_breakdowns ps-2">$<%= place.property_price_per_night %>USD x <span id="day-count"></span> days</p>
+              </div>
+
+              <!-- getting the total amount multiply with the count of days -->
+              <div class="col d-flex justify-content-end">
+                <p class="mb-0 fs-6 fw-bolder place_breakdowns pe-2">$<span id="total-price"></span> USD</p>
+              </div>
+
+             </div>
+
+            <!-- LodgeLiberia Fees Attachement -->
+            <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+              <div class="col-8">
+                <p class="mb-0 fs-6 fw-bold place_breakdowns ps-2">LodgeLiberia service fees</p>
+              </div>
+
+              <!-- getting fees percent value -->
+              <div class="col-4 d-flex justify-content-end">
+                <p class="mb-0 fs-6 fw-bold place_breakdowns pe-2">$<span id="percent-fees1"></span> USD</p>
+              </div>
+              
+            </div>
+
+            <!-- Grand Total before payment taxes -->
+            <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+              <div class="col-8">
+                <p class="mb-0 fs-6 fw-bolder place_breakdowns ps-2">Total before payment taxes</p>
+              </div>
+
+              <!-- total amount without payment fees -->
+              <div class="col-4 d-flex justify-content-end">
+                <p class="mb-0 fs-6 fw-bold place_breakdowns pe-2">$<span id="place-grand-total1"></span> USD</p>
+              </div>
+              
+            </div>
+
+            <!-- Book Place Button -->
+            <div class="d-flex justify-content-end mt-4">
+              <button class="btn w-50 fw-bold text-black" href="#" id="floating-reserve-section" type="submit">Book</button>
+            </div>
+
+
+             <!-- Script for handling date changes-->
+             <script>
+              document.addEventListener('DOMContentLoaded', function () {
+                  const startDateInput = document.getElementById('start-date');
+                  const endDateInput = document.getElementById('end-date');
+                  const dayCountElement = document.getElementById('day-count');
+                  const percentFees = document.getElementById('percent-fees1');
+                  const placeGrandTotal = document.getElementById('place-grand-total1');
+                  const totalPriceElement = document.getElementById('total-price');
+              
+                  // Get the property price per night from the EJS variable
+                  const propertyPricePerNight = `<%= place.property_price_per_night %>`;
+              
+                  function calculateDaysBetween(start, end) {
+                      const startDate = new Date(start);
+                      const endDate = new Date(end);
+                      const timeDifference = endDate - startDate;
+                      const dayDifference = timeDifference / (1000 * 3600 * 24);
+                      return Math.max(dayDifference, 0); // Avoid negative values
+                  }
+              
+                  // Function to send data to the server
+                  async function updatePrice() {
+                      const startDate = startDateInput.value;
+                      const endDate = endDateInput.value;
+              
+                      if (startDate && endDate) {
+                          const daysBetween = calculateDaysBetween(startDate, endDate);
+                          dayCountElement.textContent = daysBetween;
+              
+                          // Only send the request if the days between are valid
+                          if (daysBetween >= 0) {
+                              // Send request to server to calculate total price
+                              const response = await fetch('/calculate-price', {
+                                  method: 'POST',
+                                  headers: {
+                                      'Content-Type': 'application/json',
+                                  },
+                                  body: JSON.stringify({ 
+                                      startDate, 
+                                      endDate, 
+                                      propertyPricePerNight // Include the property price per night in the request body
+                                  }),
+                              });
+              
+                              const result = await response.json();
+                              percentFees.textContent = result.lodge_liberia_percent.toFixed(2);
+                              placeGrandTotal.textContent = result.total_plus_percentage;
+                              totalPriceElement.textContent = result.totalPrice;
+                          } else {
+                              totalPriceElement.textContent = "0.00"; // Reset total price if dates are invalid
+                          }
+                      }
+                  }
+              
+                  // Run the price update when the page is loaded
+                  updatePrice();
+              
+                  // Add event listeners for input changes
+                  startDateInput.addEventListener('change', updatePrice);
+                  endDateInput.addEventListener('change', updatePrice);
+              });
+              </script>
+              
+             <!-- Payment Plan Breakdown -->
 
           </form>
-          <!-- Calender section -->
-          <%- include("./checkin_calender") %>
+          <!-- Booking section -->
 
 
         </div>
@@ -184,19 +341,142 @@
 
 
   <!-- Floating Button (Position Fixed ) -->
-  <div class="container-fluid position-fixed bottom-0 bg-black p-3 d-md-none">
-    <a class="text-white text-decoration-none" href="#">
-      From: <%= place.available_month %>
-        <%= place.available_day %>, <%= place.available_year %>
-            <br>To: <%= place.available_month %>
-              <%= place.available_day %>, <%= place.available_year %>
-    </a>
-    <div class="d-flex justify-content-between">
-      <p class="text-left mb-0 mt-2">Cost: <%= place.property_price_per_night * 2 %>
-      </p>
-      <a class="btn" href="#" id="floating-reserve-section">Book</a>
+  <form class="container-fluid position-fixed bottom-0 phone-booking-section p-3 pt-0 d-md-none d-none" target="#" method="post" id="smd-booking-section">
+
+    <div class="mb-4 container-fluid m-0 hide-booking-section p-0 d-flex justify-content-end align-items-center">
+      <i class="fa-solid fa-square-caret-down fa-2xl mt-4" style="color: #FFA500;" id="hide-booking-section"></i>
     </div>
-  </div>
+    <!-- Checkin -->
+    <span class="fw-normal">CHECK-IN:</span>
+    <div class="text-white text-decoration-none input-group">
+        <span class="input-group-text text-white" id="calendar_icon">
+          <i class="fa-solid fa-calendar-days" style="color: #000000;"></i>
+        </span>
+      <input type="date" class="form-control text-black bg-light" name="start-date" id="start-date2" value="<%= defaultDate %>" style="color-scheme: black;">    
+    </div>
+    <br>
+
+    <!-- Check-out -->
+    <span class="fw-normal">CHECK-OUT:</span>
+    <div class="text-white text-decoration-none input-group">
+      <span class="input-group-text text-white" id="calendar_icon">
+        <i class="fa-solid fa-calendar-days" style="color: #000000;"></i>
+      </span>
+      <input type="date" class="form-control text-black bg-light" name="end-date" id="end-date2" value="<%= formattedDate %>" style="color-scheme: black;">    
+    </div>
+
+    <!-- Payment Plan Breakdown -->
+    <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+      <div class="col">
+        <p class="mb-0 fs-6 fw-normal place_breakdowns lodgeliberia_textcolor_color">$<%= place.property_price_per_night %>USD x <span id="day-count2"></span> days</p>
+      </div>
+
+      <!-- getting the total amount multiply with the count of days -->
+      <div class="col d-flex justify-content-end">
+        <p class="mb-0 fs-6 fw-bold place_breakdowns lodgeliberia_textcolor_color">$<span id="total-price2"></span> USD</p>
+      </div>
+      
+    </div>
+
+
+    <!-- LodgeLiberia Fees Attachement -->
+    <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+      <div class="col-8">
+        <p class="mb-0 fs-6 fw-normal lodgeliberia_textcolor_color">LodgeLiberia service fees</p>
+      </div>
+
+      <!-- getting fees percent value -->
+      <div class="col-4 d-flex justify-content-end">
+        <p class="mb-0 fs-6 fw-bold lodgeliberia_textcolor_color">$<span id="percent-fees"></span> USD</p>
+      </div>
+      
+    </div>
+
+    <!-- Grand Total before payment taxes -->
+    <div class="d-flex justify-content-between align-items-center text-black mt-4">
+
+      <div class="col-8">
+        <p class="mb-0 fs-6 fw-bolder lodgeliberia_textcolor_color">Total before payment taxes</p>
+      </div>
+
+      <!-- total amount without payment fees -->
+      <div class="col-4 d-flex justify-content-end">
+        <p class="mb-0 fs-6 fw-bold lodgeliberia_textcolor_color">$<span id="place-grand-total"></span> USD</p>
+      </div>
+      
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <button class="btn w-50 fw-bold text-black" href="#" id="floating-reserve-section" type="submit">Book</button>
+    </div>
+
+    <!-- Script for handling date changes-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          const startDateInput = document.getElementById('start-date2');
+          const endDateInput = document.getElementById('end-date2');
+          const dayCountElement = document.getElementById('day-count2');
+          const totalPriceElement = document.getElementById('total-price2');
+          const percentFees = document.getElementById('percent-fees');
+          const placeGrandTotal = document.getElementById('place-grand-total');
+      
+          // Get the property price per night from the EJS variable
+          const propertyPricePerNight = `<%= place.property_price_per_night %>`;
+      
+          function calculateDaysBetween(start, end) {
+              const startDate = new Date(start);
+              const endDate = new Date(end);
+              const timeDifference = endDate - startDate;
+              const dayDifference = timeDifference / (1000 * 3600 * 24);
+              return Math.max(dayDifference, 0); // Avoid negative values
+          }
+      
+          // Function to send data to the server
+          async function updatePrice() {
+              const startDate = startDateInput.value;
+              const endDate = endDateInput.value;
+      
+              if (startDate && endDate) {
+                  const daysBetween = calculateDaysBetween(startDate, endDate);
+                  dayCountElement.textContent = daysBetween;
+      
+                  // Only send the request if the days between are valid
+                  if (daysBetween >= 0) {
+                      // Send request to server to calculate total price
+                      const response = await fetch('/calculate-price', {
+                          method: 'POST',
+                          headers: {
+                              'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({ 
+                              startDate, 
+                              endDate, 
+                              propertyPricePerNight // Include the property price per night in the request body
+                          }),
+                      });
+      
+                      const result = await response.json();
+                      totalPriceElement.textContent = result.totalPrice;
+                      percentFees.textContent = result.lodge_liberia_percent.toFixed(2);
+                      placeGrandTotal.textContent = result.total_plus_percentage;
+                  } else {
+                    percentFees.textContent = "0.00"; // Reset total price if dates are invalid
+                  }
+              }
+          }
+      
+          // Run the price update when the page is loaded
+          updatePrice();
+      
+          // Add event listeners for input changes
+          startDateInput.addEventListener('change', updatePrice);
+          endDateInput.addEventListener('change', updatePrice);
+      });
+      </script>
+
+  </form>
   <!-- Floating Button (Position Fixed ) -->
 
   <%- include("partial/home_footer") %>

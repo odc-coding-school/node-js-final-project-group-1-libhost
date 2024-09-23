@@ -1,4 +1,4 @@
-#floating-reserve-section{
-    background-color: orange !important;
-    background: orange;
+.color_orange {
+    color: orange;
+    text-decoration: none;
 }

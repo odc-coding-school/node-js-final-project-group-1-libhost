@@ -12,6 +12,11 @@
     height: 40px;
 }
 
+.host_image {
+    width: 100px;
+    height: 100px;
+}
+
 .divider {
     border: 1px solid black;
 }
@@ -37,4 +42,17 @@
 
 #calendar_icon {
     background: orange !important;
+}
+
+.place_breakdowns {
+    color: rgb(32, 32, 32);
+}
+
+.phone-booking-section {
+    background-color: rgba(0, 0, 0, 0.836);
+}
+
+#floating-reserve-section{
+    background-color: orange !important;
+    background: orange;
 }
