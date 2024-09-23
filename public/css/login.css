@@ -7,6 +7,16 @@
     color: white;
 }
 
+.termsNconditions {
+    display: flex;
+    padding-top: 10px;
+}
+
+.form-check-label {
+    font-size: 12px;
+    padding-left: 8px;
+}
+
 .account-question {
     font-size: 13px;
     cursor: pointer;
@@ -22,7 +32,7 @@
 
 .btn-color {
     background-color: #FFA500;
-    color: black;
+    color: white;
     border: none;
 }
 
