@@ -1,0 +1,102 @@
+<%- include("partial/home_header") %>
+
+  <main class="container-fluid">
+
+    <div class="container-fluid mt-2">
+      <div class="tab-container">
+        <ul class="nav nav-tabs flex-nowrap">
+          <li class="nav-item">
+            <a class="nav-link active fw-bold" onclick="openTab(event, 'Tab1')"><i class="fa-solid fa-gem"
+                style="color: #ffffff;"></i>&nbsp;Places</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab2')"><i class="fa-solid fa-building"
+                style="color: #FFF;"></i>&nbsp;Apartments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab3')"><i class="fa-solid fa-house"
+                style="color: #ffffff;"></i>&nbsp;Houses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab4')"><i class="fa-solid fa-person-shelter" style="color: #ffffff;"></i>&nbsp;Guest House</a>
+          </li>
+          <li class="nav-item"></li>
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab5')"><i class="fa-solid fa-bed" style="color: #ffffff;"></i>&nbsp;Rooms</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab6')"><i class="fa-solid fa-dove"
+                style="color: #ffffff;"></i>&nbsp;Explore</a>
+          </li>
+        </ul>
+      </div>
+
+
+
+
+                        <!-- Implementing payment-form -->
+<body>
+  <div class="container mt-5">
+      <div class="row justify-content-center">
+          <div class="col-lg-8"> <!-- Adjust column size to make the form bigger -->
+              <div class="payment-form">
+                  <div class="form-title text-center mb-4">
+                      <h3>Complete Your Payment</h3>
+                  </div>
+
+                  <!-- Cards implementation -->
+                  <main class="summary mb-4">
+                      <div class="main-cards">
+                          <div class="card">
+                              <div class="card-inner">
+                                  <h4>Total number of votes</h4>
+                                  <span class="material-icons-outlined">how_to_vote</span>
+                              </div>
+                              <h1>500</h1>
+                          </div>
+                      </div>
+                  </main>                  
+  
+                  <!-- Payment Method -->
+                  <h5 class="mb-3">Payment Details</h5>
+                  <form action="/your-payment-endpoint" method="POST">
+                      <div class="mb-3">
+                          <label for="cardName" class="form-label">Name on Card</label>
+                          <input type="text" class="form-control" id="cardName" placeholder="Name as it appears on the card" required>
+                      </div>
+                      <div class="mb-3">
+                          <label for="cardNumber" class="form-label">Card Number</label>
+                          <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9101 1121" required>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-6 mb-3">
+                              <label for="cardExpiry" class="form-label">Expiration Date</label>
+                              <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                              <label for="cardCVV" class="form-label">CVV</label>
+                              <input type="text" class="form-control" id="cardCVV" placeholder="123" required>
+                          </div>
+                      </div>
+
+                      <!-- Submit Button -->
+                      <button type="submit" class="btn btn-color w-100">Pay $55.00</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</body>
+
+
+
+      
+
+        <div id="Tab2" class="tab-pane fade text-black">Content for Tab 2</div>
+        <div id="Tab3" class="tab-pane fade text-black">Content for Tab 3</div>
+        <div id="Tab4" class="tab-pane fade text-black">Content for Tab 4</div>
+        <div id="Tab5" class="tab-pane fade text-black">Content for Tab 5</div>
+        <div id="Tab6" class="tab-pane fade text-black">Content for Tab 6</div>
+      </div>
+    </div>
+  </main>
+  <%- include("partial/home_footer") %>

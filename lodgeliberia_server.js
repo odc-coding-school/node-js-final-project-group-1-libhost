@@ -133,6 +133,7 @@ server.post('/calculate-price', (req, res) => {
     res.json({ totalPrice, lodge_liberia_percent, total_plus_percentage });
 });
 
+
 // signup form post route
 server.post('/signup', (req, res) => {
     const userFullname = req.body.useragreement;
@@ -207,6 +208,16 @@ server.get("/", (req, res) => {
     });
 
 })
+
+server.get("/payment", (req, res) => {
+
+        // Pass the listings array to your EJS template
+        res.render('lodgeliberia_payment');
+    });
+
+
+
+
 
 // Search Results Route
 server.get("/search_result", (req, res) => {
