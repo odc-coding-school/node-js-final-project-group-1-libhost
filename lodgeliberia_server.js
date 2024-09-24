@@ -138,6 +138,13 @@ server.post('/signup', (req, res) => {
     const userFullname = req.body.useragreement;
     console.log(req.body);
     console.log(userFullname);
+
+    // Insert the new user data into the 'users' table
+    const sql = `
+    INSERT INTO users (fullname, phone_number, email, username, password)
+    VALUES (?, ?, ?, ?, ?)
+`;
+
     // res.redirect('/lodgeliberia_home');
 });
 
