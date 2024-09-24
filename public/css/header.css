@@ -68,3 +68,8 @@
     box-shadow: none;
     border: none;
 }
+
+.dropdown-menu {
+    background: rgb(180, 179, 179);
+    /* lor: black; */
+}
