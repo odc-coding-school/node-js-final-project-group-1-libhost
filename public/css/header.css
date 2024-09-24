@@ -37,18 +37,7 @@
 
 #search_dropdown {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
-    color: #000;
-    font-weight: bold;
     box-shadow: none;
-}
-
-#search_dropdown>option {
-    font-weight: normal;
-}
-
-#search-box>div>#search_dropdown:focus {
-    box-shadow: none;
-    border-color: black;
 }
 
 #search-btn {
@@ -65,7 +54,17 @@
 }
 
 .place_holder_control::placeholder {
-    color: black;
+    color: rgba(0, 0, 0, 0.432);
     font-weight: bold;
     font-size: small;
+}
+
+.form-check-input:checked {
+    background-color: orange;
+    border-color: orange;
+}
+
+.form-check-input:focus {
+    box-shadow: none;
+    border: none;
 }
