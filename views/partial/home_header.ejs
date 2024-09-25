@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="/public/css/scrollable_tab.css">
   <link rel="stylesheet" href="/public/css/login_signup.css">
   <link rel="stylesheet" href="/public/css/general.css">
+  <link rel="stylesheet" href="/public/css/payment.css">
 
   <!-- FontAwesome Link -->
   <script src="https://kit.fontawesome.com/9183ef123e.js" crossorigin="anonymous"></script>
@@ -75,6 +76,17 @@
 
             </form>
 
+            <!-- dropdown menu -->
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bars"></i></a>
+            
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="places_booked">PLaces booked</a></li>
+                <li><a class="dropdown-item" href="host_property">Host your property</a></li>
+                <li><a class="dropdown-item" href="finance">Finance</a></li>
+              </ul>
+            </div>
+
             <!-- signup and login button -->
             <div class="d-flex col justify-content-end">
               <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" onclick="openOverlay('login')">
@@ -83,7 +95,6 @@
               </a>
             </div>
             <!-- signup and login button -->
-
           </div>
         </div>
       </nav>
