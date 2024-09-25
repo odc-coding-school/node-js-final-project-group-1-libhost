@@ -344,6 +344,8 @@ server.get("/search_result", (req, res) => {
 });
 
 
+
+
 // Place/s detail route page
 server.get('/place_detail/:host_place_id', (req, res) => {
     const selected_place = req.params.host_place_id; // Get the property ID from the URL
@@ -430,6 +432,72 @@ server.get('/place_detail/:host_place_id', (req, res) => {
         }
     });
 });
+
+
+server.get("/places_booked", (req, res) => {
+
+    // Pulling Places Information from database
+    lodge_liberia_db.all(`
+        SELECT 
+             users.fullname AS host_name,
+             host_listings.title AS property_title,
+             host_listings.id AS property_id,
+             host_listings.description AS property_description,
+             host_listings.price_per_night AS property_price_per_night,
+             host_listings.Images AS images,
+             host_listings.available_from,
+             CASE strftime('%m', host_listings.available_from)
+                WHEN '01' THEN 'January'
+                WHEN '02' THEN 'February'
+                WHEN '03' THEN 'March'
+                WHEN '04' THEN 'April'
+                WHEN '05' THEN 'May'
+                WHEN '06' THEN 'June'
+                WHEN '07' THEN 'July'
+                WHEN '08' THEN 'August'
+                WHEN '09' THEN 'September'
+                WHEN '10' THEN 'October'
+                WHEN '11' THEN 'November'
+                WHEN '12' THEN 'December'
+            END AS available_month,
+            strftime('%d', host_listings.available_from) AS available_day,
+            strftime('%Y', host_listings.available_from) AS available_year
+        FROM users
+        JOIN host_listings
+        ON users.id = host_listings.user_id
+        `, [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        // Process each row to convert images to Base64
+        const host_listings = rows.map(row => ({
+            host_name: row.host_name,
+            host_place_id: row.property_id,
+            property_title: row.property_title,
+            property_description: row.property_description,
+            property_price_per_night: row.property_price_per_night,
+            available_month: row.available_month,
+            available_day: row.available_day,
+            available_year: row.available_year,
+            // Convert BLOB to Base64 for each image
+            base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+        }));
+
+        // Pass the listings array to your EJS template
+        res.render('places_booked', { host_listings });
+    });
+
+    // Host your property route
+    server.get('/host_property', (req, res) => {
+        res.render('host_property')
+    });
+
+    // track your finance
+    server.get('/finance', (req, res) => {
+        res.render('finance')
+    }) 
+
+})
 
 
 // Port Application is listening on {Port: 5600}
