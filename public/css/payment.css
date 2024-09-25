@@ -5,11 +5,67 @@ body {
     background-color: white;
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 20px rgba(143, 53, 53, 0.1);
     max-width: 600px; /* Set a maximum width for the form */
     margin: 0 auto; /* Center the form horizontally */
     width: 100%; /* Ensures the form takes up full width of its container */
 }
+
+.card {
+    background-color: orange;
+}
+
+/* Styling payment form image */
+.img-fluid {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px; /* Limits the image's width */
+    height: auto; /* Ensures the image maintains aspect ratio */
+    object-fit: cover;
+    margin-top: 20px;
+}
+
+.card-inner h3 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    margin: 30px 10px;
+    font-weight: 600; /* Make the title bold */
+  }
+
+.card-inner h4 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    font-weight: 800; /* Make the title bold */
+  }
+
+.name-card h4 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff;  /* Darker text color */
+    text-align: right;
+    margin-top: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+.name-card h5 {
+    font-size: 15px; /* Font size for the title */
+    color: #ffffff;  /* Darker text color */
+    margin-right: 40px;
+    font-weight: 200;
+    top: 20px;
+    margin: 20px 10px;
+  }
+
+.name-card h2 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    margin: 10px 10px;
+    font-weight: 600; /* Make the title bold */
+  }
+
 .form-title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -32,6 +88,7 @@ body {
 .btn-color {
     background-color: #28a745;
     color: white;
+    margin-top: 20px;
 }
 .btn-color:hover {
     background-color: #218838;
