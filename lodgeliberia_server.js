@@ -15,10 +15,10 @@ server.use('/public', express.static(__dirname + '/public/'));
 
 // Set EJS as the templating engine
 server.set('view engine', 'ejs');
-server.use(express.json());
 
-// parse application/x-www-form-urlencoded
-server.use(bodyParser.urlencoded({ extended: true })) /* This process form with multi-parts */
+// Middleware to parse incoming form data
+server.use(express.urlencoded({ extended: true })); // Parses form data (urlencoded)
+server.use(express.json()); // If you need to handle JSON payloads
 
 // Object to store user data
 const users = {};
@@ -40,6 +40,7 @@ function initializeDatabase() {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 role TEXT NOT NULL,
                 fullname TEXT NOT NULL,
+                phone_number INTEGER NOT NULL,
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT Not Null,
@@ -137,17 +138,39 @@ server.post('/calculate-price', (req, res) => {
 // signup form post route
 server.post('/signup', (req, res) => {
     const userFullname = req.body.useragreement;
-    console.log(req.body);
-    console.log(userFullname);
+    const { fullname, phone_number, email, username, password } = req.body;
 
     // Insert the new user data into the 'users' table
     const sql = `
-    INSERT INTO users (fullname, phone_number, email, username, password)
-    VALUES (?, ?, ?, ?, ?)
-`;
+    INSERT INTO users (role, fullname, phone_number, email, username, password)
+    VALUES (?, ?, ?, ?, ?,?)
+    `;
 
-    // res.redirect('/lodgeliberia_home');
+    // Run the SQL query
+    lodge_liberia_db.run(sql, ["guest", fullname, phone_number, email, username, password], function (err) {
+        if (err) {
+            console.error('Error inserting user into database:', err);
+            return res.status(500).send('Error registering user');
+        }
+
+        console.log(`User ${username} successfully registered.`);
+    });
 });
+
+// Login form post route
+server.post('/login', (req, res) => {
+    const { username, password } = req.body;
+
+    console.log('Received login data:', { username, password });
+
+    // Here, you would typically check the credentials against a database
+    if (username === 'admin' && password === 'password') { // Example credentials
+        res.json({ success: true });
+    } else {
+        res.json({ success: false, errorMessage: 'Invalid username or password' });
+    }
+});
+
 
 // Post Methods ********
 
@@ -204,7 +227,7 @@ server.get("/", (req, res) => {
         }));
 
         // Pass the listings array to your EJS template
-        res.render('lodgeliberia_home', { host_listings });
+        res.render('lodgeliberia_home', { host_listings, errorMessage: null });
     });
 
 })
@@ -338,6 +361,7 @@ server.get("/search_result", (req, res) => {
             res.render('search_result_page', {
                 search_results2,
                 total_places_found,
+                rrorMessage: null
             });
         });
     });
@@ -425,7 +449,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
                 console.log('Feature Count:', propertyDetails.feature_count);
 
                 // Render the detail page with the property data, the list of images (in Base64 format), and features
-                res.render('place_detail', { place: propertyDetails });
+                res.render('place_detail', { place: propertyDetails, errorMessage: null });
             });
         } else {
             res.status(404).send("Place not found");
