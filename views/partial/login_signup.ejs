@@ -1,97 +1,147 @@
-  <!-- Login Overlay -->
-  <div class="overlay" id="loginOverlay">
-    <div class="card">
-      <div class="card-header">Login</div>
-      <span class="close-btn" onclick="closeOverlay()">×</span>
-      <div class="card-body bg-transparent">
-        <form action="/login" method="post">
-          <!-- Username -->
-          <div class="mb-3">
-            <label for="username" class="form-label">Username or email</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-          </div>
-          <!-- Password -->
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-          </div>
-          <button type="submit" class="btn btn-primary fw-bold">Login</button>
-        </form>
-      </div>
-      <div class="card-footer text-center">
-        <p>Don't have an account? <a href="#" onclick="switchOverlay('signup')">Create One</a></p>
-      </div>
+<!-- Login Overlay -->
+<div class="overlay" id="loginOverlay">
+  <div class="card">
+    <div class="card-header">Login</div>
+    <span class="close-btn" onclick="closeOverlay()" aria-label="Close overlay">×</span>
+    <div class="card-body bg-transparent">
+
+      <!-- Error message display -->
+      <div id="loginErrorMessage" class="alert alert-danger d-none" role="alert"></div>
+
+      <form id="loginForm" method="post" novalidate>
+        <!-- Username -->
+        <div class="mb-3">
+          <label for="username" class="form-label">Username or Email</label>
+          <input type="text" class="form-control" id="username" name="username" required aria-describedby="usernameHelp">
+          <div id="usernameHelp" class="form-text">Enter your username or email.</div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required aria-describedby="passwordHelp">
+          <div id="passwordHelp" class="form-text">Your password must be 8-20 characters long.</div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary fw-bold">Login</button>
+      </form>
+    </div>
+
+    <div class="card-footer text-center">
+      <p>Don't have an account? <a href="#" onclick="switchOverlay('signup')">Create One</a></p>
     </div>
   </div>
+</div>
 
-  <!-- Signup Overlay -->
-  <div class="overlay" id="signupOverlay">
-    <div class="card pt-0">
-      <div class="card-header">Sign Up</div>
-      <span class="close-btn" onclick="closeOverlay()">×</span>
-      <div class="card-body bg-transparent">
-        <form action="/signup" method="post" id="signup-form">
-          <!-- Full Name -->
-          <div class="mb-2">
-            <label for="fullname" class="form-label fw-semibold">Full Name</label>
-            <input type="text" class="form-control" id="fullname" name="fullname" required>
-          </div>
-          <!-- Phone Number -->
-          <div class="mb-2">
-            <label for="phone" class="form-label fw-semibold">Phone Number</label>
-            <input type="tel" class="form-control" id="phone" name="phone_number" required>
-          </div>
-          <!-- Email -->
-          <div class="mb-2">
-            <label for="email" class="form-label fw-semibold">Email Address</label>
-            <input type="email" class="form-control" id="email" name="email">
-          </div>
-          <!-- Username -->
-          <div class="mb-2">
-            <label for="usernameSignup" class="form-label">Username</label>
-            <input type="text" class="form-control" id="usernameSignup" name="username" required>
-          </div>
-          <!-- Password -->
-          <div class="mb-2">
-            <label for="passwordSignup" class="form-label fw-semibold">Password</label>
-            <input type="password" class="form-control" id="passwordSignup" name="password" required>
-          </div>
-          <!-- Terms & Conditions -->
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="useragreement" name="useragreement" required value="user agreement approval">
-            <label class="form-check-label fw-semibold" for="useragreement"> I agree to the <a href="#" style="color:#ff9900;">Terms and Conditions</a> </label>
-          </div>
-          <button type="submit" class="btn btn-primary mt-3 fw-bold" onclick="switchOverlay('login')">Create Account</button>
-        </form>
-      </div>
-      <div class="card-footer text-center">
-        <p>Already have an account? <a href="#" onclick="switchOverlay('login')">Login</a></p>
-      </div>
+
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent form from submitting normally
+
+      // Collect form data
+      const formData = new FormData(this);
+      
+      // Log form data to check if it's being captured correctly
+      console.log('Form Data:', {
+          username: formData.get('username'),
+          password: formData.get('password')
+      });
+      
+      // Send login data via AJAX
+      fetch('/login', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())  // Expecting a JSON response
+      .then(data => {
+          if (data.success) {
+              // Redirect or close overlay on successful login
+              window.location.href = '/';
+          } else {
+              // Display error message if login fails
+              const errorMessage = document.getElementById('loginErrorMessage');
+              errorMessage.textContent = data.errorMessage;
+              errorMessage.classList.remove('d-none');
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  });
+</script>
+
+<!-- Signup Overlay -->
+<div class="overlay" id="signupOverlay">
+  <div class="card pt-0">
+    <div class="card-header">Sign Up</div>
+    <span class="close-btn" onclick="closeOverlay()">×</span>
+    <div class="card-body bg-transparent">
+      <form action="/signup" method="post" id="signup-form">
+        <!-- Full Name -->
+        <div class="mb-2">
+          <label for="fullname" class="form-label fw-semibold">Full Name</label>
+          <input type="text" class="form-control" id="fullname" name="fullname" required>
+        </div>
+        <!-- Phone Number -->
+        <div class="mb-2">
+          <label for="phone" class="form-label fw-semibold">Phone Number</label>
+          <input type="tel" class="form-control" id="phone" name="phone_number" required>
+        </div>
+        <!-- Email -->
+        <div class="mb-2">
+          <label for="email" class="form-label fw-semibold">Email Address</label>
+          <input type="email" class="form-control" id="email" name="email">
+        </div>
+        <!-- Username -->
+        <div class="mb-2">
+          <label for="usernameSignup" class="form-label">Username</label>
+          <input type="text" class="form-control" id="usernameSignup" name="username" required>
+        </div>
+        <!-- Password -->
+        <div class="mb-2">
+          <label for="passwordSignup" class="form-label fw-semibold">Password</label>
+          <input type="password" class="form-control" id="passwordSignup" name="password" required>
+        </div>
+        <!-- Terms & Conditions -->
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="useragreement" name="useragreement" required
+            value="user agreement approval">
+          <label class="form-check-label fw-semibold" for="useragreement"> I agree to the <a href="#"
+              style="color:#ff9900;">Terms and Conditions</a> </label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 fw-bold" onclick="switchOverlay('login')">Create
+          Account</button>
+      </form>
+    </div>
+    <div class="card-footer text-center">
+      <p>Already have an account? <a href="#" onclick="switchOverlay('login')">Login</a></p>
     </div>
   </div>
+</div>
 
-  <script>
-    // Function to open specific overlay (login/signup)
-    function openOverlay(type) {
-      if (type === 'login') {
-        document.getElementById('loginOverlay').style.display = 'flex';
-      } else if (type === 'signup') {
-        document.getElementById('signupOverlay').style.display = 'flex';
-      }
+<script>
+  // Function to open specific overlay (login/signup)
+  function openOverlay(type) {
+    if (type === 'login') {
+      document.getElementById('loginOverlay').style.display = 'flex';
+    } else if (type === 'signup') {
+      document.getElementById('signupOverlay').style.display = 'flex';
     }
+  }
 
-    // Function to close the overlay
-    function closeOverlay() {
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('signupOverlay').style.display = 'none';
-    }
+  // Function to close the overlay
+  function closeOverlay() {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('signupOverlay').style.display = 'none';
+  }
 
-    // Function to switch between login and signup overlay
-    function switchOverlay(type) {
-      closeOverlay();
-      openOverlay(type);
-      setTimeout(() => {
+  // Function to switch between login and signup overlay
+  function switchOverlay(type) {
+    closeOverlay();
+    openOverlay(type);
+    setTimeout(() => {
       document.getElementById('signup-form').reset();  // Clears the form after submission
     }, 0);
-    }
-  </script>
+  }
+</script>
