@@ -13,7 +13,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous">
-  <link href="style.css" type="text/css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -23,17 +22,20 @@
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" href="/public/css/header.css">
-  <link rel="stylesheet" href="/public/css/footer.css">
   <link rel="stylesheet" href="/public/css/home.css">
   <link rel="stylesheet" href="/public/css/scrollable_tab.css">
+  <link rel="stylesheet" href="/public/css/login_signup.css">
+  <link rel="stylesheet" href="/public/css/place_detail.css">
+  <link rel="stylesheet" href="/public/css/footer.css">
   <link rel="stylesheet" href="/public/css/general.css">
-  <link rel="stylesheet" href="/public/css/payment.css">
+  <link rel="stylesheet" href="/public/css/login_signup.css">
 
   <!-- FontAwesome Link -->
   <script src="https://kit.fontawesome.com/9183ef123e.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="p-0">
+  <button class="btn position-fixed bottom-0 end-0 mb-3 me-3 lodgeliberia_background_color fw-bolder text-black d-sm-none" id="toggle_smd_booking">Start Booking! &nbsp; <i class="fa-solid fa-arrow-up-from-bracket" style="color: #000000;"></i></button>
   <header>
     <div class="container-fluid ps-2 pe-2 pt-3">
 
@@ -47,71 +49,13 @@
 
             <a class="navbar-brand col me-0 fs-4" href="/" id="logo">LodgeLiberia</a>
 
-            <form class="p-1 d-none d-lg-block" action="/search_result" method="get" id="search-box">
-
-              <div class="input-group">
-
-                <input type="text"
-                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
-                  placeholder="Where to?" name="place_location" id="place_location">
-
-                <input type="number"
-                  class="text-black form-control border-top-0 border-bottom-0 border-start-0 fs-6 place_holder_control"
-                  placeholder="Price" name="place_price" id="place_price">
-
-                <select class="form-select border-top-0 border-bottom-0 border-end-0 text-black bg-transparent"
-                  aria-label="Categories of places" id="search_dropdown" name="search_dropdown">
-                  <option selected id="select-place-holder">Property</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="House">House</option>
-                  <option value="Room">Room</option>
-                  <option value="Experience" id="experiment">Experience</option>
-                </select>
-
-                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                    style="color: #ffffff;"></i></button>
-
-              </div>
-
-            </form>
-
-            <!-- dropdown menu -->
-            <div class="dropdown">
-              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-bars"></i></a>
-            
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="places_booked">PLaces booked</a></li>
-                <li><a class="dropdown-item" href="host_property">Host your property</a></li>
-                <li><a class="dropdown-item" href="finance">Finance</a></li>
-              </ul>
-            </div>
-
-            <% if (user) { %>
-              <!-- User Account button -->
-            <div class="d-flex col justify-content-end">
-              <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="#">
-                 <span class="text-black">Welcome, <%= user.username %></span> &nbsp;
-                <i class="fa-solid fa-user" style="color: black;"></i>
-              </a>
-            </div>
-            <!-- User Account button -->
-            <% } else { %>
-              <!-- signup and login button -->
-            <div class="d-flex col justify-content-end">
-              <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="/login">
-                <span class="text-black">Signup/Login</span> &nbsp;
-                <i class="fa-solid fa-user" style="color: black;"></i>
-              </a>
-            </div>
-            <!-- signup and login button -->
-            <% } %>
-
           </div>
         </div>
       </nav>
 
 
-      <pre class="text-right pe-3 text-black" id="motto"><i>"Your Home in Liberia"</i></pre>
+        <pre class="text-right pe-3 text-black" id="motto"><i><b>"Your Home in Liberia"</b></i></pre>
+
 
       <!-- Available for all screen sizes above md -->
       <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
@@ -214,6 +158,6 @@
           </div>
         </div>
       </nav>
-
+      
     </div>
   </header>

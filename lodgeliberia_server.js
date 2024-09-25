@@ -1,5 +1,6 @@
 // Intializing/Creating Server
 const express = require('express');
+const session = require('express-session');
 const server = express();
 const port = 5600;
 // =======================
@@ -15,13 +16,20 @@ server.use('/public', express.static(__dirname + '/public/'));
 
 // Set EJS as the templating engine
 server.set('view engine', 'ejs');
+server.use(express.json());
 
-// Middleware to parse incoming form data
-server.use(express.urlencoded({ extended: true })); // Parses form data (urlencoded)
-server.use(express.json()); // If you need to handle JSON payloads
+// parse application/x-www-form-urlencoded
+server.use(bodyParser.urlencoded({ extended: true })) /* This process form with multi-parts */
 
-// Object to store user data
-const users = {};
+// Setting up express-session (configuration)
+server.use(session({
+    secret: '0778544709Ja@',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false // Set to true if you're using HTTPS
+    }
+}));
 
 
 // Database Creation
@@ -134,10 +142,8 @@ server.post('/calculate-price', (req, res) => {
     res.json({ totalPrice, lodge_liberia_percent, total_plus_percentage });
 });
 
-
 // signup form post route
 server.post('/signup', (req, res) => {
-    const userFullname = req.body.useragreement;
     const { fullname, phone_number, email, username, password } = req.body;
 
     // Insert the new user data into the 'users' table
@@ -154,30 +160,51 @@ server.post('/signup', (req, res) => {
         }
 
         console.log(`User ${username} successfully registered.`);
+        res.redirect('/login');
     });
 });
 
 // Login form post route
+// POST route for login
 server.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    console.log('Received login data:', { username, password });
+    // SQL query to find user
+    const sql = 'SELECT * FROM users WHERE username = ? AND password = ?';
 
-    // Here, you would typically check the credentials against a database
-    if (username === 'admin' && password === 'password') { // Example credentials
-        res.json({ success: true });
-    } else {
-        res.json({ success: false, errorMessage: 'Invalid username or password' });
-    }
+    lodge_liberia_db.get(sql, [username, password], (err, user) => {
+        if (err) {
+            return res.status(500).send('Internal Server Error');
+        }
+
+        if (user) {
+            // User found: set session or any other authentication logic
+            req.session.user = user; // Store user info in session
+            res.redirect('/'); // Redirect to dashboard or homepage
+        } else {
+            // User not found: return error message
+            res.render('login_signup', { errorMessage: 'Invalid username or password.' }); // Correctly render login view with error message
+        }
+    });
 });
+
 
 
 // Post Methods ********
 
 
 // ==== Get methods
-// 
+
+// login pAGE
+server.get("/login", (req, res) => {
+    res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
+});
+
+// home page
 server.get("/", (req, res) => {
+
+    // Log the session data to verify if the user is logged in
+    // console.log('Current session data:', req.session.user);
 
     // Pulling Places Information from database
     lodge_liberia_db.all(`
@@ -227,20 +254,10 @@ server.get("/", (req, res) => {
         }));
 
         // Pass the listings array to your EJS template
-        res.render('lodgeliberia_home', { host_listings, errorMessage: null });
+        res.render('lodgeliberia_home', { host_listings, errorMessage: null, user: req.session.user });
     });
 
 })
-
-server.get("/payment", (req, res) => {
-
-        // Pass the listings array to your EJS template
-        res.render('lodgeliberia_payment');
-    });
-
-
-
-
 
 // Search Results Route
 server.get("/search_result", (req, res) => {
@@ -361,13 +378,11 @@ server.get("/search_result", (req, res) => {
             res.render('search_result_page', {
                 search_results2,
                 total_places_found,
-                rrorMessage: null
+                user: req.session.user
             });
         });
     });
 });
-
-
 
 
 // Place/s detail route page
@@ -449,79 +464,13 @@ server.get('/place_detail/:host_place_id', (req, res) => {
                 console.log('Feature Count:', propertyDetails.feature_count);
 
                 // Render the detail page with the property data, the list of images (in Base64 format), and features
-                res.render('place_detail', { place: propertyDetails, errorMessage: null });
+                res.render('place_detail', { place: propertyDetails, user: req.session.user });
             });
         } else {
             res.status(404).send("Place not found");
         }
     });
 });
-
-
-server.get("/places_booked", (req, res) => {
-
-    // Pulling Places Information from database
-    lodge_liberia_db.all(`
-        SELECT 
-             users.fullname AS host_name,
-             host_listings.title AS property_title,
-             host_listings.id AS property_id,
-             host_listings.description AS property_description,
-             host_listings.price_per_night AS property_price_per_night,
-             host_listings.Images AS images,
-             host_listings.available_from,
-             CASE strftime('%m', host_listings.available_from)
-                WHEN '01' THEN 'January'
-                WHEN '02' THEN 'February'
-                WHEN '03' THEN 'March'
-                WHEN '04' THEN 'April'
-                WHEN '05' THEN 'May'
-                WHEN '06' THEN 'June'
-                WHEN '07' THEN 'July'
-                WHEN '08' THEN 'August'
-                WHEN '09' THEN 'September'
-                WHEN '10' THEN 'October'
-                WHEN '11' THEN 'November'
-                WHEN '12' THEN 'December'
-            END AS available_month,
-            strftime('%d', host_listings.available_from) AS available_day,
-            strftime('%Y', host_listings.available_from) AS available_year
-        FROM users
-        JOIN host_listings
-        ON users.id = host_listings.user_id
-        `, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        // Process each row to convert images to Base64
-        const host_listings = rows.map(row => ({
-            host_name: row.host_name,
-            host_place_id: row.property_id,
-            property_title: row.property_title,
-            property_description: row.property_description,
-            property_price_per_night: row.property_price_per_night,
-            available_month: row.available_month,
-            available_day: row.available_day,
-            available_year: row.available_year,
-            // Convert BLOB to Base64 for each image
-            base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
-        }));
-
-        // Pass the listings array to your EJS template
-        res.render('places_booked', { host_listings });
-    });
-
-    // Host your property route
-    server.get('/host_property', (req, res) => {
-        res.render('host_property')
-    });
-
-    // track your finance
-    server.get('/finance', (req, res) => {
-        res.render('finance')
-    }) 
-
-})
 
 
 // Port Application is listening on {Port: 5600}

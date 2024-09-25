@@ -24,7 +24,6 @@
   <link rel="stylesheet" href="/public/css/header.css">
   <link rel="stylesheet" href="/public/css/home.css">
   <link rel="stylesheet" href="/public/css/scrollable_tab.css">
-  <link rel="stylesheet" href="/public/css/login_signup.css">
   <link rel="stylesheet" href="/public/css/place_detail.css">
   <link rel="stylesheet" href="/public/css/footer.css">
   <link rel="stylesheet" href="/public/css/general.css">
@@ -69,21 +68,32 @@
                   <option value="Experience">Experience</option>
                 </select>
 
-                <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
-                    style="color: #ffffff;"></i></button>
+                <!-- <button class="btn btn-success" type="submit" id="search-btn"><i class="fa-solid fa-magnifying-glass"
+                    style="color: #ffffff;"></i></button> -->
 
               </div>
 
             </form>
 
-            <!-- signup and login button -->
+            <% if (user) { %>
+              <!-- User Account button -->
             <div class="d-flex col justify-content-end">
-              <a href="#" class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" data-bs-toggle="modal"
-                data-bs-target="#exampleModal2">
+              <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="#">
+                <span class="text-black">Welcome, <%= user.username %></span> &nbsp;
+                <i class="fa-solid fa-user" style="color: black;"></i>
+              </a>
+            </div>
+            <!-- User Account button -->
+            <% } else { %>
+              <!-- signup and login button -->
+            <div class="d-flex col justify-content-end">
+              <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="/login">
                 <span class="text-black">Signup/Login</span> &nbsp;
                 <i class="fa-solid fa-user" style="color: black;"></i>
               </a>
             </div>
+            <!-- signup and login button -->
+            <% } %>
 
           </div>
         </div>
@@ -92,7 +102,6 @@
 
         <pre class="text-right pe-3 text-black" id="motto"><i>"Your Home in Liberia"</i></pre>
 
-      <%- include("./login_signup") %>
 
       <!-- Available for all screen sizes above md -->
       <nav class="navbar navbar-expand justify-content-center d-none d-md-block d-lg-none mb-0">
@@ -195,8 +204,6 @@
           </div>
         </div>
       </nav>
-
-      <%- include("./login_signup") %>
       
     </div>
   </header>
