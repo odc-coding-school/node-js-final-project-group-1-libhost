@@ -490,6 +490,12 @@ server.get('/payment', requireLogin, (req, res) => {
     res.render('lodgeliberia_payment', {user: req.session.user });
 })
 
+server.get('/hostplace', requireLogin, (req, res) => {
+    // Store the original URL so the user can be redirected back after login
+    req.session.returnTo = req.originalUrl;
+    res.render('hosting', {user: req.session.user })
+})
+
 
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
