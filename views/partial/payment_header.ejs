@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
     crossorigin="anonymous">
+  <link href="style.css" type="text/css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.11.3.min.js" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -22,13 +23,11 @@
 
   <!-- Custom styles for this template -->
   <link rel="stylesheet" href="/public/css/header.css">
+  <link rel="stylesheet" href="/public/css/footer.css">
   <link rel="stylesheet" href="/public/css/home.css">
   <link rel="stylesheet" href="/public/css/scrollable_tab.css">
-  <link rel="stylesheet" href="/public/css/login_signup.css">
-  <link rel="stylesheet" href="/public/css/place_detail.css">
-  <link rel="stylesheet" href="/public/css/footer.css">
   <link rel="stylesheet" href="/public/css/general.css">
-  <link rel="stylesheet" href="/public/css/login_signup.css">
+  <link rel="stylesheet" href="/public/css/payment.css">
 
   <!-- FontAwesome Link -->
   <script src="https://kit.fontawesome.com/9183ef123e.js" crossorigin="anonymous"></script>
@@ -48,12 +47,44 @@
 
             <a class="navbar-brand col me-0 fs-4" href="/" id="logo">LodgeLiberia</a>
 
+            <% if (user) { %>
+              <!-- User Account button -->
+              <div class="d-flex col justify-content-end">
+
+                <!-- Can put a hamburger menu here? -->
+                <!-- Default dropleft button -->
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="signup_signin_btn"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 180px;">
+                    <%= user.username %>
+                  </button>
+                  <div class="dropdown-menu bg-light border border-dark" aria-labelledby="dropdownMenuButton"
+                    style="max-width: 180px; min-width: 180px;">
+                    <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="#">Places booked</a>
+                    <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="/hostplace">Host Property</a>
+                    <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="#">Cash Account</a>
+                  </div>
+                </div>
+              </div>
+              <!-- User Account button -->
+              <% } else { %>
+                <!-- signup and login button -->
+                <div class="d-flex col justify-content-end">
+                  <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="/login">
+                    <span class="text-black">Signup/Login</span> &nbsp;
+                    <i class="fa-solid fa-user" style="color: black;"></i>
+                  </a>
+                </div>
+                <!-- signup and login button -->
+                <% } %>
+
           </div>
         </div>
       </nav>
 
 
-        <pre class="text-right pe-3 text-black" id="motto"><i><b>"Your Home in Liberia"</b></i></pre>
-      
+      <pre class="text-right pe-3 text-black" id="motto"><i>"Your Home in Liberia"</i></pre>
+
+
     </div>
   </header>

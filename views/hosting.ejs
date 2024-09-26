@@ -1,0 +1,138 @@
+<%- include("partial/home_header") %>
+
+  <main class="container-fluid">
+
+    <div class="container-fluid mt-2">
+      <div class="tab-container">
+        <ul class="nav nav-tabs flex-nowrap">
+          <li class="nav-item">
+            <a class="nav-link active fw-bold" onclick="openTab(event, 'Tab1')"><i class="fa-solid fa-gem"
+                style="color: #ffffff;"></i>&nbsp;Places Hosted</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab2')"><i class="fa-solid fa-building"
+                style="color: #FFF;"></i>&nbsp;Host a Place</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="tab-content mt-4">
+        <!-- Listing of Places -->
+
+        <!-- Mix place listing -->
+        <div class="container-fluid m-0 tab-pane fade show active p-0" id="Tab1">
+          Content for Tab 1
+        </div>
+
+        <div id="Tab2" class="tab-pane fade text-black">
+          <div class="hosting-section container-fluid">
+            <div class="row">
+              <div class="col bg-primary">
+                1 of 2
+              </div>
+              <div class="col b-danger d-none d-lg-block">
+                <!-- Hosting Form -->
+<form action="/submit-property" method="POST" class="step-form">
+
+  <!-- Step 1: Basic Information -->
+  <div class="step">
+    <h3>Property Basic Information</h3>
+    <div class="mb-3">
+      <label for="propertyName" class="form-label">Property Name</label>
+      <input type="text" class="form-control" id="propertyName" name="propertyName" required>
+    </div>
+    <div class="mb-3">
+      <label for="propertyType" class="form-label">Property Type</label>
+      <select class="form-select" id="propertyType" name="propertyType" required>
+        <option value="">Select property type</option>
+        <option value="apartment">Apartment</option>
+        <option value="house">House</option>
+        <option value="room">Room</option>
+        <option value="guesthouse">Guesthouse</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-primary next-step">Next</button>
+  </div>
+
+  <!-- Step 2: Location Information -->
+  <div class="step">
+    <h3>Location Information</h3>
+    <div class="mb-3">
+      <label for="address" class="form-label">Address</label>
+      <input type="text" class="form-control" id="address" name="address" required>
+    </div>
+    <div class="mb-3">
+      <label for="city" class="form-label">City</label>
+      <input type="text" class="form-control" id="city" name="city" required>
+    </div>
+    <div class="mb-3">
+      <label for="zipcode" class="form-label">Zip Code</label>
+      <input type="text" class="form-control" id="zipcode" name="zipcode" required>
+    </div>
+    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+    <button type="button" class="btn btn-primary next-step">Next</button>
+  </div>
+
+  <!-- Step 3: Pricing Information -->
+  <div class="step">
+    <h3>Pricing Information</h3>
+    <div class="mb-3">
+      <label for="price" class="form-label">Price per Night</label>
+      <input type="number" class="form-control" id="price" name="price" required>
+    </div>
+    <div class="mb-3">
+      <label for="currency" class="form-label">Currency</label>
+      <select class="form-select" id="currency" name="currency" required>
+        <option value="">Select currency</option>
+        <option value="usd">USD</option>
+        <option value="lrd">LRD</option>
+      </select>
+    </div>
+    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+    <button type="button" class="btn btn-primary next-step">Next</button>
+  </div>
+
+  <!-- Step 4: Additional Information -->
+  <div class="step">
+    <h3>Additional Information</h3>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="amenities" class="form-label">Amenities</label>
+      <input type="text" class="form-control" id="amenities" name="amenities" placeholder="e.g. WiFi, Parking" required>
+    </div>
+    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+    <button type="button" class="btn btn-primary next-step">Next</button>
+  </div>
+
+  <!-- Step 5: Confirmation -->
+  <div class="step">
+    <h3>Confirmation</h3>
+    <p>Please review your details before submitting:</p>
+    <ul>
+      <li>Property Name: <span id="reviewPropertyName"></span></li>
+      <li>Property Type: <span id="reviewPropertyType"></span></li>
+      <li>Address: <span id="reviewAddress"></span></li>
+      <li>City: <span id="reviewCity"></span></li>
+      <li>Zip Code: <span id="reviewZipcode"></span></li>
+      <li>Price per Night: <span id="reviewPrice"></span></li>
+      <li>Currency: <span id="reviewCurrency"></span></li>
+      <li>Description: <span id="reviewDescription"></span></li>
+      <li>Amenities: <span id="reviewAmenities"></span></li>
+    </ul>
+    <button type="button" class="btn btn-secondary prev-step">Previous</button>
+    <button type="submit" class="btn btn-primary">Submit Property</button>
+  </div>
+
+</form>
+
+              </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+  <%- include("partial/home_footer") %>

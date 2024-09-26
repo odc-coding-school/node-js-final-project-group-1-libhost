@@ -136,7 +136,7 @@
           </div>
 
           <!-- Booking section -->
-          <form class="col-sm-8 col-md-6 d-none d-md-block" target="" method="">
+          <form class="col-sm-8 col-md-6 d-none d-md-block" action="/payment" method="get">
 
             <!-- Price -->
             <p class="mb-0 text-black fs-5 fw-bold">$<%= place.property_price_per_night %>USD/per day</p>
@@ -152,7 +152,7 @@
               <div class="row">
 
                 <!-- Calender (Check-in) -->
-                <section class="col border border-danger text-decoration-none text-black calender">
+                <section class="col text-decoration-none text-black calender">
                   <span class="fw-bold">CHECK-IN:</span>
                   <br>
 
@@ -182,7 +182,7 @@
 
                 <!-- Calender (Check-out) -->
 
-                <section class="col border border-danger text-decoration-none text-black calender">
+                <section class="col text-decoration-none text-black calender">
                   <span class="fw-bold">CHECK-OUT:</span>
                   <br>
 
@@ -257,7 +257,7 @@
 
             <!-- Book Place Button -->
             <div class="d-flex justify-content-end mt-4">
-              <button class="btn w-50 fw-bold text-black btn-warning" href="#" type="submit">Book</button>
+              <input type="submit" value="Book" class="btn w-50 fw-bold text-black btn-warning">
             </div>
 
 
@@ -341,7 +341,7 @@
 
 
   <!-- Floating Button (Position Fixed ) -->
-  <form class="container-fluid position-fixed bottom-0 phone-booking-section p-3 pt-0 d-md-none d-none" target="#" method="post" id="smd-booking-section">
+  <form class="container-fluid position-fixed bottom-0 phone-booking-section p-3 pt-0 d-md-none d-none" action="/payment" method="get" id="smd-booking-section">
 
     <div class="mb-4 container-fluid m-0 hide-booking-section p-0 d-flex justify-content-end align-items-center">
       <i class="fa-solid fa-square-caret-down fa-2xl mt-4" style="color: #FFA500;" id="hide-booking-section"></i>
