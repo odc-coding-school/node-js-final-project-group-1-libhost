@@ -480,6 +480,10 @@ server.get('/place_detail/:host_place_id', (req, res) => {
     });
 });
 
+server.get('/payment', (req, res) => {
+    res.render('lodgeliberia_payment', {user: req.session.user });
+})
+
 
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
