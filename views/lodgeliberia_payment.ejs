@@ -18,10 +18,12 @@
                 style="color: #ffffff;"></i>&nbsp;Houses</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab4')"><i class="fa-solid fa-person-shelter" style="color: #ffffff;"></i>&nbsp;Guest House</a>
+            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab4')"><i class="fa-solid fa-person-shelter"
+                style="color: #ffffff;"></i>&nbsp;Guest House</a>
           </li>
           <li class="nav-item"></li>
-            <a class="nav-link fw-bold" onclick="openTab(event, 'Tab5')"><i class="fa-solid fa-bed" style="color: #ffffff;"></i>&nbsp;Rooms</a>
+          <a class="nav-link fw-bold" onclick="openTab(event, 'Tab5')"><i class="fa-solid fa-bed"
+              style="color: #ffffff;"></i>&nbsp;Rooms</a>
           </li>
           <li class="nav-item">
             <a class="nav-link fw-bold" onclick="openTab(event, 'Tab6')"><i class="fa-solid fa-dove"
@@ -31,51 +33,48 @@
       </div>
 
 
-                        <!-- Implementing payment-form -->
-<!-- <body> -->
-  <div class="container mt-5">
-      <div class="row justify-content-center">
-          <div class="col-lg-8"> <!-- Adjust column size to make the form bigger -->
-              <div class="payment-form">
-                  <div class="form-title text-center mb-4">
-                      <h3>Complete Your Payment</h3>
+      <!-- Implementing payment-form -->
+      <!-- <body> -->
+      <div class="container-fluid m-0">
+        <!-- Adjust column size to make the form bigger -->
+            <div class="m-0 container-fluid">
+              <div class="form-title text-center mb-4">
+                <h3>Complete Your Payment</h3>
+              </div>
+
+              <!-- Cards implementation -->
+              <div class="main-cards">
+                <div class="card">
+                  <div class="card-inner">
+                    <h3>LodgeLiberia</h3>
+                    <h4>Account Balance: 8,000 USD</h4>
+                  </div>
+                  <div class="name-card">
+                    <h5 style="margin-top:20px; position: relative;">Account owner name</h5>
+                    <h2>Giahseymehn Barseegiah</h2>
+                    <h4>LL</h4>
                   </div>
 
-                  <!-- Cards implementation -->
-                      <div class="main-cards">
-                          <div class="card">
-                              <div class="card-inner">
-                                  <h3>LodgeLiberia</h3>
-                                  <h4>Account Balance: 8,000 USD</h4>  
-                              </div>
-                              <div class="name-card">
-                                <h5 style="margin-top:20px; position: relative;">Account owner name</h5>
-                                <h2>Giahseymehn Barseegiah</h2>
-                                <h4>LL</h4>
-                              </div>
-                              
-                          </div>
-                          <img src="/public/images/trial_pic.png" class="img-fluid" alt="Product Image">
-                      </div>
-                      
-                   <!-- Submit Button -->
-                   <button type="submit" class="btn btn-color w-100">PAY</button>
+                </div>
+                <img src="/public/images/trial_pic.png" class="img-fluid" alt="Product Image">
               </div>
-          </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-color w-100">PAY</button>
+            </div>
       </div>
-  </div>
-<!-- </body> -->
+      <!-- </body> -->
 
 
 
-      
 
-        <div id="Tab2" class="tab-pane fade text-black">Content for Tab 2</div>
-        <div id="Tab3" class="tab-pane fade text-black">Content for Tab 3</div>
-        <div id="Tab4" class="tab-pane fade text-black">Content for Tab 4</div>
-        <div id="Tab5" class="tab-pane fade text-black">Content for Tab 5</div>
-        <div id="Tab6" class="tab-pane fade text-black">Content for Tab 6</div>
-      </div>
+
+      <div id="Tab2" class="tab-pane fade text-black">Content for Tab 2</div>
+      <div id="Tab3" class="tab-pane fade text-black">Content for Tab 3</div>
+      <div id="Tab4" class="tab-pane fade text-black">Content for Tab 4</div>
+      <div id="Tab5" class="tab-pane fade text-black">Content for Tab 5</div>
+      <div id="Tab6" class="tab-pane fade text-black">Content for Tab 6</div>
+    </div>
     </div>
   </main>
   <%- include("partial/home_footer") %>
