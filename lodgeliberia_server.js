@@ -200,6 +200,7 @@ server.get("/login", (req, res) => {
     res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
 });
 
+
 // home page
 server.get("/", (req, res) => {
 
@@ -257,7 +258,14 @@ server.get("/", (req, res) => {
         res.render('lodgeliberia_home', { host_listings, errorMessage: null, user: req.session.user });
     });
 
+
 })
+
+// // Payment Page Route
+// server.get("/payment", (req, res) => {
+//     // Ensure the view template (EJS, Pug, or any other templating engine you're using) is properly set up
+//     res.render('lodgeliberia_payment');
+// });
 
 // Search Results Route
 server.get("/search_result", (req, res) => {
