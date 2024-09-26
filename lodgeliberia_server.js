@@ -178,9 +178,13 @@ server.post('/login', (req, res) => {
         }
 
         if (user) {
-            // User found: set session or any other authentication logic
+            // User is authenticated
             req.session.user = user; // Store user info in session
-            res.redirect('/'); // Redirect to dashboard or homepage
+
+            // Redirect to the original page or homepage
+            const redirectTo = req.session.returnTo || '/';
+            delete req.session.returnTo; // Clear stored URL after redirect
+            res.redirect(redirectTo);
         } else {
             // User not found: return error message
             res.render('login_signup', { errorMessage: 'Invalid username or password.' }); // Correctly render login view with error message
@@ -472,7 +476,17 @@ server.get('/place_detail/:host_place_id', (req, res) => {
     });
 });
 
-server.get('/payment', (req, res) => {
+// Middleware to check if a user is logged in
+function requireLogin(req, res, next) {
+    if (!req.session.user) {
+        // Store the original URL so the user can be redirected back after login
+        req.session.returnTo = req.originalUrl;
+        return res.redirect('/login');
+    }
+    next();
+}
+
+server.get('/payment', requireLogin, (req, res) => {
     res.render('lodgeliberia_payment', {user: req.session.user });
 })
 

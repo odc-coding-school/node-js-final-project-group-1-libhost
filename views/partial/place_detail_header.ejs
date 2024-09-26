@@ -78,10 +78,19 @@
             <% if (user) { %>
               <!-- User Account button -->
             <div class="d-flex col justify-content-end">
-              <a class="text-decoration-none p-2 fw-bold" id="signup_signin_btn" href="#">
-                <span class="text-black">Welcome, <%= user.username %></span> &nbsp;
-                <i class="fa-solid fa-user" style="color: black;"></i>
-              </a>
+
+              <!-- Can put a hamburger menu here? -->
+               <!-- Default dropleft button -->
+               <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="signup_signin_btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 180px;">
+                  <%= user.username %>
+                </button>
+                <div class="dropdown-menu bg-light border border-dark" aria-labelledby="dropdownMenuButton" style="max-width: 180px; min-width: 180px;">
+                  <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="#">Places booked</a>
+                  <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="#">Places Hosted</a>
+                  <a class="dropdown-item lodgeliberia_textcolor_color fw-bold" href="#">Cash Account</a>
+                </div>
+              </div>              
             </div>
             <!-- User Account button -->
             <% } else { %>
