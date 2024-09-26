@@ -204,6 +204,7 @@ server.get("/login", (req, res) => {
     res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
 });
 
+
 // home page
 server.get("/", (req, res) => {
 
@@ -260,6 +261,7 @@ server.get("/", (req, res) => {
         // Pass the listings array to your EJS template
         res.render('lodgeliberia_home', { host_listings, errorMessage: null, user: req.session.user });
     });
+
 
 })
 

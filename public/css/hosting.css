@@ -1,3 +1,16 @@
 .hosting-section {
     outline: solid black;
 }
+
+/* Form Control Styles */
+.form-control {
+    background-color: #ffffff; /* White background for input */
+    color: #000000; /* Black text for input */
+    border-radius: 5px;
+  }
+  
+  /* Focus Styles for Form Control */
+  .form-control:focus {
+    box-shadow: none;
+    border: 1px solid #ff9900; /* Border color on focus */
+  }
