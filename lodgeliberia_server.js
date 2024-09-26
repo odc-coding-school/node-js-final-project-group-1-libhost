@@ -261,12 +261,6 @@ server.get("/", (req, res) => {
 
 })
 
-// // Payment Page Route
-// server.get("/payment", (req, res) => {
-//     // Ensure the view template (EJS, Pug, or any other templating engine you're using) is properly set up
-//     res.render('lodgeliberia_payment');
-// });
-
 // Search Results Route
 server.get("/search_result", (req, res) => {
 
