@@ -1,0 +1,52 @@
+.wrapper {
+    border: 2px solid rgb(211, 42, 42);
+    border-radius: 10px;
+    color: black;
+}
+
+.wrap {
+    margin: 8px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    padding: 5px 10px 5px 10px;
+}
+
+/* .fa-light fa-arrow-left-long {
+    background-color: rgb(168, 165, 165);
+} */
+
+.smaller {
+    color: rgb(168, 165, 165);
+}
+
+.first {
+    background-color: blue;
+    padding: 10px;
+    border-top: 10px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    color: white;
+}
+
+.second {
+    background-color: white;
+    padding: 10px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.contains {
+    text-align: center;
+}
+
+.contains p {
+    margin: 0;
+}
+
+.scan {
+    background-color: gray;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 7px;
+    border-radius: 8px;
+}
