@@ -25,7 +25,8 @@
     height: auto; /* Ensures the image maintains aspect ratio */
     object-fit: cover;
     margin-top: 20px;
-    margin-right: 30px;
+    margin-left: 30px;
+    outline: solid green;
 }
 
 .card-inner h3 {

@@ -14,3 +14,7 @@
     box-shadow: none;
     border: 1px solid #ff9900; /* Border color on focus */
   }
+
+  #hostlogo{
+    line-height: 40px;
+  }

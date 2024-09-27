@@ -27,11 +27,16 @@
         <div id="Tab2" class="tab-pane fade text-black">
           <div class="hosting-section container-fluid">
             <div class="row">
-              <div class="col text-center">
-
-                <img src="/public/images/lodgeliberialogo.png" alt="logo" id="orgimg">
-                <!-- <h3 class="lodgeliberia_textcolor_color fw-bold text-center">Host your property <br> with LodgeLiberia -->
+              <div class="col text-center d-flex flex-column
+              justify-content-center text-center">
+                <h3 class="lodgeliberia_textcolor_color text-center fw-bold" id="hostlogo">
+                  Host your property 
+                  <br> with LodgeLiberia
                 </h3>
+                <div class="container-fluid mt-2 d-sm-none">
+                  <button class="lodgeliberia_background_color btn text-black fw-bold">Start your hosting..</button>
+                </div>
+                
 
               </div>
               <div class="col b-danger d-none d-lg-block">
@@ -46,6 +51,17 @@
                       <input type="text" class="form-control" id="propertyName" name="propertyName" required
                         placeholder="Property Name">
                     </div>
+
+                    <div class="mb-3">
+                      <label for="formFile" class="form-label">Default file input example</label>
+                      <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <div class="mb-3">
+                      <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                      <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>
+
+
                     <div class="mb-3">
                       <label for="propertyType" class="form-label text-black fw-bold">Property Type</label>
                       <select class="form-select form-control" id="propertyType" name="propertyType" required>
@@ -75,27 +91,26 @@
                       <label for="zipcode" class="form-label text-black fw-bold">Zip Code</label>
                       <input type="text" class="form-control" id="zipcode" name="zipcode" required>
                     </div>
-                    <button type="button" class="btn btn-secondary prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
-                    <button type="button" class="btn btn-primary next-step lodgeliberia_background_color text-black fw-bold">Next</button>
+                    <button type="button" class="btn prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button" class="btn next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
                   <!-- Step 3: Pricing Information -->
                   <div class="step">
-                    <h3>Pricing Information</h3>
+                    <h3 class="lodgeliberia_textcolor_color fw-bold">Pricing Information</h3>
                     <div class="mb-3">
-                      <label for="price" class="form-label">Price per Night</label>
+                      <label for="price" class="form-label text fw-bold">Price per Night</label>
                       <input type="number" class="form-control" id="price" name="price" required>
                     </div>
                     <div class="mb-3">
-                      <label for="currency" class="form-label">Currency</label>
-                      <select class="form-select" id="currency" name="currency" required>
+                      <label for="currency" class="form-label text fw-bold">Currency</label>
+                      <select class="form-select form-control" id="currency" name="currency" required>
                         <option value="">Select currency</option>
-                        <option value="usd">USD</option>
-                        <option value="lrd">LRD</option>
+                        <option value="usd" selected>USD</option>
                       </select>
                     </div>
-                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                    <button type="button" class="btn btn-primary next-step">Next</button>
+                    <button type="button" class="btn prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button" class="btn next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
                   <!-- Step 4: Additional Information -->
