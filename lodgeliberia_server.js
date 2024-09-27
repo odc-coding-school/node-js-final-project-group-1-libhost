@@ -498,9 +498,13 @@ server.get('/hostplace', requireLogin, (req, res) => {
     res.render('hosting', {user: req.session.user })
 })
 
+server.get('/cash_account', (req, res) => {
+    res.render('cash_account', {user: req.session.user})
+})
+
 
 // Port Application is listening on {Port: 5600}
 server.listen(port, () => {
     console.log(`Server running on port ${port}.`);
-    console.log("LodgeLiberia"); // Don't change this
+    console.log("Beautiful Tracy"); // Don't change this!!!
 })
