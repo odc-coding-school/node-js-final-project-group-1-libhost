@@ -3,6 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const server = express();
 const port = 5600;
+const QRCode = require('qrcode');
 // =======================
 // Extended Modules Integration
 const path = require("path");
@@ -205,47 +206,211 @@ server.get("/login", (req, res) => {
 });
 
 
-// home page
+// Home page route
 server.get("/", (req, res) => {
+    // Queries object contains different queries for various property types.
+    const queries = {
+        // Query to get all places available for booking
+        allPlaces: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+        `,
+        // Query to get only apartments (where property_type is 'Apartment')
+        apartments: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+            WHERE host_listings.property_type = 'Apartment'
+        `,
+        // Query to get only houses (where property_type is 'House')
+        houses: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+            WHERE host_listings.property_type = 'House'
+        `,
 
-    // Log the session data to verify if the user is logged in
-    // console.log('Current session data:', req.session.user);
+        // Query to get only Guest Houses (where property_type is 'Guest House')
+        guest_houses: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+            WHERE host_listings.property_type = 'Guest House'
+        `,
 
-    // Pulling Places Information from database
-    lodge_liberia_db.all(`
-        SELECT 
-             users.fullname AS host_name,
-             host_listings.title AS property_title,
-             host_listings.id AS property_id,
-             host_listings.description AS property_description,
-             host_listings.price_per_night AS property_price_per_night,
-             host_listings.Images AS images,
-             host_listings.available_from,
-             CASE strftime('%m', host_listings.available_from)
-                WHEN '01' THEN 'January'
-                WHEN '02' THEN 'February'
-                WHEN '03' THEN 'March'
-                WHEN '04' THEN 'April'
-                WHEN '05' THEN 'May'
-                WHEN '06' THEN 'June'
-                WHEN '07' THEN 'July'
-                WHEN '08' THEN 'August'
-                WHEN '09' THEN 'September'
-                WHEN '10' THEN 'October'
-                WHEN '11' THEN 'November'
-                WHEN '12' THEN 'December'
-            END AS available_month,
-            strftime('%d', host_listings.available_from) AS available_day,
-            strftime('%Y', host_listings.available_from) AS available_year
-        FROM users
-        JOIN host_listings
-        ON users.id = host_listings.user_id
-        `, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        // Process each row to convert images to Base64
-        const host_listings = rows.map(row => ({
+        // Query to get only Rooms (where property_type is 'Room')
+        rooms: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+            WHERE host_listings.property_type = 'Room'
+        `,
+
+        // Query to get only experiences (where property_type is 'experience')
+        experiences: `
+            SELECT 
+                users.fullname AS host_name,
+                host_listings.title AS property_title,
+                host_listings.id AS property_id,
+                host_listings.description AS property_description,
+                host_listings.price_per_night AS property_price_per_night,
+                host_listings.Images AS images,
+                host_listings.available_from,
+                -- Formatting the available_from date for better readability
+                CASE strftime('%m', host_listings.available_from)
+                    WHEN '01' THEN 'January'
+                    WHEN '02' THEN 'February'
+                    WHEN '03' THEN 'March'
+                    WHEN '04' THEN 'April'
+                    WHEN '05' THEN 'May'
+                    WHEN '06' THEN 'June'
+                    WHEN '07' THEN 'July'
+                    WHEN '08' THEN 'August'
+                    WHEN '09' THEN 'September'
+                    WHEN '10' THEN 'October'
+                    WHEN '11' THEN 'November'
+                    WHEN '12' THEN 'December'
+                END AS available_month,
+                strftime('%d', host_listings.available_from) AS available_day,
+                strftime('%Y', host_listings.available_from) AS available_year
+            FROM users
+            JOIN host_listings ON users.id = host_listings.user_id
+            WHERE host_listings.property_type = 'Experience'
+        `,
+
+        // Additional queries for other property types (e.g., rooms, studios) can be added here.
+    };
+
+    // Empty object to hold the results of all queries
+    const results = {};
+
+    // First query to get all places
+    lodge_liberia_db.all(queries.allPlaces, [], (err, allPlacesRows) => {
+        if (err) throw err;
+
+        // Process the rows and map them into a cleaner format with base64 encoded images
+        results.allPlaces = allPlacesRows.map(row => ({
             host_name: row.host_name,
             host_place_id: row.property_id,
             property_title: row.property_title,
@@ -254,16 +419,120 @@ server.get("/", (req, res) => {
             available_month: row.available_month,
             available_day: row.available_day,
             available_year: row.available_year,
-            // Convert BLOB to Base64 for each image
+            // Convert BLOB image data to Base64 (if available)
             base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
         }));
 
-        // Pass the listings array to your EJS template
-        res.render('lodgeliberia_home', { host_listings, errorMessage: null, user: req.session.user });
+        // Second query to get only apartments
+        lodge_liberia_db.all(queries.apartments, [], (err, apartmentsRows) => {
+            if (err) throw err;
+
+            // Process apartment rows and store in results object
+            results.apartments = apartmentsRows.map(row => ({
+                host_name: row.host_name,
+                host_place_id: row.property_id,
+                property_title: row.property_title,
+                property_description: row.property_description,
+                property_price_per_night: row.property_price_per_night,
+                available_month: row.available_month,
+                available_day: row.available_day,
+                available_year: row.available_year,
+                // Convert BLOB image data to Base64 (if available)
+                base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+            }));
+
+            // Third query to get only houses
+            lodge_liberia_db.all(queries.houses, [], (err, housesRows) => {
+                if (err) throw err;
+
+                // Process house rows and store in results object
+                results.houses = housesRows.map(row => ({
+                    host_name: row.host_name,
+                    host_place_id: row.property_id,
+                    property_title: row.property_title,
+                    property_description: row.property_description,
+                    property_price_per_night: row.property_price_per_night,
+                    available_month: row.available_month,
+                    available_day: row.available_day,
+                    available_year: row.available_year,
+                    // Convert BLOB image data to Base64 (if available)
+                    base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+                }));
+
+                // Fourth query to get only Guest Houses
+                lodge_liberia_db.all(queries.guest_houses, [], (err, guest_houses_Rows) => {
+                    if (err) throw err;
+
+                    // Process Guest Houses rows and store in results object
+                    results.guest_houses = guest_houses_Rows.map(row => ({
+                        host_name: row.host_name,
+                        host_place_id: row.property_id,
+                        property_title: row.property_title,
+                        property_description: row.property_description,
+                        property_price_per_night: row.property_price_per_night,
+                        available_month: row.available_month,
+                        available_day: row.available_day,
+                        available_year: row.available_year,
+                        // Convert BLOB image data to Base64 (if available)
+                        base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+                    }));
+
+                    // Fifth query to get only Rooms
+                    lodge_liberia_db.all(queries.rooms, [], (err, rooms_Rows) => {
+                        if (err) throw err;
+
+                        // Process Rooms rows and store in results object
+                        results.rooms = rooms_Rows.map(row => ({
+                            host_name: row.host_name,
+                            host_place_id: row.property_id,
+                            property_title: row.property_title,
+                            property_description: row.property_description,
+                            property_price_per_night: row.property_price_per_night,
+                            available_month: row.available_month,
+                            available_day: row.available_day,
+                            available_year: row.available_year,
+                            // Convert BLOB image data to Base64 (if available)
+                            base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+                        }));
+
+                        // Sixth query to get only Experiences
+                        lodge_liberia_db.all(queries.experiences, [], (err, experiences_Rows) => {
+                            if (err) throw err;
+
+                            // Process Guest Houses rows and store in results object
+                            results.experiences = experiences_Rows.map(row => ({
+                                host_name: row.host_name,
+                                host_place_id: row.property_id,
+                                property_title: row.property_title,
+                                property_description: row.property_description,
+                                property_price_per_night: row.property_price_per_night,
+                                available_month: row.available_month,
+                                available_day: row.available_day,
+                                available_year: row.available_year,
+                                // Convert BLOB image data to Base64 (if available)
+                                base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+                            }));
+
+                            // All queries are done; pass the results to the EJS template
+                            res.render('lodgeliberia_home', {
+                                allPlaces: results.allPlaces,  // Contains all places
+                                apartments: results.apartments, // Contains only apartments
+                                houses: results.houses, // Contains only houses
+                                guest_houses: results.guest_houses,  // Contains only Guest Houses
+                                rooms: results.rooms,  // Contains only Rooms
+                                experiences: results.experiences,  // Contains only Experiences
+                                user: req.session.user  // Pass session user to the template if logged in
+                            });
+                        });
+
+                    });
+
+                });
+            });
+        });
     });
+});
 
-
-})
 
 // Search Results Route
 server.get("/search_result", (req, res) => {
@@ -438,6 +707,7 @@ server.get('/place_detail/:host_place_id', (req, res) => {
         if (rows.length > 0) {
             // Group the results by listing, since there could be multiple rows for the same listing (due to multiple images)
             const propertyDetails = {
+                selected_place: selected_place,
                 host_name: rows[0].host_name,
                 host_picture: rows[0].host_picture ? Buffer.from(rows[0].host_picture).toString('base64') : null,
                 property_title: rows[0].property_title,
@@ -488,19 +758,92 @@ function requireLogin(req, res, next) {
     next();
 }
 
-server.get('/payment', requireLogin, (req, res) => {
-    res.render('lodgeliberia_payment', {user: req.session.user });
+// Payment Route
+server.get('/payment', requireLogin, async (req, res) => {
+
+    const selected_place_id = req.query.selected_place_id; // Get the property ID from the URL
+    const selected_place_title = req.query.selected_place_title; // Get the property title from the URL
+
+    const selected_place_total_cost_over_period = req.query.grand_total; // Get the property total cost over period from the URL
+    const roundedcost = Math.ceil(selected_place_total_cost_over_period);
+
+    const checkin = req.query['start-date']; // Get the property checkin dates from the URL
+    const checkout = req.query['end-date']; // Get the property checkout dates from the URL
+
+
+    // SQL query to select the image blobs from the 'host_images' table where the 'host_listing_id' matches the listing ID
+    const query = `SELECT image_data FROM host_images WHERE host_listing_id = ?`;
+
+    // Implementing QR code payment
+
+    // Orange Money QR Payment
+    const orange_qr_payment = `*144*1*1*0770722633*${roundedcost}#`;
+    // Mobile Money QR Payment
+    const mobile_money_qr_payment = `*156*1*1*0881806488*2*${roundedcost}#`;
+
+    // QR codes container (Objects)
+    const qr_codes = {};
+
+    // Function to generate QR code
+    try {
+        // Generate QR code for Orange Money
+        qr_codes.orange_money = await QRCode.toDataURL(orange_qr_payment);
+
+        // Generate QR code for Mobile Money
+        qr_codes.mobile_money = await QRCode.toDataURL(mobile_money_qr_payment);
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).send('Error generating QR codes');
+    }
+
+    // Execute the query, passing in the listing ID as a parameter
+    lodge_liberia_db.all(query, [selected_place_id], (err, rows) => {
+        if (err) {
+            console.error("Database error:", err);  // Log any errors encountered during the database query
+        }
+
+        // Check if any rows (images) were returned from the query
+        if (rows.length === 0) {
+            return res.status(404).json({ message: "No images found for this listing." });  // Send a 404 response if no images are found
+        }
+
+        // Map through the rows and convert each image_blob to a Base64 string
+        const images = rows.map(row => 
+            row.image_data ? Buffer.from(row.image_data).toString('base64') : null  // Convert BLOB to Base64, or return null if no BLOB
+        );
+
+        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, qr_codes });
+    });
 })
 
+
+// Host Place Route
 server.get('/hostplace', requireLogin, (req, res) => {
     // Store the original URL so the user can be redirected back after login
     req.session.returnTo = req.originalUrl;
-    res.render('hosting', {user: req.session.user })
+    res.render('hosting', { user: req.session.user })
 })
 
-server.get('/cash_account', (req, res) => {
-    res.render('cash_account', {user: req.session.user})
+server.get('/userprofile', requireLogin, (req, res) => {
+    res.render('user_profile', { user: req.session.user })
 })
+
+
+
+// Logout Route
+server.get('/logout', (req, res) => {
+    // Destroy the session
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destroying session:', err);
+            return res.send('Error during logout');
+        }
+        // Clear the cookie as well, if necessary
+        res.clearCookie('connect.sid');  // 'connect.sid' is the default session cookie name
+        res.redirect('/');  // Redirect the user to the login page
+    });
+});
 
 
 // Port Application is listening on {Port: 5600}

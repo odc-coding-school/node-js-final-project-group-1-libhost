@@ -1,44 +1,173 @@
 <%- include("partial/payment_header") %>
 
-  <main class="container-fluid">
+  <main class="container-fluid mb-4">
 
-    <div class="container-fluid">
+    <!-- Available for all screen sizes above md -->
+    <div class="container d-none d-md-block mb-0 shadow">
+      <div class="row gx-1 gy-1 shadow" style="height: 400px;">
 
-      <!-- Implementing payment-form -->
-      <!-- <body> -->
-      <div class="container-fluid m-0">
-        <!-- Adjust column size to make the form bigger -->
-        <div class="m-0 container-fluid">
-          <div class="form-title text-center mb-4">
-            <h3>Complete Your Payment</h3>
+        <div class="col-6 p-2 m-0 h-100">
+          <div class="text-center h-100">
+            <img src="data:image/jpeg;base64,<%= place[0] %>" class="selected_place-images" alt="...">
           </div>
+        </div>
 
-          <!-- Cards implementation -->
-          <div class="main-cards">
-            <div class="card">
-              <div class="card-inner">
-                <h3>LodgeLiberia</h3>
-                <h4>Account Balance: 8,000 USD</h4>
-              </div>
-              <img src="/public/images/card.png" class="cardimg" alt="sim">
-              <div class="name-card">
-                <h5 style="margin-top:20px; position: relative;">Account owner name</h5>
-                <h2>Giahseymehn Barseegiah</h2>
-                <h4>LL</h4>
-              </div>
+        <div class="col-6 p-0 row gx-1 gy-1 h-100 m-0 row">
 
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[1] %>" class="selected_place-images" alt="...">
             </div>
-            <img src="/public/images/trial_pic.png" class="img-fluid" alt="Product Image">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[2] %>" class="selected_place-images" alt="...">
+            </div>
           </div>
 
-          <!-- Submit Button -->
-          <button type="submit" class="btn btn-color w-100">PAY</button>
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[3] %>" class="selected_place-images" alt="...">
+            </div>
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[3] %>" class="selected_place-images" alt="...">
+            </div>
+          </div>
+
         </div>
       </div>
-      
-      <!-- </body> -->
+    </div>
+
+    <!-- Available for all screen sizes below md -->
+    <!-- Back-btn for small-devices -->
+    <div class="container mb-0 d-md-none shadow" style="max-height: 400px;">
+
+      <div class="d-flex col justify-content-start">
+        <a onclick="window.history.back()" class="text-decoration-none p-2 fw-bold mb-2" id="return_btn">
+          <i class="fa-solid fa-less-than fw-bold" style="color: #ffffff;"></i>
+        </a>
+      </div>
+      <!-- Available for all screen sizes below md -->
+
+      <img src="data:image/jpeg;base64,<%= place[0] %>" class="selected_place-images shadow" alt="...">
+    </div>
+
+    <!-- Detail section  -->
+
+    <div class="container mt-4">
+
+      <div class="card-body">
+        <h5 class="card-title fw-bold mt-2">
+          <%= selected_place_title %>
+        </h5>
+        <p class="card-text mt-2 mb-2 text-black fw-bold">
+          <span class="fw-semi-bold text-black">Check-in: <%= checkin %></span>
+          <br>
+          <span class="fw-semi-bold">Check-out: <%= checkout %></span>
+        </p>
+        <h6 class="fw-bold mt-2 text-black">Total before payment taxes: <span class="lodgeliberia_textcolor_color">$<%=
+              roundedcost %> USD</span></h6>
+      </div>
 
     </div>
-    </div>
+
+    <!-- Payment Section -->
+
+    <div class="container mt-4">
+
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold text-decoration-underline">Payment Instruction</h5>
+
+        <p class="card-text mt-4">Please deposit the full amount to one of the numbers listed below and send it using
+          your preferred company.
+          <br><span class="fw-bold">Note: Only use one of the transfer methods provided below.</span>
+        </p>
+
+
+        <!-- Available Payment Methods -->
+
+        <div class="container mt-4">
+          <h5 class="card-title fw-bold text-decoration-underline">Available payment methods</h5>
+          <div class="row mt-5">
+
+            <!-- Orange Money -->
+            <div class="col-12 col-sm-6 d-flex flex-column align-items-center">
+
+              <div class="container-fluid">
+                <img src="<%= qr_codes.orange_money %>" alt="available_payments" class="available_payments_imgs"
+                  onclick="onContainerOverlay()">
+                <img src="/public/images/orange_money.png" alt="available_payments" class="available_payments_imgs">
+              </div>
+
+              <p class="text-black fw-bold mt-2">
+                Orange Money <br><span class="fw-normal">Dial: *144*1*1*<b>0770722633</b>*<b>
+                    <%= roundedcost %>
+                  </b>*<b>PIN</b>#</span>
+              </p>
+            </div>
+
+            <!-- Orange QR Overlay -->
+            <div class="overlay-container" id="overlay-container1" onclick="offContainerOverlay()">
+              <div class="container h-100 d-flex justify-content-center align-items-center">
+                <img src="<%= qr_codes.orange_money %>" alt="available_payments" class="available_payments_imgs2">
+              </div>
+            </div>
+
+
+            <!-- Mobile Money -->
+            <div class="col-12 col-sm-6 d-flex flex-column align-items-center justify-content-end">
+
+              <div class="container-fluid">
+                <img src="/public/images/mobile_money.png" alt="available_payments" class="available_payments_imgs">
+                <img src="<%= qr_codes.mobile_money %>" alt="available_payments" class="available_payments_imgs" onclick="onContainerOverlay2()">
+              </div>
+
+              <p class="text-black fw-bold mt-2">
+                Mobile Money <br><span class="fw-normal">Dial: *156*1*1*<b>0881806488</b>*2*<b>
+                    <%= roundedcost %>
+                  </b>*<b>reference</b>*<b>PIN</b>#</span>
+              </p>
+            </div>
+
+            <!-- Mobile Money  QR Overlay -->
+            <div class="overlay-container" id="overlay-container2" onclick="offContainerOverlay2()">
+              <div class="container h-100 d-flex justify-content-center align-items-center">
+                <img src="<%= qr_codes.mobile_money %>" alt="available_payments" class="available_payments_imgs2">
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <hr class="divider mt-4">
+
+      <!-- Payment Verifcation Form -->
+      <form action="" method="post" class="mt-4 container">
+
+        <div class="mb-3">
+          <label for="sender_name" class="form-label text-black fw-bold required-label">Registered Sender Fullname</label>
+          <input type="text" class="form-control verfication-inputs" id="sender_name" name="sender_name" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="sender_registered_number" class="form-label text-black fw-bold required-label">Registered Number (Enter a phone number)</label>
+          <input type="text" class="form-control verfication-inputs" id="sender_registered_number"
+            name="sender_registered_number" maxlength="10" minlength="10" pattern="\d{0,9}" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="sender_approval_images" class="form-label text-black fw-bold required-label">Please unpload an
+            image of your payment transaction</label>
+          <input class="form-control verfication-inputs" type="file" id="sender_approval_images" accept="image/*"
+            required>
+        </div>
+        <input type="submit" value="Send Payment"
+          class="lodgeliberia_background_color btn btn-custom fw-bold ms-auto float-end">
+      </form>
+
+
+
   </main>
   <%- include("partial/home_footer") %>

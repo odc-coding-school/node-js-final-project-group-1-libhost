@@ -94,6 +94,53 @@
     color: white;
     margin-top: 20px;
 }
-.btn-color:hover {
-    background-color: #218838;
+
+.verfication-inputs {
+    box-shadow: none;
+    background-color: white;
+    color: black;
+    border: 2px solid orange;
+}
+
+.verfication-inputs:focus {
+    box-shadow: none;
+    border: 1px solid orange;
+}
+
+.available_payments_imgs {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.available_payments_imgs2 {
+    width: 350px;
+    height: 350px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.required-label::after {
+    content: " *";
+    color: orange;
+}
+
+.btn-custom:hover {
+    background-color: black; /* Custom hover color */
+    color: orange; /* Hover text color */
+}
+
+.overlay-container {
+position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }

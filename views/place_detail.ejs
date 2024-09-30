@@ -1,6 +1,6 @@
 <%- include("partial/place_detail_header") %>
 
-  <main class="container-fluid mt-2">
+  <main class="container-fluid mt-2 mb-5">
 
     <!-- Available for all screen sizes above md -->
     <div class="container d-none d-md-block mb-0">
@@ -138,6 +138,9 @@
           <!-- Booking section -->
           <form class="col-sm-8 col-md-6 d-none d-md-block" action="/payment" method="get">
 
+            <input type="hidden" name="selected_place_title" value="<%= place.property_title %>">
+            <input type="hidden" name="selected_place_id" value="<%= place.selected_place %>">
+
             <!-- Price -->
             <p class="mb-0 text-black fs-5 fw-bold">$<%= place.property_price_per_night %>USD/per day</p>
 
@@ -251,6 +254,7 @@
               <!-- total amount without payment fees -->
               <div class="col-4 d-flex justify-content-end">
                 <p class="mb-0 fs-6 fw-bold place_breakdowns pe-2">$<span id="place-grand-total1"></span> USD</p>
+                <input type="hidden" name="grand_total" value="" id="grand_total_cost">
               </div>
               
             </div>
@@ -270,6 +274,7 @@
                   const percentFees = document.getElementById('percent-fees1');
                   const placeGrandTotal = document.getElementById('place-grand-total1');
                   const totalPriceElement = document.getElementById('total-price');
+                  const total_cost_parse_across = document.getElementById('grand_total_cost');
               
                   // Get the property price per night from the EJS variable
                   const propertyPricePerNight = `<%= place.property_price_per_night %>`;
@@ -309,6 +314,7 @@
                               const result = await response.json();
                               percentFees.textContent = result.lodge_liberia_percent.toFixed(2);
                               placeGrandTotal.textContent = result.total_plus_percentage;
+                              total_cost_parse_across.value = result.total_plus_percentage;
                               totalPriceElement.textContent = result.totalPrice;
                           } else {
                               totalPriceElement.textContent = "0.00"; // Reset total price if dates are invalid
@@ -342,6 +348,9 @@
 
   <!-- Floating Button (Position Fixed ) -->
   <form class="container-fluid position-fixed bottom-0 phone-booking-section p-3 pt-0 d-md-none d-none" action="/payment" method="get" id="smd-booking-section">
+
+    <input type="hidden" name="selected_place_title" value="<%= place.property_title %>">
+    <input type="hidden" name="selected_place_id" value="<%= place.selected_place %>">
 
     <div class="mb-4 container-fluid m-0 hide-booking-section p-0 d-flex justify-content-end align-items-center">
       <i class="fa-solid fa-square-caret-down fa-2xl mt-4" style="color: #FFA500;" id="hide-booking-section"></i>
@@ -404,6 +413,7 @@
       <!-- total amount without payment fees -->
       <div class="col-4 d-flex justify-content-end">
         <p class="mb-0 fs-6 fw-bold lodgeliberia_textcolor_color">$<span id="place-grand-total"></span> USD</p>
+        <input type="hidden" name="grand_total2" value="" id="grand_total_cost2">
       </div>
       
     </div>
@@ -421,6 +431,7 @@
           const totalPriceElement = document.getElementById('total-price2');
           const percentFees = document.getElementById('percent-fees');
           const placeGrandTotal = document.getElementById('place-grand-total');
+          const total_cost_parse_across = document.getElementById('grand_total_cost2');
       
           // Get the property price per night from the EJS variable
           const propertyPricePerNight = `<%= place.property_price_per_night %>`;
@@ -461,6 +472,7 @@
                       totalPriceElement.textContent = result.totalPrice;
                       percentFees.textContent = result.lodge_liberia_percent.toFixed(2);
                       placeGrandTotal.textContent = result.total_plus_percentage;
+                      total_cost_parse_across.value = result.total_plus_percentage;
                   } else {
                     percentFees.textContent = "0.00"; // Reset total price if dates are invalid
                   }

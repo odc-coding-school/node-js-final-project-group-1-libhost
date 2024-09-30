@@ -11,11 +11,11 @@
       
                   <% search_results2.forEach(search_place => { %>
       
-                    <a href="/place_detail/<%= search_place.host_place_id %>" class="col-12 col-sm-4 col-md-4 col-lg-3 col-xl-2 place-content">
-                      <div class="card border-0 bg-white" style="width: 100%;">
+                    <a href="/place_detail/<%= search_place.host_place_id %>" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 place-content shadow">
+                      <div class="card border-0 bg-white shadow" style="width: 100%;">
       
                         <% if (search_place.base64Image) { %>
-                          <img src="data:image/jpeg;base64,<%= search_place.base64Image %>" class="place-img" alt="...">
+                          <img src="data:image/jpeg;base64,<%= search_place.base64Image %>" class="place-img" alt="..." style="height: fit-content;">
                         <% } else { %>
                           <p>No image available</p>
                         <% } %>

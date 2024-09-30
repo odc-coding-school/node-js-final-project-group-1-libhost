@@ -53,12 +53,12 @@
                     </div>
 
                     <div class="mb-3">
-                      <label for="formFile" class="form-label">Default file input example</label>
-                      <input class="form-control" type="file" id="formFile">
+                      <label for="formFile" class="form-label text-black fw-bold">Property Cover Image</label>
+                      <input class="form-control" type="file" id="formFile" required>
                     </div>
                     <div class="mb-3">
-                      <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                      <input class="form-control" type="file" id="formFileMultiple" multiple>
+                      <label for="formFileMultiple" class="form-label text-black fw-bold">Additional Images</label>
+                      <input class="form-control" type="file" id="formFileMultiple" multiple required>
                     </div>
 
 
@@ -99,11 +99,11 @@
                   <div class="step">
                     <h3 class="lodgeliberia_textcolor_color fw-bold">Pricing Information</h3>
                     <div class="mb-3">
-                      <label for="price" class="form-label text fw-bold">Price per Night</label>
+                      <label for="price" class="form-label text-black fw-bold">Price per Night</label>
                       <input type="number" class="form-control" id="price" name="price" required>
                     </div>
                     <div class="mb-3">
-                      <label for="currency" class="form-label text fw-bold">Currency</label>
+                      <label for="currency" class="form-label text-black fw-bold">Currency</label>
                       <select class="form-select form-control" id="currency" name="currency" required>
                         <option value="">Select currency</option>
                         <option value="usd" selected>USD</option>
@@ -115,18 +115,18 @@
 
                   <!-- Step 4: Additional Information -->
                   <div class="step">
-                    <h3>Additional Information</h3>
+                    <h3 class="lodgeliberia_textcolor_color fw-bold">Additional Information</h3>
                     <div class="mb-3">
-                      <label for="description" class="form-label">Description</label>
+                      <label for="description" class="form-label text-black fw-bold">Description</label>
                       <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                     </div>
                     <div class="mb-3">
-                      <label for="amenities" class="form-label">Amenities</label>
+                      <label for="amenities" class="form-label text-black fw-bold">Amenities</label>
                       <input type="text" class="form-control" id="amenities" name="amenities"
                         placeholder="e.g. WiFi, Parking" required>
                     </div>
-                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                    <button type="button" class="btn btn-primary next-step">Next</button>
+                    <button type="button" class="btn btn-secondary prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button" class="btn btn-primary next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
                   <!-- Step 5: Confirmation -->
