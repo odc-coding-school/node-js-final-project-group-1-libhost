@@ -765,7 +765,19 @@ server.get('/payment', requireLogin, async (req, res) => {
     const selected_place_title = req.query.selected_place_title; // Get the property title from the URL
 
     const selected_place_total_cost_over_period = req.query.grand_total; // Get the property total cost over period from the URL
+    const selected_place_total_cost_over_period2 = req.query.grand_total2; // Get the property total cost over period from the URL
     const roundedcost = Math.ceil(selected_place_total_cost_over_period);
+    const roundedcost2 = Math.ceil(selected_place_total_cost_over_period2);
+
+    // Determine which variable to send to the template
+    let displayValue;
+    if (roundedcost) {
+        displayValue = roundedcost; // If roundedcost exists, use it
+    } else if (roundedcost2) {
+        displayValue = roundedcost2; // Otherwise, use roundedcost2
+    } else {
+        displayValue = 'No data available'; // Default message if both are null
+    }
 
     const checkin = req.query['start-date']; // Get the property checkin dates from the URL
     const checkout = req.query['end-date']; // Get the property checkout dates from the URL
@@ -777,9 +789,9 @@ server.get('/payment', requireLogin, async (req, res) => {
     // Implementing QR code payment
 
     // Orange Money QR Payment
-    const orange_qr_payment = `*144*1*1*0770722633*${roundedcost}#`;
+    const orange_qr_payment = `*144*1*1*0770722633*${displayValue}#`;
     // Mobile Money QR Payment
-    const mobile_money_qr_payment = `*156*1*1*0881806488*2*${roundedcost}#`;
+    const mobile_money_qr_payment = `*156*1*1*0881806488*2*${displayValue}#`;
 
     // QR codes container (Objects)
     const qr_codes = {};
@@ -813,7 +825,7 @@ server.get('/payment', requireLogin, async (req, res) => {
             row.image_data ? Buffer.from(row.image_data).toString('base64') : null  // Convert BLOB to Base64, or return null if no BLOB
         );
 
-        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, qr_codes });
+        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, roundedcost2, qr_codes });
     });
 })
 

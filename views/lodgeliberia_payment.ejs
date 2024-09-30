@@ -63,8 +63,8 @@
           <br>
           <span class="fw-semi-bold">Check-out: <%= checkout %></span>
         </p>
-        <h6 class="fw-bold mt-2 text-black">Total before payment taxes: <span class="lodgeliberia_textcolor_color">$<%=
-              roundedcost %> USD</span></h6>
+        <h6 class="fw-bold mt-2 text-black">Total before payment taxes: <span class="lodgeliberia_textcolor_color">$ 
+          <%= roundedcost ? roundedcost : roundedcost2 %> USD</span></h6>
       </div>
 
     </div>
@@ -99,7 +99,7 @@
 
               <p class="text-black fw-bold mt-2">
                 Orange Money <br><span class="fw-normal">Dial: *144*1*1*<b>0770722633</b>*<b>
-                    <%= roundedcost %>
+                  <%= roundedcost ? roundedcost : roundedcost2 %>
                   </b>*<b>PIN</b>#</span>
               </p>
             </div>
@@ -122,7 +122,7 @@
 
               <p class="text-black fw-bold mt-2">
                 Mobile Money <br><span class="fw-normal">Dial: *156*1*1*<b>0881806488</b>*2*<b>
-                    <%= roundedcost %>
+                  <%= roundedcost ? roundedcost : roundedcost2 %>
                   </b>*<b>reference</b>*<b>PIN</b>#</span>
               </p>
             </div>
