@@ -970,11 +970,7 @@ server.get('/hostplace', requireLogin, (req, res) => {
     res.render('hosting', { user: req.session.user })
 })
 
-server.get('/userprofile', requireLogin, (req, res) => {
-    res.render('user_profile', { user: req.session.user })
-})
-
-
+// User Profile Route
 server.get('/my_profile', requireLogin, (req, res) => {
     res.render('my_profile', { user: req.session.user })
 })
