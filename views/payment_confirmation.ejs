@@ -1,0 +1,121 @@
+<%- include("partial/payment_header") %>
+
+  <main class="container-fluid mb-4">
+
+    <!-- Available for all screen sizes above md -->
+    <div class="container d-none d-md-block mb-0 shadow">
+      <div class="row gx-1 gy-1 shadow" style="height: 400px;">
+
+        <div class="col-6 p-2 m-0 h-100">
+          <div class="text-center h-100">
+            <img src="data:image/jpeg;base64,<%= place[0] %>" class="selected_place-images" alt="...">
+          </div>
+        </div>
+
+        <div class="col-6 p-0 row gx-1 gy-1 h-100 m-0 row">
+
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[1] %>" class="selected_place-images" alt="...">
+            </div>
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[2] %>" class="selected_place-images" alt="...">
+            </div>
+          </div>
+
+          <div class="m-0 row p-0 h-50">
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[3] %>" class="selected_place-images" alt="...">
+            </div>
+            <div class="col-6 p-1 text-center m-0 h-100">
+              <img src="data:image/jpeg;base64,<%= place[3] %>" class="selected_place-images" alt="...">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Available for all screen sizes below md -->
+    <!-- Back-btn for small-devices -->
+    <div class="container mb-0 d-md-none shadow" style="max-height: 400px;">
+
+      <div class="d-flex col justify-content-start">
+        <a onclick="window.history.back()" class="text-decoration-none p-2 fw-bold mb-2" id="return_btn">
+          <i class="fa-solid fa-less-than fw-bold" style="color: #ffffff;"></i>
+        </a>
+      </div>
+      <!-- Available for all screen sizes below md -->
+
+      <img src="data:image/jpeg;base64,<%= place[0] %>" class="selected_place-images shadow" alt="...">
+    </div>
+
+    <!-- Detail section  -->
+
+    <div class="container mt-4">
+
+      <div class="card-body">
+        <h5 class="card-title fw-bold mt-2">
+          <%= selected_place_title %>
+        </h5>
+        <h6 class="fw-bold mt-2 text-black">Location:
+          <span class="lodgeliberia_textcolor_color">
+            <%= place_location %>
+          </span>
+        </h6>
+        <p class="card-text mt-2 mb-2 text-black fw-bold">
+          <span class="fw-semi-bold text-black">Check-in: <%= checkin %></span>
+          <br>
+          <span class="fw-semi-bold">Check-out: <%= checkout %></span>
+        </p>
+        <h6 class="fw-bold mt-2 text-black">Amount Paid:
+          <span class="lodgeliberia_textcolor_color">$
+            <%= roundedcost ? roundedcost : roundedcost2 %> USD
+          </span>
+        </h6>
+        <!-- Sender Information -->
+        <h6 class="fw-bold mt-2 text-black">Sender Name:
+          <span class="lodgeliberia_textcolor_color">
+            <%= sender_name %>
+          </span>
+        </h6>
+
+        <h6 class="fw-bold mt-2 text-black">Registered Phone Number:
+          <span class="lodgeliberia_textcolor_color">
+            <%= registered_phone_number %>
+          </span>
+        </h6>
+      </div>
+
+    </div>
+
+    <!-- Payment Section -->
+
+    <div class="container mt-4">
+
+      <div class="card-body text-center">
+        <h5 class="card-title fw-bold text-decoration-underline">Confirmation Messsage</h5>
+        <p class="text-black card-text mt-4 fw-bold">Thank you, <b>
+            <%= account_owner_name %>
+          </b>!</p>
+        <p class="card-text mt-2 fw-bold">Your payment has been successfully processed.</p>
+
+      </div>
+
+      <hr class="divider mt-4">
+
+      <!-- User Decisions Buttons -->
+
+
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-12 col-sm-6 text-center">
+            <a href="/" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i class="fa-solid fa-house" style="color: #ffffff;"></i> &nbsp; Back To Home</a>
+          </div>
+          <div class="col-12 col-sm-6 text-center">
+            <a href="/hostplace" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i class="fa-solid fa-location-dot" style="color: #ffffff;"></i> &nbsp; Go to Places Booked</a>
+          </div>
+        </div>
+
+  </main>
+  <%- include("partial/home_footer") %>
