@@ -219,6 +219,7 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
 
     const user_confirmation_data = {
         sender_approval_img: req.file ? req.file.buffer : null,
+        image_mime_type: req.file ? req.file.mimetype : null, // Capture the image MIME type
         sender_name: req.body.sender_name,
         sender_phone_number: req.body.sender_registered_number,
         checkin_date: formatDateToReadable(req.body.checkin_date),
@@ -232,8 +233,8 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
     const sessionUser = req.session.user;
 
     // SQL query to insert the data
-    const sql = `INSERT INTO Payment_confirmation (user_id, guest_name, guest_phone_number, payment_approval_image, place_id, amount_paid, checkin, checkout)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+    const sql = `INSERT INTO Payment_confirmation (user_id, guest_name, guest_phone_number, payment_approval_image, image_mime_type, place_id, amount_paid, checkin, checkout)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     // Obtaining User ID from the session and provide the necessary data
     const params = [
@@ -241,6 +242,7 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
         user_confirmation_data.sender_name, // Sender Name
         user_confirmation_data.sender_phone_number, // Sender transaction phone number
         user_confirmation_data.sender_approval_img,  // Approval Image
+        user_confirmation_data.image_mime_type, // Store the MIME type
         user_confirmation_data.selected_place_id, // place_id
         user_confirmation_data.amount_total, // amount_paid
         user_confirmation_data.checkin_date,
@@ -253,11 +255,17 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
     // SQL query to select the place location
     const place_location_query = `SELECT location FROM host_listings WHERE id = ?`;
 
+    // Now retrieve the inserted payment confirmation image with the MIME type
+    const retrieveImageSql = `SELECT payment_approval_image, image_mime_type FROM Payment_confirmation WHERE id = ?`;
+
     lodge_liberia_db.run(sql, params, function (err) {
         if (err) {
             console.error(err.message); // error if any
             return res.status(500).send('Error inserting data into the database'); // Send error response
         }
+
+        // Payment Confirmation ID
+        const confirmationId = this.lastID;
 
         // Execute the query, passing in the listing ID as a parameter
         lodge_liberia_db.all(images_query, [user_confirmation_data.selected_place_id], (err, rows) => {
@@ -282,20 +290,35 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
                 }
                 const place_location = rows[0].location;
 
-                // Successful insertion
-                console.log(`A row has been inserted with rowid ${this.lastID}`);
-                res.render('payment_confirmation', {
-                    user: req.session.user, place: images, checkin: user_confirmation_data.checkin_date,
-                    checkout: user_confirmation_data.checkout_date, roundedcost: user_confirmation_data.amount_total,
-                    selected_place_title: user_confirmation_data.selected_place_title, account_owner_name: sessionUser.fullname,
-                    sender_name: user_confirmation_data.sender_name, registered_phone_number: user_confirmation_data.sender_phone_number, place_location: place_location
+                // Query to retrieve payment confirmation image
+                lodge_liberia_db.get(retrieveImageSql, [confirmationId], (err, row) => {
+                    if (err) {
+                        return console.error(err.message);
+                    }
+                    if (row && row.payment_approval_image) {
+                        // Convert BLOB to base64 for display on the client side
+                        const imageBase64 = row.payment_approval_image.toString('base64');
+
+                        // Successful insertion
+                        console.log(`A row has been inserted with rowid ${this.lastID}`);
+                        res.render('payment_confirmation', {
+                            user: req.session.user, place: images, checkin: user_confirmation_data.checkin_date,
+                            checkout: user_confirmation_data.checkout_date, roundedcost: user_confirmation_data.amount_total,
+                            selected_place_title: user_confirmation_data.selected_place_title, account_owner_name: sessionUser.fullname,
+                            sender_name: user_confirmation_data.sender_name, 
+                            registered_phone_number: user_confirmation_data.sender_phone_number, 
+                            place_location: place_location, payment_image: imageBase64, image_mime_type: row.image_mime_type // Pass the MIME type to the template
+                        });
+
+                    }
+
                 });
-            }); 
+            });
+
         });
 
     });
-
-})
+});
 
 
 // Post Methods ********

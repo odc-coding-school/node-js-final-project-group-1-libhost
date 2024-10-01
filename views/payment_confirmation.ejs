@@ -100,6 +100,17 @@
           </b>!</p>
         <p class="card-text mt-2 fw-bold">Your payment has been successfully processed.</p>
 
+        <!-- Display the uploaded image -->
+        <% if (payment_image && image_mime_type) { %>
+          <div class="text-center">
+            <img src="data:<%= image_mime_type %>;base64,<%= payment_image %>" alt="Payment Approval Image"
+              class=" img-thumbnail mt-0">
+          </div>
+        <% } 
+        else { %>
+            <p>No image uploaded.</p>
+        <% } %>
+
       </div>
 
       <hr class="divider mt-4">
@@ -110,10 +121,12 @@
       <div class="container">
         <div class="row gy-3">
           <div class="col-12 col-sm-6 text-center">
-            <a href="/" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i class="fa-solid fa-house" style="color: #ffffff;"></i> &nbsp; Back To Home</a>
+            <a href="/" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i
+                class="fa-solid fa-house" style="color: #ffffff;"></i> &nbsp; Back To Home</a>
           </div>
           <div class="col-12 col-sm-6 text-center">
-            <a href="/hostplace" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i class="fa-solid fa-location-dot" style="color: #ffffff;"></i> &nbsp; Go to Places Booked</a>
+            <a href="/hostplace" class="btn lodgeliberia_background_color fw-bold text-black btn-custom"><i
+                class="fa-solid fa-location-dot" style="color: #ffffff;"></i> &nbsp; Go to Places Booked</a>
           </div>
         </div>
 
