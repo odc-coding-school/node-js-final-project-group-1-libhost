@@ -1,14 +1,47 @@
+/* Body styles */
 body {
-    font-family: Arial, sans-serif;
-}
-
-
-.card {
-    border: none;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.img-fluid {
-    max-width: 25%;
-    height: auto;
-}
+    background-color: #f4f4f9;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Card styles */
+  .card {
+    border-radius: 50px 50px 0 0;
+    background-color: #1f1e1e;
+    margin-top: 80px;
+  }
+  
+  .card-body {
+    position: relative;
+    padding: 4rem 1rem;
+    border-radius: 50px 50px 0 0;
+   
+  }
+  
+  /* Profile image styles */
+  .profile-image {
+    width: 150px;
+    border: 5px solid #ff7300;
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+  }
+  
+  /* Content padding to account for the image position */
+  .content {
+    padding-top: 80px;
+  }
+  
+  /* Title and text styling */
+  .card-title {
+    color: #ff7300;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    color: #333333;
+    font-size: 1.2rem;
+  }
+  
