@@ -952,6 +952,11 @@ server.get('/userprofile', requireLogin, (req, res) => {
 })
 
 
+server.get('/my_profile', requireLogin, (req, res) => {
+    res.render('my_profile', { user: req.session.user })
+})
+
+
 
 // Logout Route
 server.get('/logout', (req, res) => {
