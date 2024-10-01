@@ -144,7 +144,17 @@
       <hr class="divider mt-4">
 
       <!-- Payment Verifcation Form -->
-      <form action="" method="post" class="mt-4 container">
+      <form action="/confirmation" method="post" class="mt-4 container" enctype="multipart/form-data">
+
+        <!-- Hidden Inputs Data -->
+         <!-- Timeframe -->
+        <input type="hidden" name="checkin_date" value="<%= checkin %>">
+        <input type="hidden" name="checkout_date" value="<%= checkout %>">
+        <!-- Booking Info -->
+        <input type="hidden" name="place_id" value="<%= selected_place_id %>">
+        <input type="hidden" name="amount_total" value="<%= roundedcost ? roundedcost : roundedcost2 %>">
+        <input type="hidden" name="place_title" value="<%= selected_place_title %>">
+        
 
         <div class="mb-3">
           <label for="sender_name" class="form-label text-black fw-bold required-label">Registered Sender Fullname</label>
@@ -154,13 +164,13 @@
         <div class="mb-3">
           <label for="sender_registered_number" class="form-label text-black fw-bold required-label">Registered Number (Enter a phone number)</label>
           <input type="text" class="form-control verfication-inputs" id="sender_registered_number"
-            name="sender_registered_number" maxlength="10" minlength="10" pattern="\d{0,9}" required>
+            name="sender_registered_number" maxlength="10" minlength="10" pattern="\d{10}" required>
         </div>
 
         <div class="mb-3">
-          <label for="sender_approval_images" class="form-label text-black fw-bold required-label">Please unpload an
+          <label for="sender_approval_image" class="form-label text-black fw-bold required-label">Please unpload an
             image of your payment transaction</label>
-          <input class="form-control verfication-inputs" type="file" id="sender_approval_images" accept="image/*"
+          <input class="form-control verfication-inputs" type="file" id="sender_approval_image" accept="image/*" name="sender_approval_image"
             required>
         </div>
         <input type="submit" value="Send Payment"

@@ -36,7 +36,8 @@ server.use(session({
 // Database Creation
 const lodge_liberia_db = new sqlite3.Database(__dirname + '/database/lodgeliberia.db');
 
-// Setup storage for storing files
+// Multer Library Configuration
+// Setup storage for storing files in memory
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -53,7 +54,7 @@ function initializeDatabase() {
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT Not Null,
-                profile_picture BLOB,
+                
                 time_created DATETIME DEFAULT CURRENT_TIMESTAMP
             )`,
             `CREATE TABLE IF NOT EXISTS host_listings (
@@ -96,6 +97,19 @@ function initializeDatabase() {
                 feature_type TEXT,
                 feature_description TEXT,
                 FOREIGN KEY (place_id) REFERENCES host_listings(id)
+            )`,
+            `CREATE TABLE IF NOT EXISTS Payment_confirmation (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                guest_name TEXT NOT NULL,
+                guest_phone_number BLOB NOT NULL,
+                payment_approval_image BLOB NOT NULL,
+                image_mime_type TEXT NOT NULL,
+                place_id INTEGER NOT NULL,
+                amount_paid REAL NOT NULL,
+                checkin DATE,
+                checkout DATE,
+                FOREIGN KEY (user_id) REFERENCES users(id)
             )`
         ];
 
@@ -193,6 +207,95 @@ server.post('/login', (req, res) => {
     });
 });
 
+// Confirmation post route
+server.post('/confirmation', upload.single('sender_approval_image'), (req, res) => {
+
+    // Function to format the date as "Month Day, Year"
+    function formatDateToReadable(dateStr) {
+        const date = new Date(dateStr); // Convert string to Date object
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Define options for formatting
+        return new Intl.DateTimeFormat('en-US', options).format(date); // Format the date
+    }
+
+    const user_confirmation_data = {
+        sender_approval_img: req.file ? req.file.buffer : null,
+        sender_name: req.body.sender_name,
+        sender_phone_number: req.body.sender_registered_number,
+        checkin_date: formatDateToReadable(req.body.checkin_date),
+        checkout_date: formatDateToReadable(req.body.checkout_date),
+        selected_place_id: req.body.place_id,
+        selected_place_title: req.body.place_title,
+        amount_total: req.body.amount_total
+    }
+
+    // Access the session user
+    const sessionUser = req.session.user;
+
+    // SQL query to insert the data
+    const sql = `INSERT INTO Payment_confirmation (user_id, guest_name, guest_phone_number, payment_approval_image, place_id, amount_paid, checkin, checkout)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    // Obtaining User ID from the session and provide the necessary data
+    const params = [
+        sessionUser.id, // User ID
+        user_confirmation_data.sender_name, // Sender Name
+        user_confirmation_data.sender_phone_number, // Sender transaction phone number
+        user_confirmation_data.sender_approval_img,  // Approval Image
+        user_confirmation_data.selected_place_id, // place_id
+        user_confirmation_data.amount_total, // amount_paid
+        user_confirmation_data.checkin_date,
+        user_confirmation_data.checkout_date
+    ];
+
+    // SQL query to select the image blobs from the 'host_images' table where the 'host_listing_id' matches the listing ID
+    const images_query = `SELECT image_data FROM host_images WHERE host_listing_id = ?`;
+
+    // SQL query to select the place location
+    const place_location_query = `SELECT location FROM host_listings WHERE id = ?`;
+
+    lodge_liberia_db.run(sql, params, function (err) {
+        if (err) {
+            console.error(err.message); // error if any
+            return res.status(500).send('Error inserting data into the database'); // Send error response
+        }
+
+        // Execute the query, passing in the listing ID as a parameter
+        lodge_liberia_db.all(images_query, [user_confirmation_data.selected_place_id], (err, rows) => {
+            if (err) {
+                console.error("Database error:", err);  // Log any errors encountered during the database query
+            }
+
+            // Check if any rows (images) were returned from the query
+            if (rows.length === 0) {
+                return res.status(404).json({ message: "No images found for this listing." });  // Send a 404 response if no images are found
+            }
+
+            // Map through the rows and convert each image_blob to a Base64 string
+            const images = rows.map(row =>
+                row.image_data ? Buffer.from(row.image_data).toString('base64') : null  // Convert BLOB to Base64, or return null if no BLOB
+            );
+
+            // Execute another query, getting place location
+            lodge_liberia_db.all(place_location_query, [user_confirmation_data.selected_place_id], (err, rows) => {
+                if (err) {
+                    console.error("Database error:", err);  // Log any errors encountered during the database query
+                }
+                const place_location = rows[0].location;
+
+                // Successful insertion
+                console.log(`A row has been inserted with rowid ${this.lastID}`);
+                res.render('payment_confirmation', {
+                    user: req.session.user, place: images, checkin: user_confirmation_data.checkin_date,
+                    checkout: user_confirmation_data.checkout_date, roundedcost: user_confirmation_data.amount_total,
+                    selected_place_title: user_confirmation_data.selected_place_title, account_owner_name: sessionUser.fullname,
+                    sender_name: user_confirmation_data.sender_name, registered_phone_number: user_confirmation_data.sender_phone_number, place_location: place_location
+                });
+            }); 
+        });
+
+    });
+
+})
 
 
 // Post Methods ********
@@ -769,6 +872,13 @@ server.get('/payment', requireLogin, async (req, res) => {
     const roundedcost = Math.ceil(selected_place_total_cost_over_period);
     const roundedcost2 = Math.ceil(selected_place_total_cost_over_period2);
 
+    // Function to format the date as "Month Day, Year"
+    function formatDateToReadable(dateStr) {
+        const date = new Date(dateStr); // Convert string to Date object
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Define options for formatting
+        return new Intl.DateTimeFormat('en-US', options).format(date); // Format the date
+    }
+
     // Determine which variable to send to the template
     let displayValue;
     if (roundedcost) {
@@ -779,8 +889,8 @@ server.get('/payment', requireLogin, async (req, res) => {
         displayValue = 'No data available'; // Default message if both are null
     }
 
-    const checkin = req.query['start-date']; // Get the property checkin dates from the URL
-    const checkout = req.query['end-date']; // Get the property checkout dates from the URL
+    const checkin = formatDateToReadable(req.query['start-date']); // Get the property checkin dates from the URL
+    const checkout = formatDateToReadable(req.query['end-date']); // Get the property checkout dates from the URL
 
 
     // SQL query to select the image blobs from the 'host_images' table where the 'host_listing_id' matches the listing ID
@@ -821,11 +931,11 @@ server.get('/payment', requireLogin, async (req, res) => {
         }
 
         // Map through the rows and convert each image_blob to a Base64 string
-        const images = rows.map(row => 
+        const images = rows.map(row =>
             row.image_data ? Buffer.from(row.image_data).toString('base64') : null  // Convert BLOB to Base64, or return null if no BLOB
         );
 
-        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, roundedcost2, qr_codes });
+        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, roundedcost2, qr_codes, selected_place_id });
     });
 })
 

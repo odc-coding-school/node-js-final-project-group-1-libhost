@@ -128,7 +128,7 @@
 
 .btn-custom:hover {
     background-color: black; /* Custom hover color */
-    color: orange; /* Hover text color */
+    color: orange !important; /* Hover text color */
 }
 
 .overlay-container {
