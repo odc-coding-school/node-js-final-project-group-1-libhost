@@ -56,7 +56,7 @@
 
                     <div class="mb-3">
                       <label for="formFile" class="form-label text-black fw-bold">Property Cover Image</label>
-                      <input class="form-control" type="file" id="host_cover_image" name="host_cover_image" required>
+                      <input class="form-control" type="file" id="host_cover_image" name="host_cover_image" accept="image/*" required>
                     </div>
                     <div class="mb-3">
                       <label for="formFileMultiple" class="form-label black-text fw-bold" id="error-message">Additional Images (Please upload at least 4 images.)</label>
@@ -90,9 +90,26 @@
                       <input type="text" class="form-control" id="city" name="city" required>
                     </div>
                     <div class="mb-3">
-                      <label for="zipcode" class="form-label text-black fw-bold">Zip Code</label>
-                      <input type="text" class="form-control" id="zipcode" name="zipcode" required>
-                    </div>
+                      <label for="county" class="form-label text-black fw-bold">County</label>
+                      <select class="form-select form-control" id="county" name="county" required>
+                        <option value="">Select a county</option>
+                        <option value="bomi">Bomi</option>
+                        <option value="bong">Bong</option>
+                        <option value="gbarpolu">Gbarpolu</option>
+                        <option value="grand-bassa">Grand Bassa</option>
+                        <option value="grand-cape-mount">Grand Cape Mount</option>
+                        <option value="grand-gedeh">Grand Gedeh</option>
+                        <option value="grand-kru">Grand Kru</option>
+                        <option value="lofa">Lofa</option>
+                        <option value="margibi">Margibi</option>
+                        <option value="maryland">Maryland</option>
+                        <option value="montserrado">Montserrado</option>
+                        <option value="nimba">Nimba</option>
+                        <option value="rivercess">River Cess</option>
+                        <option value="river-gee">River Gee</option>
+                        <option value="sinoe">Sinoe</option>
+                      </select>
+                    </div>                    
                     <button type="button" class="btn prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
                     <button type="button" class="btn next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
