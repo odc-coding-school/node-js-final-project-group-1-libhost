@@ -90,6 +90,7 @@ body {
   }
   
 
+<<<<<<< HEAD
 
 
 
@@ -116,6 +117,10 @@ body {
 
 /* .profile_image {
     max-width: 40%;
+=======
+.profile_image {
+    max-width: 30%;
+>>>>>>> 14719c6700c10b1817c492e16f09db5f4667771d
     height: fit-content;
 } */
 
