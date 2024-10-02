@@ -1,6 +1,6 @@
-/* .hosting-section {
-    outline: solid black;
-} */
+.black-text {
+  color: black;
+}
 
 /* Form Control Styles */
 .form-control {
@@ -17,4 +17,12 @@
 
   #hostlogo{
     line-height: 40px;
+  }
+
+  #sm_responsive_intro_section {
+    display: flex;
+  }
+
+  #host_place_form{
+    display: none;
   }

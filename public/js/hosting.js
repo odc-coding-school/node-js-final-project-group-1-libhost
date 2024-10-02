@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButtons = document.querySelectorAll('.next-step');
     const prevButtons = document.querySelectorAll('.prev-step');
     const form = document.querySelector('.step-form');
+    const errorMessage = document.getElementById('error-message'); // Error message for the image upload
+    const multipleHostImages = document.getElementById('multiple_host_images'); // Image input
 
     let currentStep = 0;
 
@@ -51,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputs = steps[stepIndex].querySelectorAll('input, textarea, select');
         let isValid = true;
 
+        // General input validation
         inputs.forEach(input => {
             if (input.hasAttribute('required') && !input.value.trim()) {
                 input.classList.add('is-invalid');
@@ -59,6 +62,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 input.classList.remove('is-invalid');
             }
         });
+
+        // Step 1 validation: Check for at least 4 images uploaded
+        if (stepIndex === 0) {
+            if (multipleHostImages.files.length < 4) {
+                errorMessage.style.color = 'red';
+                errorMessage.textContent = 'Please upload at least 4 images.';
+                isValid = false;
+            } else {
+                errorMessage.textContent = ''; // Clear error message if validation passes
+            }
+        }
 
         // If step is valid, fill review details in the confirmation step
         if (isValid && currentStep === steps.length - 2) {
@@ -81,3 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('reviewAmenities').textContent = document.getElementById('amenities').value;
     }
 });
+
+
+// display_hosting_form_btn based on screen responsiveness for smaller devices
+const display_hosting_form_btn = document.getElementById('display_hosting_form_btn');
+const host_place_form = document.getElementById('host_place_form');
+const sm_responsive_intro_section = document.getElementById('sm_responsive_intro_section');
+
+function display_hosting_form_btn_func() {
+
+    host_place_form.style.display = 'block';
+    sm_responsive_intro_section.style.display = 'none'
+}
+
+display_hosting_form_btn.addEventListener('click', display_hosting_form_btn_func);
+
