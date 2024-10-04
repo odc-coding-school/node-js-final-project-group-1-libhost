@@ -10,14 +10,14 @@
   .profile_image {
     border: 2.5px solid #ff7300;
     position: absolute;
-    top: -20px; /* Raised above the card */
+    top: -10px; /* Raised above the card */
     left: 50%;
     transform: translateX(-50%);
   }
   
   /* Content padding adjustment */
   .content {
-    padding-top: 5px; /* Adjust padding to accommodate the profile image */
+    padding-top: 130px; /* Adjust padding to accommodate the profile image */
   }
   
   /* Card title styling */
