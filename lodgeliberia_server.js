@@ -331,6 +331,11 @@ server.get("/login", (req, res) => {
     res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
 });
 
+// about page route
+// server.get("/about", (req, res) => {
+//     res.render('about');
+// });
+
 
 // Home page route
 server.get("/", (req, res) => {
@@ -973,6 +978,11 @@ server.get('/hostplace', requireLogin, (req, res) => {
 // User Profile Route
 server.get('/my_profile', requireLogin, (req, res) => {
     res.render('my_profile', { user: req.session.user })
+})
+
+// About us route
+server.get('/about', (req, res) => {
+    res.render('about', { user: req.session.user })
 })
 
 
