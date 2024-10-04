@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const steps = document.querySelectorAll('.step');
     const nextButtons = document.querySelectorAll('.next-step');
     const prevButtons = document.querySelectorAll('.prev-step');
-    const form = document.querySelector('.step-form');
     const errorMessage = document.getElementById('error-message'); // Error message for the image upload
     const multipleHostImages = document.getElementById('multiple_host_images'); // Image input
 
@@ -14,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             step.style.display = index === stepIndex ? 'block' : 'none';
         });
 
-        // Optional: scroll to the top of the form section when moving to a new step
-        window.scrollTo(0, 0);
+        // Optional: smooth scroll to the top of the form section when moving to a new step
+        steps[stepIndex].scrollIntoView({ behavior: 'smooth' });
     }
 
     // Display the first step
@@ -28,8 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (validateStep(currentStep)) {
                 currentStep++;
+                if (currentStep === steps.length - 1) {  // If we're on the second-to-last step
+                    fillReviewStep(); // Fill in the review section before showing the confirmation
+                }
                 if (currentStep >= steps.length) {
-                    currentStep = steps.length - 1;
+                    currentStep = steps.length - 1; // Prevent going beyond the last step
                 }
                 showStep(currentStep);
             }
@@ -74,25 +76,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // If step is valid, fill review details in the confirmation step
-        if (isValid && currentStep === steps.length - 2) {
-            fillReviewStep();
-        }
-
         return isValid;
+    }
+
+    // Function to format the date as "Month Day, Year"
+    function formatDateToReadable(dateStr) {
+        const date = new Date(dateStr); // Convert string to Date object
+        const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Define options for formatting
+        return new Intl.DateTimeFormat('en-US', options).format(date); // Format the date
     }
 
     // Function to fill the review section with form data
     function fillReviewStep() {
-        document.getElementById('reviewPropertyName').textContent = document.getElementById('propertyName').value;
-        document.getElementById('reviewPropertyType').textContent = document.getElementById('propertyType').value;
-        document.getElementById('reviewAddress').textContent = document.getElementById('address').value;
-        document.getElementById('reviewCity').textContent = document.getElementById('city').value;
-        document.getElementById('reviewZipcode').textContent = document.getElementById('zipcode').value;
-        document.getElementById('reviewPrice').textContent = document.getElementById('price').value;
-        document.getElementById('reviewCurrency').textContent = document.getElementById('currency').value;
-        document.getElementById('reviewDescription').textContent = document.getElementById('description').value;
-        document.getElementById('reviewAmenities').textContent = document.getElementById('amenities').value;
+        document.getElementById('reviewPropertyName').textContent = document.getElementById('propertyName').value || 'N/A';
+        document.getElementById('reviewPropertyType').textContent = document.getElementById('propertyType').value || 'N/A';
+        document.getElementById('reviewAddress').textContent = document.getElementById('address').value || 'N/A';
+        document.getElementById('reviewCity').textContent = document.getElementById('city').value || 'N/A';
+        document.getElementById('reviewStartDate').textContent = formatDateToReadable(document.getElementById('startDate').value || 'N/A');
+        document.getElementById('reviewMinStayDays').textContent = document.getElementById('minStayDays').value || 'N/A';
+        document.getElementById('reviewMaxGuests').textContent = document.getElementById('maxGuests').value || 'N/A';
+        document.getElementById('reviewPrice').textContent = document.getElementById('price').value || 'N/A';
+        document.getElementById('briefDescription').textContent = document.getElementById('briefDescriptionValue').value || 'N/A';
+        document.getElementById('detailDescription').textContent = document.getElementById('detailDescriptionValue').value || 'N/A';
     }
 });
 
@@ -109,4 +114,9 @@ function display_hosting_form_btn_func() {
 }
 
 display_hosting_form_btn.addEventListener('click', display_hosting_form_btn_func);
+
+mobiscroll.select('#multiple-group-select', {
+    inputElement: document.getElementById('my-input'),
+    touchUi: false
+  });
 

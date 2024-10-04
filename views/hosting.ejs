@@ -30,20 +30,22 @@
               <div class="col text-center flex-column
               justify-content-center text-center" id="sm_responsive_intro_section">
                 <h3 class="lodgeliberia_textcolor_color text-center fw-bold" id="hostlogo">
-                  Host your property 
+                  Host your property
                   <br> with LodgeLiberia
                 </h3>
 
                 <!-- The below button is only available for smaller screen, for better responsiveness -->
                 <div class="container-fluid mt-2 d-lg-none">
-                  <button class="lodgeliberia_background_color btn text-black fw-bold" id="display_hosting_form_btn">Start your hosting..</button>
+                  <button class="lodgeliberia_background_color btn text-black fw-bold"
+                    id="display_hosting_form_btn">Start your hosting..</button>
                 </div>
-                
+
 
               </div>
               <div class="col b-danger d-lg-block" id="host_place_form">
+
                 <!-- Hosting Form -->
-                <form action="/submit-property" method="POST" class="step-form">
+                <form action="/submit_property" method="POST" class="step-form" enctype="multipart/form-data">
 
                   <!-- Step 1: Basic Information -->
                   <div class="step">
@@ -55,31 +57,37 @@
                     </div>
 
                     <div class="mb-3">
-                      <label for="formFile" class="form-label text-black fw-bold">Property Cover Image</label>
-                      <input class="form-control" type="file" id="host_cover_image" name="host_cover_image" accept="image/*" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="formFileMultiple" class="form-label black-text fw-bold" id="error-message">Additional Images (Please upload at least 4 images.)</label>
-                      <input class="form-control verfication-inputs" type="file" accept="image/*" name="hosting_images" multiple required id="multiple_host_images">
+                      <label for="host_cover_image" class="form-label text-black fw-bold">Property Cover Image</label>
+                      <input class="form-control" type="file" id="host_cover_image" name="host_cover_image"
+                        accept="image/*" required>
                     </div>
 
+                    <div class="mb-3">
+                      <label for="multiple_host_images" class="form-label text-black fw-bold" id="error-message">
+                        Additional Images (Please upload at least 4 images)
+                      </label>
+                      <input class="form-control" type="file" accept="image/*" name="hosting_images[]" multiple required
+                        id="multiple_host_images">
+                    </div>
 
                     <div class="mb-3">
                       <label for="propertyType" class="form-label text-black fw-bold">Property Type</label>
                       <select class="form-select form-control" id="propertyType" name="propertyType" required>
                         <option value="">Select property type</option>
-                        <option value="apartment">Apartment</option>
-                        <option value="house">House</option>
-                        <option value="room">Room</option>
-                        <option value="guesthouse">Guesthouse</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="House">House</option>
+                        <option value="Room">Room</option>
+                        <option value="Guest House">Guest House</option>
+                        <option value="Experience">Explore (Cultural Experience)</option>
                       </select>
                     </div>
+
                     <button type="button"
-                      class="btn next-step lodgeliberia_background_color text-black fw-bold w-50">Next</button>
+                      class="btn btn-custom next-step lodgeliberia_background_color text-black fw-bold w-50">Next</button>
                   </div>
 
                   <!-- Step 2: Location Information -->
-                  <div class="step">
+                  <div class="step" style="display: none;">
                     <h3 class="lodgeliberia_textcolor_color fw-bold">Location Information</h3>
                     <div class="mb-3">
                       <label for="address" class="form-label text-black fw-bold">Address</label>
@@ -109,13 +117,36 @@
                         <option value="river-gee">River Gee</option>
                         <option value="sinoe">Sinoe</option>
                       </select>
-                    </div>                    
-                    <button type="button" class="btn prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
-                    <button type="button" class="btn next-step lodgeliberia_background_color text-black fw-bold">Next</button>
+                    </div>
+                    <button type="button"
+                      class="btn btn-custom prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button"
+                      class="btn btn-custom next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
-                  <!-- Step 3: Pricing Information -->
-                  <div class="step">
+                  <!-- Step 3: Availability Information -->
+                  <div class="step" style="display: none;">
+                    <h3 class="lodgeliberia_textcolor_color fw-bold">Availability Information</h3>
+                    <div class="mb-3">
+                      <label for="startDate" class="form-label text-black fw-bold">Start Date</label>
+                      <input type="date" class="form-control" id="startDate" name="startDate" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="minStayDays" class="form-label text-black fw-bold">Minimum Stay (Days)</label>
+                      <input type="number" class="form-control" id="minStayDays" name="minStayDays" required min="1">
+                    </div>
+                    <div class="mb-3">
+                      <label for="maxGuests" class="form-label text-black fw-bold">Maximum Guests</label>
+                      <input type="number" class="form-control" id="maxGuests" name="maxGuests" required min="1">
+                    </div>
+                    <button type="button"
+                      class="btn btn-custom prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button"
+                      class="btn btn-custom next-step lodgeliberia_background_color text-black fw-bold">Next</button>
+                  </div>
+
+                  <!-- Step 4: Pricing Information -->
+                  <div class="step" style="display: none;">
                     <h3 class="lodgeliberia_textcolor_color fw-bold">Pricing Information</h3>
                     <div class="mb-3">
                       <label for="price" class="form-label text-black fw-bold">Price per Night</label>
@@ -128,46 +159,70 @@
                         <option value="usd" selected>USD</option>
                       </select>
                     </div>
-                    <button type="button" class="btn prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
-                    <button type="button" class="btn next-step lodgeliberia_background_color text-black fw-bold">Next</button>
+                    <button type="button"
+                      class="btn btn-custom prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button"
+                      class="btn btn-custom next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
-                  <!-- Step 4: Additional Information -->
-                  <div class="step">
+                  <!-- Step 5: Additional Information -->
+                  <div class="step" style="display: none;">
                     <h3 class="lodgeliberia_textcolor_color fw-bold">Additional Information</h3>
                     <div class="mb-3">
-                      <label for="description" class="form-label text-black fw-bold">Description</label>
-                      <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                      <label for="briefDescriptionValue" class="form-label text-black fw-bold">Brief Description</label>
+                      <input type="text" class="form-control" id="briefDescriptionValue" name="briefDescriptionValue"
+                        required>
                     </div>
                     <div class="mb-3">
-                      <label for="amenities" class="form-label text-black fw-bold">Amenities</label>
-                      <input type="text" class="form-control" id="amenities" name="amenities"
-                        placeholder="e.g. WiFi, Parking" required>
+                      <label for="detailDescriptionValue" class="form-label text-black fw-bold">Detail
+                        Description</label>
+                      <textarea class="form-control" id="detailDescriptionValue" name="detailDescriptionValue" rows="3"
+                        required></textarea>
                     </div>
-                    <button type="button" class="btn btn-secondary prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
-                    <button type="button" class="btn btn-primary next-step lodgeliberia_background_color text-black fw-bold">Next</button>
+
+                    <div class="mb-3">
+                      <label for="allAmenities" class="form-label text-black fw-bold">Amenities</label>
+                      <select id="allAmenities" name="allAmenities[]" data-placeholder="Select Amenities" multiple data-multi-select class="form-select form-control" required>
+                        <% amenities.forEach(amenity=> { %>
+                          <option value="<%= amenity.feature %>">
+                            <%= amenity.feature %>
+                          </option>
+                          <% }) %>
+                      </select>
+                    </div>
+
+
+                    <button type="button"
+                      class="btn btn-custom prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="button"
+                      class="btn btn-custom next-step lodgeliberia_background_color text-black fw-bold">Next</button>
                   </div>
 
-                  <!-- Step 5: Confirmation -->
-                  <div class="step">
-                    <h3>Confirmation</h3>
-                    <p>Please review your details before submitting:</p>
+                  <!-- Step 6: Confirmation -->
+                  <div class="step" style="display: none;">
+                    <h3 class="lodgeliberia_textcolor_color fw-bold">Confirmation</h3>
+                    <p class="text-black fw-bold">Please review your details before submitting:</p>
+
                     <ul>
-                      <li>Property Name: <span id="reviewPropertyName"></span></li>
-                      <li>Property Type: <span id="reviewPropertyType"></span></li>
-                      <li>Address: <span id="reviewAddress"></span></li>
-                      <li>City: <span id="reviewCity"></span></li>
-                      <li>Zip Code: <span id="reviewZipcode"></span></li>
-                      <li>Price per Night: <span id="reviewPrice"></span></li>
-                      <li>Currency: <span id="reviewCurrency"></span></li>
-                      <li>Description: <span id="reviewDescription"></span></li>
-                      <li>Amenities: <span id="reviewAmenities"></span></li>
+                      <li><b>Property Name:</b> <span id="reviewPropertyName"></span></li>
+                      <li><b>Property Type:</b> <span id="reviewPropertyType"></span></li>
+                      <li><b>Address:</b> <span id="reviewAddress"></span></li>
+                      <li><b>City:</b> <span id="reviewCity"></span></li>
+                      <li><b>Start Date:</b> <span id="reviewStartDate"></span></li>
+                      <li><b>Minimum Stay:</b> <span id="reviewMinStayDays"></span> days</li>
+                      <li><b>Maximum Guests:</b> <span id="reviewMaxGuests"></span></li>
+                      <li><b>Brief Description:</b> <span id="briefDescription"></span></li>
+                      <li><b>Detail Description:</b> <span id="detailDescription"></span></li>
+                      <li><b>Price per Night:</b> <span id="reviewPrice"></span> <span id="reviewCurrency"></span></li>
                     </ul>
-                    <button type="button" class="btn btn-secondary prev-step">Previous</button>
-                    <button type="submit" class="btn btn-primary">Submit Property</button>
-                  </div>
 
+                    <button type="button"
+                      class="btn btn-custom prev-step lodgeliberia_background_color text-black fw-bold">Previous</button>
+                    <button type="submit"
+                      class="btn btn-custom lodgeliberia_background_color text-black fw-bold">Submit</button>
+                  </div>
                 </form>
+
 
               </div>
             </div>
@@ -176,4 +231,4 @@
         </div>
       </div>
   </main>
-  <%- include("partial/home_footer") %>
+  <%- include("partial/hosting_footer") %>
