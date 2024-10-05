@@ -20,6 +20,10 @@
     background-color: #F2F2F2;
 }
 
+.container {
+    padding: 30px;
+}
+
 .wrap {
     margin: 70px auto;
 }
