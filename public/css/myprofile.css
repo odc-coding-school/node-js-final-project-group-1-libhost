@@ -10,7 +10,6 @@
     top: -20px; /* Raised above the card */
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
     margin-top: -20px; /* Pull the image upwards */
   }
   
@@ -32,12 +31,6 @@
     font-size: 1.2rem;
     margin-bottom: 5px;
   }
-
-  .my-card:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-  
 
   /* Responsive handling */
   @media (max-width: 768px) {
