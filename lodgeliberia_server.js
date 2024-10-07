@@ -445,6 +445,11 @@ server.get("/login", (req, res) => {
     res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
 });
 
+// about page route
+// server.get("/about", (req, res) => {
+//     res.render('about');
+// });
+
 
 // Home page route
 server.get("/", (req, res) => {
