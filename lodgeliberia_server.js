@@ -50,12 +50,18 @@ function initializeDatabase() {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 role TEXT NOT NULL,
                 fullname TEXT NOT NULL,
-                phone_number INTEGER NOT NULL,
+                phone_number TEXT,
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
-                password TEXT Not Null,
-                
-                time_created DATETIME DEFAULT CURRENT_TIMESTAMP
+                password TEXT NOT NULL,
+                profile_pic BLOB,
+                image_mime_type TEXT,
+                occupation TEXT,
+                education TEXT,
+                age INTEGER,
+                user_agreement BOOLEAN DEFAULT 0,
+                time_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+                national_identification_card_verification BLOB
             )`,
             `CREATE TABLE IF NOT EXISTS host_listings (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -159,18 +165,38 @@ server.post('/calculate-price', (req, res) => {
     res.json({ totalPrice, lodge_liberia_percent, total_plus_percentage });
 });
 
-// signup form post route
-server.post('/signup', (req, res) => {
-    const { fullname, phone_number, email, username, password } = req.body;
+
+// Signup form post route
+server.post('/signup', upload.single('profilePic'), (req, res) => {
+    const { fullname, phone_number, email, username, password, occupation, education, age, useragreement } = req.body;
+
+    // Check if the user uploaded a profile picture
+    const profilePic = req.file ? req.file.buffer : null;
+
+    // Get the mime type of the cover image
+    const profilePicMimeType = req.file ? req.file.mimetype : null;
 
     // Insert the new user data into the 'users' table
     const sql = `
-    INSERT INTO users (role, fullname, phone_number, email, username, password)
-    VALUES (?, ?, ?, ?, ?,?)
+    INSERT INTO users (role, fullname, phone_number, email, username, password, profile_picture, image_mime_type, occupation, education, age, user_agreement)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     // Run the SQL query
-    lodge_liberia_db.run(sql, ["guest", fullname, phone_number, email, username, password], function (err) {
+    lodge_liberia_db.run(sql, [
+        "guest", // role
+        fullname,
+        phone_number,
+        email,
+        username,
+        password,
+        profilePic, // Profile picture stored as binary
+        profilePicMimeType, // Profile picture mime_type
+        occupation,
+        education,
+        age,
+        useragreement === 'user agreement approval' ? 1 : 0 // Convert checkbox to boolean
+    ], function (err) {
         if (err) {
             console.error('Error inserting user into database:', err);
             return res.status(500).send('Error registering user');
@@ -325,11 +351,11 @@ server.post('/confirmation', upload.single('sender_approval_image'), (req, res) 
 // Host Place Post Route
 server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { name: 'hosting_images[]' }]), (req, res) => {
     // Log the form data to check if everything is received
-    console.log('Form Data:', req.body);
+    // console.log('Form Data:', req.body);
 
-    // Check if the cover image and additional images are received
-    console.log('Cover Image:', req.files['host_cover_image']);
-    console.log('Additional Images:', req.files['hosting_images[]']);
+    // // Check if the cover image and additional images are received
+    // console.log('Cover Image:', req.files['host_cover_image']);
+    // console.log('Additional Images:', req.files['hosting_images[]']);
 
     const amenities = req.body['allAmenities[][]'];
 
@@ -346,7 +372,6 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
         minStayDays,
         maxGuests,
         price,
-        currency,
         briefDescriptionValue,
         detailDescriptionValue,
     } = req.body;
@@ -429,7 +454,7 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
 
         // After everything is done, respond with success or redirect
         console.log("Everthing Enter Successfully.");
-        res.render('hosting');
+        res.render('hosting', {user: req.session.user});
     });
 });
 
@@ -440,15 +465,16 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
 
 // ==== Get methods
 
-// login pAGE
+// Login Page Route
 server.get("/login", (req, res) => {
     res.render('login_signup', { errorMessage: null }); // Pass errorMessage as null or '' initially
 });
 
-// about page route
-// server.get("/about", (req, res) => {
-//     res.render('about');
-// });
+
+// About Page Route
+server.get("/about", (req, res) => {
+    res.render('about', { user: req.session.user });
+});
 
 
 // Home page route
@@ -926,6 +952,9 @@ server.get('/place_detail/:host_place_id', (req, res) => {
             users.id AS host_id,
             users.fullname AS host_name,
             users.profile_picture AS host_picture,
+            users.image_mime_type AS host_image_mime_type,
+            users.occupation AS user_occupation,
+            users.education AS user_education,
             host_listings.title AS property_title,
             host_listings.description AS property_description,
             host_listings.detail_description AS property_detail_description,
@@ -970,6 +999,9 @@ server.get('/place_detail/:host_place_id', (req, res) => {
                 host_id: rows[0].host_id,
                 host_name: rows[0].host_name,
                 host_picture: rows[0].host_picture ? Buffer.from(rows[0].host_picture).toString('base64') : null,
+                host_image_mime_type: rows[0].host_image_mime_type,
+                host_occupation: rows[0].user_occupation,
+                host_education: rows[0].user_education,
                 property_title: rows[0].property_title,
                 property_description: rows[0].property_description,
                 property_detail_description: rows[0].property_detail_description,
@@ -1154,7 +1186,7 @@ server.get('/hostplace', requireLogin, (req, res) => {
             if (err) throw err;
 
             // Process Rooms rows and store in results object
-            host_property = rooms_Rows.map(row => ({
+            const host_property = rooms_Rows.map(row => ({
                 host_name: row.host_name,
                 host_place_id: row.property_id,
                 property_title: row.property_title,
@@ -1184,17 +1216,86 @@ server.get('/hostplace', requireLogin, (req, res) => {
 // User Profile Route
 server.get('/my_profile', requireLogin, (req, res) => {
 
-    res.render('my_profile', { user: req.session.user });
+    // Access the session user
+    const sessionUser = req.session.user;
+
+    const get_host_info_query = `
+        SELECT
+        users.fullname AS host_fullname,
+        users.education AS host_education,
+        users.occupation AS host_occupation,
+        users.phone_number AS host_phone_number,
+        users.email AS host_email,
+        users.profile_picture AS host_picture,
+        users.image_mime_type AS host_picture_mime_type,
+        users.age AS host_age
+        FROM users
+        WHERE users.id = ?
+    `;
+
+    lodge_liberia_db.all(get_host_info_query, [sessionUser.id], (err, host_info) => {
+        if (err) throw err;
+
+        // Process the host information and map it to the result object
+        const host_detail = host_info.map(row => ({
+            host_name: row.host_fullname,
+            host_education: row.host_education,
+            host_occupation: row.host_occupation,
+            host_phone_number: row.host_phone_number,
+            host_email: row.host_email,
+            host_picture: row.host_picture ? Buffer.from(row.host_picture).toString('base64') : null,
+            host_picture_mime_type: row.host_picture_mime_type,
+            host_age: row.host_age,
+        }));
+
+        console.log(host_detail);
+
+        res.render('my_profile', { user: req.session.user, place: host_detail });
+
+    });
+
 });
 
 // Host Profile Route
 server.get('/host_profile/:host_id', requireLogin, (req, res) => {
 
     // About Host
-    const selected_host = req.params.host_id;
-    console.log(selected_host);
+    const selected_host_id = req.params.host_id;
+    // console.log(selected_host);
 
-    res.render('host_profile', { user: req.session.user });
+    const get_host_info_query = `
+        SELECT
+        users.fullname AS host_fullname,
+        users.education AS host_education,
+        users.occupation AS host_occupation,
+        users.phone_number AS host_phone_number,
+        users.email AS host_email,
+        users.profile_picture AS host_picture,
+        users.image_mime_type AS host_picture_mime_type,
+        users.age AS host_age
+        FROM users
+        WHERE users.id = ?
+    `;
+
+    lodge_liberia_db.all(get_host_info_query, [selected_host_id], (err, host_info) => {
+        if (err) throw err;
+
+        // Process the host information and map it to the result object
+        const host_detail = host_info.map(row => ({
+            host_name: row.host_fullname,
+            host_education: row.host_education,
+            host_occupation: row.host_occupation,
+            host_phone_number: row.host_phone_number,
+            host_email: row.host_email,
+            host_picture: row.host_picture ? Buffer.from(row.host_picture).toString('base64') : null,
+            host_picture_mime_type: row.host_picture_mime_type,
+            host_age: row.host_age,
+        }));
+
+        res.render('host_profile', { user: req.session.user, place: host_detail });
+
+    });
+
 });
 
 // My booking (Places booked by a user route configuration)

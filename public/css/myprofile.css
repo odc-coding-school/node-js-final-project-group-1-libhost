@@ -53,3 +53,7 @@
     max-width: 30%;
     height: fit-content;
 }
+
+#return_btn {
+  cursor: pointer;
+}
