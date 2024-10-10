@@ -1,0 +1,72 @@
+/* Container for the forms */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card Styles */
+.card {
+  background-color: rgb(0, 0, 0); /* Semi-transparent black */
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px; /* Responsive max width */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Card Header */
+.card-header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff9900;
+}
+
+/* Form Control Styles */
+.form-control {
+  background-color: #ffffff; /* White background for input */
+  color: #000000; /* Black text for input */
+  border-radius: 5px;
+  border: none;
+}
+
+/* Focus Styles for Form Control */
+.form-control:focus {
+  box-shadow: none;
+  border: 1px solid #ff9900; /* Border color on focus */
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: #ff9900; /* Button color */
+  border: none;
+  color: #ffffff; /* Button text color */
+  width: 100%;
+}
+
+/* Button Hover Styles */
+.btn-primary:hover {
+  background-color: #e68a00; /* Darker shade on hover */
+}
+
+/* Card Footer Links */
+.card-footer a {
+  color: #ff9900; /* Link color */
+  text-decoration: none;
+}
+
+/* Hide steps by default */
+.step {
+  display: none !important;
+}
+
+/* Active step is visible */
+.step.active {
+  display: block !important;
+}
+
+.is-invalid {
+  border-color: orange !important;
+}
+

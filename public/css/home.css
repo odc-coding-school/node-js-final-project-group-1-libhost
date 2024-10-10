@@ -1,0 +1,35 @@
+body {
+  height: 90vh !important;
+  background-color: white;
+  
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.prices {
+  text-align: right !important;
+}
+
+.place-content {
+  text-decoration: none !important;
+}
+
+.card-body{
+  background-color: white;
+}
+
+.card-body h5 {
+  color: orange;
+}
+
+.card-body p {
+  color: black;
+}
+
+.place-img {
+  max-height: 300px;
+  width: 100%;
+  border-radius: 10px;
+}

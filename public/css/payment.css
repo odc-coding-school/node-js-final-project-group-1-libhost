@@ -1,0 +1,146 @@
+.payment-form {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(143, 53, 53, 0.1);
+}
+
+.card {
+    background-color: orange;
+}
+
+/* Styling payment form image */
+.img-fluid {
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px; /* Limits the image's width */
+    height: auto; /* Ensures the image maintains aspect ratio */
+    object-fit: cover;
+    margin-top: 20px;
+}
+
+/* Styling psim in card */
+.cardimg {
+    width: 20%;
+    max-width: 600px; /* Limits the image's width */
+    height: auto; /* Ensures the image maintains aspect ratio */
+    object-fit: cover;
+    margin-top: 20px;
+    margin-left: 30px;
+    outline: solid green;
+}
+
+.card-inner h3 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    margin: 30px 10px;
+    font-weight: 600; /* Make the title bold */
+  }
+
+.card-inner h4 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    font-weight: 800; /* Make the title bold */
+  }
+
+.name-card h4 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff;  /* Darker text color */
+    text-align: right;
+    margin-top: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+.name-card h5 {
+    font-size: 15px; /* Font size for the title */
+    color: #ffffff;  /* Darker text color */
+    margin-right: 40px;
+    font-weight: 200;
+    top: 20px;
+    margin: 20px 10px;
+  }
+
+.name-card h2 {
+    font-size: 24px; /* Font size for the title */
+    color: #ffffff; /* Darker text color */
+    margin: 10px 10px;
+    font-weight: 600; /* Make the title bold */
+  }
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    align-content: center;
+}
+.summary {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.summary h5 {
+    margin-bottom: 10px;
+}
+.summary .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+.btn-color {
+    background-color: #28a745;
+    color: white;
+    margin-top: 20px;
+}
+
+.verfication-inputs {
+    box-shadow: none;
+    background-color: white;
+    color: black;
+    border: 2px solid orange;
+}
+
+.verfication-inputs:focus {
+    box-shadow: none;
+    border: 1px solid orange;
+}
+
+.available_payments_imgs {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.available_payments_imgs2 {
+    width: 350px;
+    height: 350px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.required-label::after {
+    content: " *";
+    color: orange;
+}
+
+.btn-custom:hover {
+    background-color: black; /* Custom hover color */
+    color: orange !important; /* Hover text color */
+}
+
+.overlay-container {
+position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}

@@ -1,0 +1,44 @@
+<%- include("partial/home_header") %>
+
+  <main class="container-fluid mb-5">
+
+    <!-- Search Results -->
+    <pre class="text-center text-black fw-bold fs-5 mt-2" id="motto">Found <b><%= total_places_found %></b></pre>
+
+            <!-- Search Result places listing -->
+            <div class="container-fluid m-0 tab-pane fade show active p-0 mt-2" id="Tab1">
+                <div class="row g-2">
+      
+                  <% search_results2.forEach(search_place => { %>
+      
+                    <a href="/place_detail/<%= search_place.host_place_id %>" class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 place-content shadow">
+                      <div class="card border-0 bg-white shadow" style="width: 100%;">
+      
+                        <% if (search_place.base64Image) { %>
+                          <img src="data:image/jpeg;base64,<%= search_place.base64Image %>" class="place-img" alt="..." style="height: fit-content;">
+                        <% } else { %>
+                          <p>No image available</p>
+                        <% } %>
+      
+                        <div class="card-body p-1">
+                          <div class="d-flex justify-content-between mb-2">
+                            <h5 class="mb-0 w-50 fs-6 fw-bolder"><%= search_place.property_title %></h5>
+                            <p class="card-text prices mb-0">Price per day: <b>$<%= search_place.property_price_per_night %>USD</b></p>
+                          </div>
+                          <p class="card-text mb-0">Available from: <b><%= search_place.available_month %> <%= search_place.available_day %>, <%= search_place.available_year %></b></p>
+                          <div class="d-flex justify-content-between mb-2">
+                            <p class="card-text mb-0 w-100"><%= search_place.property_description %></p>
+                          </div>
+                          <p class="card-text fw-bold">Hosted by <%= search_place.host_name %></p>
+                        </div>
+                      </div>
+                    </a>
+      
+                  <%})%>
+      
+                </div>
+              </div>
+    <!-- Search Result Places -->
+
+  </main>
+  <%- include("partial/home_footer") %>
