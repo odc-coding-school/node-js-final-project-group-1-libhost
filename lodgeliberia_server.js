@@ -54,7 +54,7 @@ function initializeDatabase() {
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
-                profile_pic BLOB,ync
+                profile_pic BLOB,
                 image_mime_type TEXT,
                 occupation TEXT,
                 education TEXT,
