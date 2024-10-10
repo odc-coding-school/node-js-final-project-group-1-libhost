@@ -2,7 +2,7 @@
 const express = require('express');
 const session = require('express-session');
 const server = express();
-const port = 5600;
+const port = 5200;
 const QRCode = require('qrcode');
 // =======================
 // Extended Modules Integration
