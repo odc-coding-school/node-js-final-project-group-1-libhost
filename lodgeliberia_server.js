@@ -2,7 +2,7 @@
 const express = require('express');
 const session = require('express-session');
 const server = express();
-const port = 5600;
+const port = 5200;
 const QRCode = require('qrcode');
 // =======================
 // Extended Modules Integration
@@ -1200,11 +1200,13 @@ server.get('/hostplace', requireLogin, (req, res) => {
                 base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
             }));
 
+            console.log(host_property);
+
             // Render the hosting view and pass the user and amenities
             res.render('hosting', {
                 user: req.session.user,
-                place: host_property,
-                amenities: amenities // Pass the amenities to the template
+                host_property,
+                amenities: amenities
             });
 
         })
