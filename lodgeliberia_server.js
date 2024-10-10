@@ -54,7 +54,7 @@ function initializeDatabase() {
                 email TEXT UNIQUE,
                 username TEXT NOT NULL,
                 password TEXT NOT NULL,
-                profile_pic BLOB,
+                profile_pic BLOB,ync
                 image_mime_type TEXT,
                 occupation TEXT,
                 education TEXT,
@@ -1053,81 +1053,86 @@ function requireLogin(req, res, next) {
 
 // Payment Route
 server.get('/payment', requireLogin, async (req, res) => {
-
-    const selected_place_id = req.query.selected_place_id; // Get the property ID from the URL
-    const selected_place_title = req.query.selected_place_title; // Get the property title from the URL
-
-    const selected_place_total_cost_over_period = req.query.grand_total; // Get the property total cost over period from the URL
-    const selected_place_total_cost_over_period2 = req.query.grand_total2; // Get the property total cost over period from the URL
+    const selected_place_id = req.query.selected_place_id;
+    const selected_place_title = req.query.selected_place_title;
+    const selected_place_total_cost_over_period = req.query.grand_total;
+    const selected_place_total_cost_over_period2 = req.query.grand_total2;
     const roundedcost = Math.ceil(selected_place_total_cost_over_period);
     const roundedcost2 = Math.ceil(selected_place_total_cost_over_period2);
 
-    // Function to format the date as "Month Day, Year"
     function formatDateToReadable(dateStr) {
-        const date = new Date(dateStr); // Convert string to Date object
-        const options = { year: 'numeric', month: 'long', day: 'numeric' }; // Define options for formatting
-        return new Intl.DateTimeFormat('en-US', options).format(date); // Format the date
+        const date = new Date(dateStr);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
     }
 
-    // Determine which variable to send to the template
     let displayValue;
     if (roundedcost) {
-        displayValue = roundedcost; // If roundedcost exists, use it
+        displayValue = roundedcost;
     } else if (roundedcost2) {
-        displayValue = roundedcost2; // Otherwise, use roundedcost2
+        displayValue = roundedcost2;
     } else {
-        displayValue = 'No data available'; // Default message if both are null
+        displayValue = 'No data available';
     }
 
-    const checkin = formatDateToReadable(req.query['start-date']); // Get the property checkin dates from the URL
-    const checkout = formatDateToReadable(req.query['end-date']); // Get the property checkout dates from the URL
+    const checkin = formatDateToReadable(req.query['start-date']);
+    const checkout = formatDateToReadable(req.query['end-date']);
 
-
-    // SQL query to select the image blobs from the 'host_images' table where the 'host_listing_id' matches the listing ID
     const query = `SELECT image_data FROM host_images WHERE host_listing_id = ?`;
 
-    // Implementing QR code payment
-
-    // Orange Money QR Payment
     const orange_qr_payment = `*144*1*1*0770722633*${displayValue}#`;
-    // Mobile Money QR Payment
     const mobile_money_qr_payment = `*156*1*1*0881806488*2*${displayValue}#`;
 
-    // QR codes container (Objects)
     const qr_codes = {};
 
-    // Function to generate QR code
     try {
-        // Generate QR code for Orange Money
+        // Generate QR codes
         qr_codes.orange_money = await QRCode.toDataURL(orange_qr_payment);
-
-        // Generate QR code for Mobile Money
         qr_codes.mobile_money = await QRCode.toDataURL(mobile_money_qr_payment);
+
+        // Promisify the database query
+        const images = await new Promise((resolve, reject) => {
+            lodge_liberia_db.all(query, [selected_place_id], (err, rows) => {
+                if (err) {
+                    return reject(err);
+                }
+
+                if (rows.length === 0) {
+                    return reject(new Error('No images found for this listing.'));
+                }
+
+                const imagesBase64 = rows.map(row =>
+                    row.image_data ? Buffer.from(row.image_data).toString('base64') : null
+                );
+
+                resolve(imagesBase64);
+            });
+        });
+
+        // Render the template after everything is done
+        res.render('lodgeliberia_payment', {
+            user: req.session.user,
+            place: images,
+            selected_place_title,
+            checkin,
+            checkout,
+            roundedcost,
+            roundedcost2,
+            qr_codes,
+            selected_place_id
+        });
+
+    } catch (err) {
+        console.error("Error in /payment route:", err);
+        return res.status(500).send('An error occurred during the payment process.');
     }
-    catch (err) {
-        console.log(err);
-        return res.status(500).send('Error generating QR codes');
-    }
+});
 
-    // Execute the query, passing in the listing ID as a parameter
-    lodge_liberia_db.all(query, [selected_place_id], (err, rows) => {
-        if (err) {
-            console.error("Database error:", err);  // Log any errors encountered during the database query
-        }
+// Global handler for unhandled promise rejections (temporary for debugging)
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
-        // Check if any rows (images) were returned from the query
-        if (rows.length === 0) {
-            return res.status(404).json({ message: "No images found for this listing." });  // Send a 404 response if no images are found
-        }
-
-        // Map through the rows and convert each image_blob to a Base64 string
-        const images = rows.map(row =>
-            row.image_data ? Buffer.from(row.image_data).toString('base64') : null  // Convert BLOB to Base64, or return null if no BLOB
-        );
-
-        res.render('lodgeliberia_payment', { user: req.session.user, place: images, selected_place_title, checkin, checkout, roundedcost, roundedcost2, qr_codes, selected_place_id });
-    });
-})
 
 
 // Host Place Route
