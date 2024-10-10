@@ -454,7 +454,7 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
 
         // After everything is done, respond with success or redirect
         console.log("Everthing Enter Successfully.");
-        res.render('hosting', {user: req.session.user});
+        res.redirect('/hostplace');
     });
 });
 
@@ -1137,82 +1137,83 @@ server.get('/hostplace', requireLogin, (req, res) => {
     req.session.returnTo = req.originalUrl;
 
     // Access the session user
-    const sessionUser = req.session.user; //logged-in user and their ID is available in `req.user.id`
+    const sessionUser = req.session.user;
 
-    // User places hosted
+    // SQL query for the user's hosted places
     const user_places_hosted = `
-                 SELECT 
-                users.fullname AS host_name,
-                host_listings.title AS property_title,
-                host_listings.id AS property_id,
-                host_listings.description AS property_description,
-                host_listings.price_per_night AS property_price_per_night,
-                host_listings.Images AS images,
-                host_listings.image_mime_type AS image_mime_type,
-                host_listings.available_from,
-                -- Formatting the available_from date for better readability
-                CASE strftime('%m', host_listings.available_from)
-                    WHEN '01' THEN 'January'
-                    WHEN '02' THEN 'February'
-                    WHEN '03' THEN 'March'
-                    WHEN '04' THEN 'April'
-                    WHEN '05' THEN 'May'
-                    WHEN '06' THEN 'June'
-                    WHEN '07' THEN 'July'
-                    WHEN '08' THEN 'August'
-                    WHEN '09' THEN 'September'
-                    WHEN '10' THEN 'October'
-                    WHEN '11' THEN 'November'
-                    WHEN '12' THEN 'December'
-                END AS available_month,
-                strftime('%d', host_listings.available_from) AS available_day,
-                strftime('%Y', host_listings.available_from) AS available_year
-            FROM users
-            JOIN host_listings ON users.id = host_listings.user_id
-            WHERE users.id = ${sessionUser.id}
-            `;
-
+        SELECT 
+            users.fullname AS host_name,
+            host_listings.title AS property_title,
+            host_listings.id AS property_id,
+            host_listings.description AS property_description,
+            host_listings.price_per_night AS property_price_per_night,
+            host_listings.Images AS images,
+            host_listings.image_mime_type AS image_mime_type,
+            host_listings.available_from,
+            CASE strftime('%m', host_listings.available_from)
+                WHEN '01' THEN 'January'
+                WHEN '02' THEN 'February'
+                WHEN '03' THEN 'March'
+                WHEN '04' THEN 'April'
+                WHEN '05' THEN 'May'
+                WHEN '06' THEN 'June'
+                WHEN '07' THEN 'July'
+                WHEN '08' THEN 'August'
+                WHEN '09' THEN 'September'
+                WHEN '10' THEN 'October'
+                WHEN '11' THEN 'November'
+                WHEN '12' THEN 'December'
+            END AS available_month,
+            strftime('%d', host_listings.available_from) AS available_day,
+            strftime('%Y', host_listings.available_from) AS available_year
+        FROM users
+        JOIN host_listings ON users.id = host_listings.user_id
+        WHERE users.id = ${sessionUser.id}
+    `;
 
     // Query the database for amenities
-    const query = `SELECT feature FROM places_features`; // Adjust the table/column names to match your DB
+    const query = `SELECT feature FROM places_features`;
+
+    // Fetch amenities
     lodge_liberia_db.all(query, [], (err, amenities) => {
         if (err) {
             console.error('Error fetching amenities:', err);
             return res.status(500).send('Error fetching amenities');
         }
 
-        // Fifth query to get only Rooms
+        // Fetch user's hosted places
         lodge_liberia_db.all(user_places_hosted, [], (err, rooms_Rows) => {
-            if (err) throw err;
+            if (err) {
+                console.error('Error fetching properties:', err);
+                return res.status(500).send('Error fetching properties');
+            }
 
-            // Process Rooms rows and store in results object
-            const host_property = rooms_Rows.map(row => ({
-                host_name: row.host_name,
-                host_place_id: row.property_id,
-                property_title: row.property_title,
-                property_description: row.property_description,
-                property_price_per_night: row.property_price_per_night,
-                available_month: row.available_month,
-                available_day: row.available_day,
-                available_year: row.available_year,
-                image_mime_type: row.image_mime_type,
-                // Convert BLOB image data to Base64 (if available)
-                base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
-            }));
+            // Define host_property based on the query results
+            const host_property = rooms_Rows.length > 0 
+                ? rooms_Rows.map(row => ({
+                    host_name: row.host_name,
+                    host_place_id: row.property_id,
+                    property_title: row.property_title,
+                    property_description: row.property_description,
+                    property_price_per_night: row.property_price_per_night,
+                    available_month: row.available_month,
+                    available_day: row.available_day,
+                    available_year: row.available_year,
+                    image_mime_type: row.image_mime_type,
+                    base64Image: row.images ? Buffer.from(row.images).toString('base64') : null
+                })) 
+                : [];
 
-            console.log(host_property);
-
-            // Render the hosting view and pass the user and amenities
+            // Render the hosting view and pass the user, host_property, and amenities
             res.render('hosting', {
                 user: req.session.user,
-                host_property,
-                amenities: amenities
+                host_property: host_property || [], // Will be an empty array if no properties
+                amenities
             });
-
-        })
-
+        });
     });
 });
+
 
 
 // User Profile Route
