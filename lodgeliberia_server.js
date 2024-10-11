@@ -433,7 +433,7 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
     const insertHostListingQuery = `
         INSERT INTO host_listings 
         (user_id, title, description, detail_description, location, price_per_night, max_guest, available_from, county, city, property_type, min_stay_days, max_guest, IMAGES, image_mime_type, address_verification, address_verification_mime_type)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     // Step 2: Update data in the `users` table where `id` matches the current user's ID
