@@ -483,7 +483,7 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
         lodge_liberia_db.run(updateUsersTableQuery, [host_identification_card, host_identification_card_mime_type, sessionUser.id], function (err) {
             if (err) {
                 console.error("Error updating user data:", err);
-                return res.status(500).send("Error updating user data.");
+                res.redirect('/hostplace');
             }
 
 
@@ -1466,6 +1466,11 @@ server.get('/logout', (req, res) => {
         res.clearCookie('connect.sid');  // 'connect.sid' is the default session cookie name
         res.redirect('/');  // Redirect the user to the login page
     });
+});
+
+// Contact US Route
+server.get('/contact', requireLogin, (req, res) => {
+    res.render('contact_us', { user: req.session.user});
 });
 
 
