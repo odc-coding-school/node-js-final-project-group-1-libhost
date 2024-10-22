@@ -12,6 +12,7 @@
 
 .text {
     color: orange;
+    text-align: justify;
 }
 
 .third-fluid {
@@ -29,8 +30,4 @@
 .image img {
     width: 330px;
     border-radius: 10px;
-}
-
-#about_us_cover_img {
-    height: 20px !important;
 }
