@@ -6,7 +6,6 @@ const port = 5200;
 const QRCode = require('qrcode');
 // =======================
 // Extended Modules Integration
-const path = require("path");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3");
 const multer = require("multer");
@@ -395,14 +394,22 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
     // Log the form data to check if everything is received
     // console.log('Form Data:', req.body);
 
-    // // Check if the cover image and additional images are received
-    // console.log('Cover Image:', req.files['host_cover_image']);
-    // console.log('Additional Images:', req.files['hosting_images[]']);
+    // Check if files are received
+    const host_cover_image = req.files['host_cover_image'] ? req.files['host_cover_image'][0] : null; // Cover image
+    const additional_images = req.files['hosting_images[]'] || []; // Additional images
+    const utility_bill_verification = req.files['utility_bill'] ? req.files['utility_bill'][0] : null; // Utility Verification file
+    const host_identification_card = req.files['host_identification_card'] ? req.files['host_identification_card'][0] : null; // Host Verification file, optional
+
+    // Check if necessary files are uploaded
+    if (!host_cover_image || !utility_bill_verification) {
+        console.error("Required files are missing.");
+        return res.status(400).send("Cover image and utility bill are required.");
+    }
 
     const amenities = req.body['allAmenities[][]'];
 
     // Log the amenities received from the form
-    console.log('Amenities:', amenities);
+    // console.log('Amenities:', amenities);
 
     const {
         propertyName,
@@ -418,16 +425,10 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
         detailDescriptionValue,
     } = req.body;
 
-    const host_cover_image = req.files['host_cover_image'][0]; // Cover image
-    const additional_images = req.files['hosting_images[]']; // Additional images
-
-    // Verification files
-    const utility_bill_verification = req.files['utility_bill'][0]; // Utility Verification file
-    const host_identification_card = req.files['host_identification_card'][0]; // Host Verification file
-
-    // Get the mime type of the verifcation files
+    // Get the mime type of the cover image and verification files
+    const coverImageMimeType = host_cover_image.mimetype;
     const utility_bill_verification_mime_type = utility_bill_verification.mimetype;
-    const host_identification_card_mime_type = host_identification_card.mimetype;
+    const host_identification_card_mime_type = host_identification_card ? host_identification_card.mimetype : null; // Conditional mime type
 
     // Step 1: Insert data into `host_listings` table
     const insertHostListingQuery = `
@@ -436,7 +437,7 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    // Step 2: Update data in the `users` table where `id` matches the current user's ID
+    // Step 2: Update data in the `users` table where `id` matches the current user's ID (only if ID card is uploaded)
     const updateUsersTableQuery = `
         UPDATE users 
         SET national_identification_card_verification = ?, 
@@ -445,16 +446,14 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
     `;
 
     // Access the session user
-    const sessionUser = req.session.user; //logged-in user and their ID is available in `req.user.id`
+    const sessionUser = req.session.user; // Logged-in user and their ID is available in `req.user.id`
     const location = `${address}`; // Combine address details
     const pricePerNight = parseFloat(price);
     const availableFrom = startDate;
     const maxGuestsParsed = parseInt(maxGuests);
     const minStayDaysParsed = parseInt(minStayDays);
 
-    // Get the mime type of the cover image
-    const coverImageMimeType = host_cover_image.mimetype;
-
+    // Insert the host listing
     lodge_liberia_db.run(insertHostListingQuery, [
         sessionUser.id,
         propertyName,
@@ -471,63 +470,63 @@ server.post('/submit_property', upload.fields([{ name: 'host_cover_image' }, { n
         maxGuestsParsed,
         host_cover_image.buffer, // Cover image as binary data
         coverImageMimeType, // Mime type of the cover image
-        utility_bill_verification, // place verification file
-        utility_bill_verification_mime_type // place verification file mime code
+        utility_bill_verification.buffer, // Place verification file as binary
+        utility_bill_verification_mime_type // Place verification file mime code
     ], function (err) {
         if (err) {
             console.error('Error inserting into host_listings:', err);
             return res.status(500).send('An error occurred while saving the listing.');
         }
 
-        // Execute the query, passing the appropriate values
-        lodge_liberia_db.run(updateUsersTableQuery, [host_identification_card, host_identification_card_mime_type, sessionUser.id], function (err) {
-            if (err) {
-                console.error("Error updating user data:", err);
-                res.redirect('/hostplace');
-            }
+        const hostListingId = this.lastID; // Get the inserted row's ID
 
+        // Update the user's identification card details if the file was uploaded
+        if (host_identification_card) {
+            lodge_liberia_db.run(updateUsersTableQuery, [host_identification_card.buffer, host_identification_card_mime_type, sessionUser.id], function (err) {
+                if (err) {
+                    console.error("Error updating user data:", err);
+                    return res.status(500).send('An error occurred while updating user verification.');
+                }
+            });
+        }
 
-            const hostListingId = this.lastID; // Get the inserted row's ID
-
-            // Step 2: Insert additional images into `host_images` table
-            const insertImageQuery = `
+        // Step 2: Insert additional images into `host_images` table
+        const insertImageQuery = `
             INSERT INTO host_images (host_listing_id, image_data, image_mime_type) 
             VALUES (?, ?, ?)
         `;
 
-            additional_images.forEach(image => {
-                const imageMimeType = image.mimetype; // Get mime type of the additional images
-                lodge_liberia_db.run(insertImageQuery, [hostListingId, image.buffer, imageMimeType], function (err) {
-                    if (err) {
-                        console.error('Error inserting into host_images:', err);
-                    }
-                });
+        additional_images.forEach(image => {
+            const imageMimeType = image.mimetype; // Get mime type of the additional images
+            lodge_liberia_db.run(insertImageQuery, [hostListingId, image.buffer, imageMimeType], function (err) {
+                if (err) {
+                    console.error('Error inserting into host_images:', err);
+                }
             });
+        });
 
-            // Step 3: Insert amenities into `host_places_features` table
-            const insertFeatureQuery = `
+        // Step 3: Insert amenities into `host_places_features` table
+        const insertFeatureQuery = `
             INSERT INTO host_places_features (place_id, feature, feature_type, feature_description) 
             VALUES (?, ?, ?, ?)
         `;
 
-            // Insert amenities using propertyType as feature_type
-            amenities.forEach(amenity => {
-                // Assuming amenities are passed as an array of strings
-                lodge_liberia_db.run(insertFeatureQuery, [hostListingId, amenity, propertyType, null], function (err) {
-                    if (err) {
-                        console.error('Error inserting into host_places_features:', err);
-                    }
-                });
+        // Insert amenities using propertyType as feature_type
+        amenities.forEach(amenity => {
+            // Assuming amenities are passed as an array of strings
+            lodge_liberia_db.run(insertFeatureQuery, [hostListingId, amenity, propertyType, null], function (err) {
+                if (err) {
+                    console.error('Error inserting into host_places_features:', err);
+                }
             });
-
-            // After everything is done, respond with success or redirect
-            console.log("Everthing Enter Successfully.");
-            res.redirect('/hostplace');
-
         });
+
+        // After everything is done, respond with success or redirect
+        console.log("Everything entered successfully.");
+        res.redirect('/hostplace');
+
     });
 });
-
 
 
 // Post Methods ********
@@ -1346,7 +1345,7 @@ server.get('/my_profile', requireLogin, (req, res) => {
             host_age: row.host_age,
         }));
 
-        console.log(host_detail);
+        // console.log(host_detail);
 
         res.render('my_profile', { user: req.session.user, place: host_detail });
 
